@@ -20,7 +20,7 @@ class ActivityDelegateImpl(private var activity: Activity?) : ActivityDelegate {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (iActivity != null && iActivity!!.useEventBus()) {//如果要使用 EventBus 请将此方法返回 true
-            EventBusManager.getInstance().register(activity)//注册到事件主线
+            EventBusManager.instance?.register(activity!!)//注册到事件主线
         }
 
         //这里提供 AppComponent 对象给 BaseActivity 的子类, 用于 Dagger2 的依赖注入
@@ -52,7 +52,7 @@ class ActivityDelegateImpl(private var activity: Activity?) : ActivityDelegate {
     override fun onDestroy() {
         //如果要使用 EventBus 请将此方法返回 true
         if (iActivity != null && iActivity!!.useEventBus()) {
-            EventBusManager.getInstance().unregister(activity)
+            EventBusManager.instance?.unregister(activity!!)
         }
         this.iActivity = null
         this.activity = null

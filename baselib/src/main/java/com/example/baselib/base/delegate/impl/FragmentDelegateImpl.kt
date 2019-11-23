@@ -24,7 +24,7 @@ class FragmentDelegateImpl(private val fragmentManager: FragmentManager, private
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (iFragment.useEventBus()) {//如果要使用eventbus请将此方法返回true
-            EventBusManager . getInstance ().register(fragment)//注册到事件主线
+            EventBusManager.instance?.register(fragment)//注册到事件主线
         }
         //        iFragment.setupFragmentComponent(ArmsUtils.obtainAppComponentFromContext(mFragment.getActivity()));
     }
@@ -73,7 +73,7 @@ class FragmentDelegateImpl(private val fragmentManager: FragmentManager, private
 
     override fun onDestroy() {
         if (iFragment != null && iFragment.useEventBus()) {//如果要使用eventbus请将此方法返回true
-            EventBusManager.getInstance().unregister(fragment)//注册到事件主线
+            EventBusManager.instance?.unregister(fragment)//注册到事件主线
         }
         //        this.mUnbinder = null;
     }

@@ -8,7 +8,5 @@ import com.example.baselib.di.component.AppComponent
  * ================================================
  */
 interface App {
-
-    val appComponent: AppComponent
-
+    fun getAppComponent(): AppComponent
 }
