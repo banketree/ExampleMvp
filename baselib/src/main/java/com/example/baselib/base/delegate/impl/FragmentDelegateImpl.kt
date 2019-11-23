@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.baselib.base.delegate.FragmentDelegate
 import com.example.baselib.base.delegate.IFragment
+import com.example.baselib.utils.EventBusManager
 
 /**
  * ================================================
@@ -72,7 +73,7 @@ class FragmentDelegateImpl(private val fragmentManager: FragmentManager, private
 
     override fun onDestroy() {
         if (iFragment != null && iFragment.useEventBus()) {//如果要使用eventbus请将此方法返回true
-//            EventBusManager.getInstance().unregister(mFragment);//注册到事件主线
+            EventBusManager.getInstance().unregister(fragment)//注册到事件主线
         }
         //        this.mUnbinder = null;
     }

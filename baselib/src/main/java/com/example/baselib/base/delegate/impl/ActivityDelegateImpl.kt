@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import com.example.baselib.base.delegate.ActivityDelegate
 import com.example.baselib.base.delegate.IActivity
+import com.example.baselib.utils.EventBusManager
 
 /**
  * ================================================
@@ -19,7 +20,7 @@ class ActivityDelegateImpl(private var activity: Activity?) : ActivityDelegate {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (iActivity != null && iActivity!!.useEventBus()) {//如果要使用 EventBus 请将此方法返回 true
-//            EventBusManager.getInstance().register(activity);//注册到事件主线
+            EventBusManager.getInstance().register(activity)//注册到事件主线
         }
 
         //这里提供 AppComponent 对象给 BaseActivity 的子类, 用于 Dagger2 的依赖注入

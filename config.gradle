@@ -24,5 +24,6 @@ ext {
             'dagger-compiler'                   : "com.google.dagger:dagger-compiler:2.23.2",
             'androideventbus'                   : "org.simple:androideventbus:1.0.5.1",
             'eventbus'                          : "org.greenrobot:eventbus:3.1.1",
+            'thinkActivity'                     : "com.github.banketree.ThinkCore-Kotlin:thinkActivity:v0.0.1",
     ]
 }
