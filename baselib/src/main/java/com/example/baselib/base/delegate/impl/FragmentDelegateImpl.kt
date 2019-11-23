@@ -24,7 +24,7 @@ class FragmentDelegateImpl(private val fragmentManager: FragmentManager, private
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (iFragment.useEventBus()) {//如果要使用eventbus请将此方法返回true
-//            EventBusManager . getInstance ().register(mFragment);//注册到事件主线
+            EventBusManager . getInstance ().register(fragment)//注册到事件主线
         }
         //        iFragment.setupFragmentComponent(ArmsUtils.obtainAppComponentFromContext(mFragment.getActivity()));
     }
@@ -82,10 +82,6 @@ class FragmentDelegateImpl(private val fragmentManager: FragmentManager, private
 
     }
 
-    /**
-     * Return true if the fragment is currently added to its activity.
-     */
-    override fun isAdded(): Boolean {
-        return fragment != null && fragment.isAdded
-    }
+    override val isAdded: Boolean
+        get() = fragment != null && fragment.isAdded
 }

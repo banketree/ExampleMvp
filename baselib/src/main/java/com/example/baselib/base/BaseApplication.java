@@ -3,10 +3,7 @@ package com.example.baselib.base;
 import android.app.Application;
 import android.content.Context;
 import androidx.annotation.NonNull;
-import com.example.baselib.base.delegate.AppDelegate;
-import com.example.baselib.base.delegate.AppLifecycles;
 import com.example.baselib.di.component.AppComponent;
-import dagger.internal.Preconditions;
 
 /**
  * ================================================

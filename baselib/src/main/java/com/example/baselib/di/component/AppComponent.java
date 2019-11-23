@@ -1,7 +1,7 @@
 package com.example.baselib.di.component;
 
 import android.app.Application;
-import com.example.baselib.base.delegate.AppDelegate;
+import com.example.baselib.base.delegate.impl.AppDelegate;
 import com.example.baselib.di.module.AppModule;
 import com.example.baselib.di.module.GlobalConfigModule;
 import com.example.baselib.di.module.HttpClientModule;

@@ -52,7 +52,7 @@ class ActivityDelegateImpl(private var activity: Activity?) : ActivityDelegate {
     override fun onDestroy() {
         //如果要使用 EventBus 请将此方法返回 true
         if (iActivity != null && iActivity!!.useEventBus()) {
-//            EventBusManager.getInstance().unregister(mActivity)
+            EventBusManager.getInstance().unregister(activity)
         }
         this.iActivity = null
         this.activity = null

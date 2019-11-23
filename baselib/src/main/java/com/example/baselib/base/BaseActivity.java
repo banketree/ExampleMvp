@@ -1,15 +1,5 @@
 package com.example.baselib.base;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.View;
-import androidx.annotation.Nullable;
-import com.example.baselib.base.delegate.IActivity;
-
-import javax.inject.Inject;
-
 /**
  * ================================================
  * 因为 Java 只能单继承, 所以如果要用到需要继承特定 {@link Activity} 的三方库, 那你就需要自己自定义 {@link Activity}
