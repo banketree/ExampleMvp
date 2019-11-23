@@ -1,8 +1,9 @@
-package com.example.baselib.utils;
+package com.example.baselib.utils
 
-import com.example.baselib.base.Platform;
 
-import java.lang.reflect.Method;
+import com.example.baselib.base.Platform
+
+import java.lang.reflect.Method
 
 /**
  * ================================================
@@ -10,37 +11,24 @@ import java.lang.reflect.Method;
  * 支持 greenrobot 的 EventBus 和畅销书 《Android源码设计模式解析与实战》的作者 何红辉 所作的 AndroidEventBus
  * 这个类并不能完全做到 EventBus 对外界的零耦合, 只能降低耦合, 因为两个 EventBus 的部分功能使用方法差别太大, 做到完全解耦代价太大
  * 允许同时使用两个 EventBus 但不建议这样做, 建议使用 AndroidEventBus, 特别是组件化项目, 原因请看 https://github.com/hehonghui/AndroidEventBus/issues/49
- * <p>
+ *
+ *
  * ================================================
  */
-public final class EventBusManager {
-    private static volatile EventBusManager sInstance;
-
-    public static EventBusManager getInstance() {
-        if (sInstance == null) {
-            synchronized (EventBusManager.class) {
-                if (sInstance == null) {
-                    sInstance = new EventBusManager();
-                }
-            }
-        }
-        return sInstance;
-    }
-
-    private EventBusManager() { }
+class EventBusManager private constructor() {
 
     /**
      * 注册订阅者, 允许在项目中同时依赖两个 EventBus, 只要您喜欢
      *
      * @param subscriber 订阅者
      */
-    public void register(Object subscriber) {
+    fun register(subscriber: Any) {
         if (Platform.DEPENDENCY_ANDROID_EVENTBUS) {
-            org.simple.eventbus.EventBus.getDefault().register(subscriber);
+            org.simple.eventbus.EventBus.getDefault().register(subscriber)
         }
         if (Platform.DEPENDENCY_EVENTBUS) {
             if (haveAnnotation(subscriber)) {
-                org.greenrobot.eventbus.EventBus.getDefault().register(subscriber);
+                org.greenrobot.eventbus.EventBus.getDefault().register(subscriber)
             }
         }
     }
@@ -50,13 +38,13 @@ public final class EventBusManager {
      *
      * @param subscriber 订阅者
      */
-    public void unregister(Object subscriber) {
+    fun unregister(subscriber: Any) {
         if (Platform.DEPENDENCY_ANDROID_EVENTBUS) {
-            org.simple.eventbus.EventBus.getDefault().unregister(subscriber);
+            org.simple.eventbus.EventBus.getDefault().unregister(subscriber)
         }
         if (Platform.DEPENDENCY_EVENTBUS) {
             if (haveAnnotation(subscriber)) {
-                org.greenrobot.eventbus.EventBus.getDefault().unregister(subscriber);
+                org.greenrobot.eventbus.EventBus.getDefault().unregister(subscriber)
             }
         }
     }
@@ -66,11 +54,11 @@ public final class EventBusManager {
      *
      * @param event 事件
      */
-    public void post(Object event) {
+    fun post(event: Any) {
         if (Platform.DEPENDENCY_ANDROID_EVENTBUS) {
-            org.simple.eventbus.EventBus.getDefault().post(event);
+            org.simple.eventbus.EventBus.getDefault().post(event)
         } else if (Platform.DEPENDENCY_EVENTBUS) {
-            org.greenrobot.eventbus.EventBus.getDefault().post(event);
+            org.greenrobot.eventbus.EventBus.getDefault().post(event)
         }
     }
 
@@ -79,11 +67,11 @@ public final class EventBusManager {
      *
      * @param event 事件
      */
-    public void postSticky(Object event) {
+    fun postSticky(event: Any) {
         if (Platform.DEPENDENCY_ANDROID_EVENTBUS) {
-            org.simple.eventbus.EventBus.getDefault().postSticky(event);
+            org.simple.eventbus.EventBus.getDefault().postSticky(event)
         } else if (Platform.DEPENDENCY_EVENTBUS) {
-            org.greenrobot.eventbus.EventBus.getDefault().postSticky(event);
+            org.greenrobot.eventbus.EventBus.getDefault().postSticky(event)
         }
     }
 
@@ -93,67 +81,85 @@ public final class EventBusManager {
      * @param eventType
      * @param <T>
      * @return
-     */
-    public <T> T removeStickyEvent(Class<T> eventType) {
+    </T> */
+    fun <T> removeStickyEvent(eventType: Class<T>): T? {
         if (Platform.DEPENDENCY_ANDROID_EVENTBUS) {
-            org.simple.eventbus.EventBus.getDefault().removeStickyEvent(eventType);
-            return null;
+            org.simple.eventbus.EventBus.getDefault().removeStickyEvent(eventType)
+            return null
         } else if (Platform.DEPENDENCY_EVENTBUS) {
-            return org.greenrobot.eventbus.EventBus.getDefault().removeStickyEvent(eventType);
+            return org.greenrobot.eventbus.EventBus.getDefault().removeStickyEvent(eventType)
         }
-        return null;
+        return null
     }
 
     /**
      * 清除订阅者和事件的缓存, 如果您在项目中同时依赖了两个 EventBus, 请自己使用想使用的 EventBus 的 Api 清除订阅者和事件的缓存
      */
-    public void clear() {
+    fun clear() {
         if (Platform.DEPENDENCY_ANDROID_EVENTBUS) {
-            org.simple.eventbus.EventBus.getDefault().clear();
+            org.simple.eventbus.EventBus.getDefault().clear()
         } else if (Platform.DEPENDENCY_EVENTBUS) {
-            org.greenrobot.eventbus.EventBus.clearCaches();
+            org.greenrobot.eventbus.EventBus.clearCaches()
         }
     }
 
     /**
-     * {@link org.greenrobot.eventbus.EventBus} 要求注册之前, 订阅者必须含有一个或以上声明 {@link org.greenrobot.eventbus.Subscribe}
+     * [org.greenrobot.eventbus.EventBus] 要求注册之前, 订阅者必须含有一个或以上声明 [org.greenrobot.eventbus.Subscribe]
      * 注解的方法, 否则会报错, 所以如果要想完成在基类中自动注册, 避免报错就要先检查是否符合注册资格
      *
      * @param subscriber 订阅者
-     * @return 返回 {@code true} 则表示含有 {@link org.greenrobot.eventbus.Subscribe} 注解, {@code false} 为不含有
+     * @return 返回 `true` 则表示含有 [org.greenrobot.eventbus.Subscribe] 注解, `false` 为不含有
      */
-    private boolean haveAnnotation(Object subscriber) {
-        boolean skipSuperClasses = false;
-        Class<?> clazz = subscriber.getClass();
+    private fun haveAnnotation(subscriber: Any): Boolean {
+        var skipSuperClasses = false
+        var clazz: Class<*>? = subscriber.javaClass
         //查找类中符合注册要求的方法, 直到Object类
-        while (clazz != null && !isSystemCalss(clazz.getName()) && !skipSuperClasses) {
-            Method[] allMethods;
+        while (clazz != null && !isSystemCalss(clazz.name) && !skipSuperClasses) {
+            var allMethods: Array<Method>
             try {
-                allMethods = clazz.getDeclaredMethods();
-            } catch (Throwable th) {
+                allMethods = clazz.declaredMethods
+            } catch (th: Throwable) {
                 try {
-                    allMethods = clazz.getMethods();
-                }catch (Throwable th2){
-                    continue;
-                }finally {
-                    skipSuperClasses = true;
+                    allMethods = clazz.methods
+                } catch (th2: Throwable) {
+                    continue
+                } finally {
+                    skipSuperClasses = true
                 }
             }
-            for (int i = 0; i < allMethods.length; i++) {
-                Method method = allMethods[i];
-                Class<?>[] parameterTypes = method.getParameterTypes();
+
+            for (i in allMethods.indices) {
+                val method = allMethods[i]
+                val parameterTypes = method.parameterTypes
                 //查看该方法是否含有 Subscribe 注解
-                if (method.isAnnotationPresent(org.greenrobot.eventbus.Subscribe.class) && parameterTypes.length == 1) {
-                    return true;
+                if (method.isAnnotationPresent(org.greenrobot.eventbus.Subscribe::class.java) && parameterTypes.size == 1) {
+                    return true
                 }
             } //end for
             //获取父类, 以继续查找父类中符合要求的方法
-            clazz = clazz.getSuperclass();
+            clazz = clazz.superclass
         }
-        return false;
+        return false
     }
 
-    private boolean isSystemCalss(String name) {
-        return name.startsWith("java.") || name.startsWith("javax.") || name.startsWith("android.");
+    private fun isSystemCalss(name: String): Boolean {
+        return name.startsWith("java.") || name.startsWith("javax.") || name.startsWith("android.")
+    }
+
+    companion object {
+        @Volatile
+        private var sInstance: EventBusManager? = null
+
+        val instance: EventBusManager?
+            get() {
+                if (sInstance == null) {
+                    synchronized(EventBusManager::class.java) {
+                        if (sInstance == null) {
+                            sInstance = EventBusManager()
+                        }
+                    }
+                }
+                return sInstance
+            }
     }
 }

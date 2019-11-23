@@ -3,7 +3,10 @@ package com.example.baselib.base;
 import android.app.Application;
 import android.content.Context;
 import androidx.annotation.NonNull;
+import com.example.baselib.base.delegate.AppLifecycles;
+import com.example.baselib.base.delegate.impl.AppDelegate;
 import com.example.baselib.di.component.AppComponent;
+import dagger.internal.Preconditions;
 
 /**
  * ================================================
@@ -50,17 +53,11 @@ public class BaseApplication extends Application implements App {
      * 在 {@link #getAppComponent()} 拿到对象后都可以直接使用
      * @return AppComponent
      */
-//    @NonNull
-//    @Override
-//    public AppComponent getAppComponent() {
-//        Preconditions.checkNotNull(mAppDelegate, "%s cannot be null", AppDelegate.class.getName());
-//        Preconditions.checkState(mAppDelegate instanceof App, "%s must be implements %s", mAppDelegate.getClass().getName(), App.class.getName());
-//        return ((App) mAppDelegate).getAppComponent();
-//    }
-
     @NonNull
     @Override
     public AppComponent getAppComponent() {
-        return null;
+        Preconditions.checkNotNull(mAppDelegate, "%s cannot be null", AppDelegate.class.getName());
+//        Preconditions.checkState(mAppDelegate instanceof App, "%s must be implements %s", mAppDelegate.getClass().getName(), App.class.getName());
+        return ((App) mAppDelegate).getAppComponent();
     }
 }
