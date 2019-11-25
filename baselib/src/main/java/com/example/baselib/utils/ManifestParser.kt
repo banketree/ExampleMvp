@@ -1,7 +1,6 @@
 package com.example.baselib.utils
 
 import android.content.Context
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import com.example.baselib.di.module.ConfigModule
 

@@ -235,7 +235,7 @@ public class GlobalConfigModule {
 //        return mObtainServiceDelegate;
 //    }
 //
-//    public static final class Builder {
+    public static final class Builder {
 //        private HttpUrl apiUrl;
 //        private BaseUrl baseUrl;
 //        private BaseImageLoaderStrategy loaderStrategy;
@@ -344,5 +344,5 @@ public class GlobalConfigModule {
 //        public GlobalConfigModule build() {
 //            return new GlobalConfigModule(this);
 //        }
-//    }
+    }
 }

@@ -2,7 +2,6 @@ package com.example.baselib.utils
 
 
 import com.example.baselib.base.Platform
-
 import java.lang.reflect.Method
 
 /**

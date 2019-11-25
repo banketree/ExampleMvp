@@ -19,7 +19,7 @@ package com.example.baselib.base;
 ////    @Override
 ////    public synchronized Cache<String, Object> provideCache() {
 ////        if (mCache == null) {
-////            mCache = ArmsUtils.obtainAppComponentFromContext(this).cacheFactory().build(CacheType.ACTIVITY_CACHE);
+////            mCache = MvpUtils.obtainAppComponentFromContext(this).cacheFactory().build(CacheType.ACTIVITY_CACHE);
 ////        }
 ////        return mCache;
 ////    }

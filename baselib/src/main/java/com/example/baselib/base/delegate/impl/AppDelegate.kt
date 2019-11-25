@@ -61,8 +61,10 @@ class AppDelegate(context: Context) : App, AppLifecycles {
 
     override fun attachBaseContext(base: Context) {
         //遍历 mAppLifecycles, 执行所有已注册的 AppLifecycles 的 attachBaseContext() 方法 (框架外部, 开发者扩展的逻辑)
-        for (lifecycle in mAppLifecycles!!) {
-            lifecycle.attachBaseContext(base)
+        mAppLifecycles?.let {
+            for (lifecycle in it) {
+                lifecycle.attachBaseContext(base)
+            }
         }
     }
 
@@ -73,31 +75,40 @@ class AppDelegate(context: Context) : App, AppLifecycles {
             .application(application)//提供application
             //                .globalConfigModule(getGlobalConfigModule(mApplication, mModules))//全局配置
             .build()
-        appComponent!!.inject(this)
+        appComponent?.inject(this)
 
         this.configModuleList = null
 
         //注册框架内部已实现的 Activity 生命周期逻辑
-        application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks)
+        activityLifecycleCallbacks?.let {
+            application.registerActivityLifecycleCallbacks(it)
+        }
 
         //注册框架内部已实现的 RxLifecycle 逻辑
-        application.registerActivityLifecycleCallbacks(activityLifecycleForRxLifecycle)
+        activityLifecycleForRxLifecycle?.let {
+            application.registerActivityLifecycleCallbacks(it)
+        }
 
         //注册框架外部, 开发者扩展的 Activity 生命周期逻辑
         //每个 ConfigModule 的实现类可以声明多个 Activity 的生命周期回调
         //也可以有 N 个 ConfigModule 的实现类 (完美支持组件化项目 各个 Module 的各种独特需求)
-        for (lifecycle in mActivityLifecycles!!) {
-            application.registerActivityLifecycleCallbacks(lifecycle)
+        mActivityLifecycles?.let {
+            for (lifecycle in it) {
+                application.registerActivityLifecycleCallbacks(lifecycle)
+            }
         }
 
-        mComponentCallback = AppComponentCallbacks(application, appComponent!!)
-
-        //注册回掉: 内存紧张时释放部分内存
-        application.registerComponentCallbacks(mComponentCallback)
+        appComponent?.let {
+            mComponentCallback = AppComponentCallbacks(application, it)
+            //注册回掉: 内存紧张时释放部分内存
+            application.registerComponentCallbacks(mComponentCallback)
+        }
 
         //执行框架外部, 开发者扩展的 App onCreate 逻辑
-        for (lifecycle in mAppLifecycles!!) {
-            lifecycle.onCreate(application)
+        mAppLifecycles?.let {
+            for (lifecycle in it) {
+                lifecycle.onCreate(application)
+            }
         }
     }
 
@@ -225,4 +236,3 @@ class AppDelegate(context: Context) : App, AppLifecycles {
         }
     }
 }
-
