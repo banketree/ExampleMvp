@@ -4,6 +4,8 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.example.baselib.utils.EventBusManager
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 /**
  * ================================================
@@ -12,7 +14,7 @@ import com.example.baselib.utils.EventBusManager
  */
 abstract class BaseService : Service() {
     protected val TAG = this.javaClass.simpleName
-    //    protected CompositeDisposable mCompositeDisposable;
+    protected var compositeDisposable: CompositeDisposable? = null
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -34,7 +36,7 @@ abstract class BaseService : Service() {
         }
 
         unDispose()//解除订阅
-        //        this.mCompositeDisposable = null;
+        this.compositeDisposable = null
     }
 
     /**
@@ -50,17 +52,15 @@ abstract class BaseService : Service() {
         return true
     }
 
-    //    protected void addDispose(Disposable disposable) {
-    //        if (mCompositeDisposable == null) {
-    //            mCompositeDisposable = new CompositeDisposable();
-    //        }
-    //        mCompositeDisposable.add(disposable);//将所有 Disposable 放入容器集中处理
-    //    }
+    fun addDispose(disposable: Disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = CompositeDisposable()
+        }
+        compositeDisposable?.add(disposable)//将所有 Disposable 放入容器集中处理
+    }
 
-    protected fun unDispose() {
-        //        if (mCompositeDisposable != null) {
-        //            mCompositeDisposable.clear();//保证 Activity 结束时取消所有正在执行的订阅
-        //        }
+    fun unDispose() {
+        compositeDisposable?.clear()//保证 Activity 结束时取消所有正在执行的订阅
     }
 
     /**

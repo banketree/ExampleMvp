@@ -40,6 +40,6 @@ dependencies {
     implementation dependence['appcompat']
     implementation dependence['core-ktx']
     implementation dependence['constraintlayout']
-    implementation dependence['dagger']
-    kapt dependence['dagger-compiler']
+    implementation dependence['dagger2']
+    kapt dependence['dagger2-compiler']
 }

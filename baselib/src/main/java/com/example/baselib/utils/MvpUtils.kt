@@ -10,7 +10,6 @@ import android.text.Spanned
 import android.text.SpannedString
 import android.text.style.AbsoluteSizeSpan
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
@@ -20,16 +19,9 @@ import com.thinkcore.activity.TActivityManager
 import dagger.internal.Preconditions
 
 
-import java.security.MessageDigest
-
 /**
  * ================================================
  * 一些框架常用的工具
- *
- *
- * Created by JessYan on 2015/11/23.
- * [Contact me](mailto:jess.yan.effort@gmail.com)
- * [Follow me](https://github.com/JessYanCoding)
  * ================================================
  */
 class MvpUtils private constructor() {

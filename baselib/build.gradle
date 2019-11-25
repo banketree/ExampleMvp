@@ -39,16 +39,81 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    //ui
     implementation dependence['appcompat']
+    implementation dependence["thinkActivity"]
+//    compileOnly rootProject.ext.dependencies["autolayout"]
+    api(dependence["butterknife"]) {
+        exclude module: 'support-annotations'
+        exclude module: 'support-compat'
+    }
 
+    //kotlin
     implementation dependence['kotlin-stdlib-jdk7']
     implementation dependence['core-ktx']
-    implementation dependence['dagger']
-    kapt dependence['dagger-compiler']
+
+    //rx
+    api dependence["rxjava2"]
+    api(dependence["rxandroid2"]) {
+        exclude module: 'rxjava'
+    }
+    api(dependence["rxcache2"]) {
+        exclude module: 'rxjava'
+        exclude module: 'dagger'
+        exclude module: 'api'
+    }
+    implementation(dependence["rxcache-jolyglot-gson"]) {
+        exclude module: 'gson'
+    }
+    api(dependence["rxlifecycle2"]) {
+        exclude module: 'rxjava'
+        exclude module: 'jsr305'
+    }
+    api(dependence["rxlifecycle2-android"]) {
+        exclude module: 'support-annotations'
+        exclude module: 'rxjava'
+        exclude module: 'rxandroid'
+        exclude module: 'rxlifecycle'
+    }
+    api(dependence["rxpermissions2"]) {
+        exclude module: 'rxjava'
+        exclude module: 'support-annotations'
+    }
+    api dependence['rxerrorhandler2']
+
+    //network
+    api(dependence["retrofit"]) {
+        exclude module: 'okhttp'
+        exclude module: 'okio'
+    }
+    implementation(dependence["retrofit-converter-gson"]) {
+        exclude module: 'gson'
+        exclude module: 'okhttp'
+        exclude module: 'okio'
+        exclude module: 'retrofit'
+    }
+    implementation(dependence["retrofit-adapter-rxjava2"]) {
+        exclude module: 'rxjava'
+        exclude module: 'okhttp'
+        exclude module: 'retrofit'
+        exclude module: 'okio'
+    }
+    api dependence["okhttp3"]
+    compileOnly dependence["glide"]
+    annotationProcessor(dependence["glide-compiler"]) {
+        exclude module: 'jsr305'
+    }
+
+    //tools
+    compileOnly dependence["javax.annotation"]
+
+    implementation dependence['dagger2']
+    kapt dependence['dagger2-compiler']
 
     //eventbus
     implementation dependence["androideventbus"]
     implementation dependence["eventbus"]
 
-    implementation dependence["thinkActivity"]
+    //gson
+    implementation dependence["gson"]
 }
