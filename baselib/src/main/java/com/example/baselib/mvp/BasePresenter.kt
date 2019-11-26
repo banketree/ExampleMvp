@@ -1,14 +1,13 @@
 package com.example.baselib.mvp
 
 
-import android.app.Activity
 import android.app.Service
 import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import com.example.baselib.utils.EventBusManager
+import com.example.baselib.integration.EventBusManager
 import dagger.internal.Preconditions
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

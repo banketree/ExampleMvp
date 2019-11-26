@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.baselib.base.delegate.FragmentDelegate
 import com.example.baselib.base.delegate.IFragment
-import com.example.baselib.utils.EventBusManager
+import com.example.baselib.integration.EventBusManager
 import com.example.baselib.utils.MvpUtils
 
 /**

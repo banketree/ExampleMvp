@@ -3,7 +3,7 @@ package com.example.baselib.base
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.example.baselib.utils.EventBusManager
+import com.example.baselib.integration.EventBusManager
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 

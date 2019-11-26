@@ -1,4 +1,4 @@
-package com.example.baselib.utils
+package com.example.baselib.integration
 
 
 import com.example.baselib.base.Platform
@@ -154,7 +154,8 @@ class EventBusManager private constructor() {
                 if (sInstance == null) {
                     synchronized(EventBusManager::class.java) {
                         if (sInstance == null) {
-                            sInstance = EventBusManager()
+                            sInstance =
+                                EventBusManager()
                         }
                     }
                 }

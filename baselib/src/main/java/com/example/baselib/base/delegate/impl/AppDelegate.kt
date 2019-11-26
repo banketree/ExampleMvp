@@ -12,9 +12,10 @@ import com.example.baselib.base.App
 import com.example.baselib.base.delegate.AppLifecycles
 import com.example.baselib.di.component.AppComponent
 import com.example.baselib.di.component.DaggerAppComponent
-import com.example.baselib.di.module.ConfigModule
+import com.example.baselib.integration.ConfigModule
 import com.example.baselib.di.module.GlobalConfigModule
-import com.example.baselib.utils.ManifestParser
+import com.example.baselib.integration.ManifestParser
+import com.example.baselib.utils.Preconditions
 
 import java.util.ArrayList
 
@@ -35,10 +36,10 @@ class AppDelegate(context: Context) : App, AppLifecycles {
 
     @Inject
     @Named("ActivityLifecycle")
-    protected var activityLifecycleCallbacks: Application.ActivityLifecycleCallbacks? = null
+    var activityLifecycleCallbacks: Application.ActivityLifecycleCallbacks? = null
     @Inject
     @Named("ActivityLifecycleForRxLifecycle")
-    protected var activityLifecycleForRxLifecycle: Application.ActivityLifecycleCallbacks? = null
+    var activityLifecycleForRxLifecycle: Application.ActivityLifecycleCallbacks? = null
 
     private var configModuleList: List<ConfigModule>? = null //各个模块的配置
 
@@ -167,10 +168,14 @@ class AppDelegate(context: Context) : App, AppLifecycles {
      * @see .
      */
     override fun getAppComponent(): AppComponent {
-        //        Preconditions.checkNotNull(appComponent,
-        //                "%s == null, first call %s#onCreate(Application) in %s#onCreate()",
-        //                AppComponent.class.getName(), getClass().getName(), application == null
-        //                        ? Application.class.getName() : application.getClass().getName());
+        Preconditions.checkNotNull(
+            appComponent,
+            "%s == null, first call %s#onCreate(Application) in %s#onCreate()",
+            AppComponent::class.java.name,
+            javaClass.name,
+            if (application == null) Application::class.java.name
+            else application!!::class.java.name
+        )
         return appComponent!!
     }
 
@@ -231,8 +236,7 @@ class AppDelegate(context: Context) : App, AppLifecycles {
          *
          * @see .TRIM_MEMORY_COMPLETE
          */
-        override fun onLowMemory() {
-            //系统正运行于低内存的状态并且你的进程正处于 LRU 列表中最容易被杀掉的位置, 你应该释放任何不影响你的 App 恢复状态的资源
+        override fun onLowMemory() {//系统正运行于低内存的状态并且你的进程正处于 LRU 列表中最容易被杀掉的位置, 你应该释放任何不影响你的 App 恢复状态的资源
         }
     }
 }

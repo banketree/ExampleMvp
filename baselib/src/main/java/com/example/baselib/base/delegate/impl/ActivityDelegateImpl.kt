@@ -4,7 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import com.example.baselib.base.delegate.ActivityDelegate
 import com.example.baselib.base.delegate.IActivity
-import com.example.baselib.utils.EventBusManager
+import com.example.baselib.integration.EventBusManager
 import com.example.baselib.utils.MvpUtils
 
 /**

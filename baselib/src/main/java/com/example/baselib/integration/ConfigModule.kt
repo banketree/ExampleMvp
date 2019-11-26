@@ -1,4 +1,4 @@
-package com.example.baselib.di.module
+package com.example.baselib.integration
 
 
 import android.app.Activity
@@ -6,6 +6,7 @@ import android.app.Application
 import android.content.Context
 import androidx.fragment.app.FragmentManager
 import com.example.baselib.base.delegate.AppLifecycles
+import com.example.baselib.di.module.GlobalConfigModule
 
 /**
  * ================================================

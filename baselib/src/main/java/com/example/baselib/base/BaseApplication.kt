@@ -6,7 +6,7 @@ import android.content.Context
 import com.example.baselib.base.delegate.AppLifecycles
 import com.example.baselib.base.delegate.impl.AppDelegate
 import com.example.baselib.di.component.AppComponent
-import dagger.internal.Preconditions
+import com.example.baselib.utils.Preconditions
 
 /**
  * ================================================
@@ -52,7 +52,11 @@ class BaseApplication : Application(), App {
      */
     override fun getAppComponent(): AppComponent {
         Preconditions.checkNotNull(mAppDelegate!!, "%s cannot be null", AppDelegate::class.java.name)
-        //        Preconditions.checkState(mAppDelegate instanceof App, "%s must be implements %s", mAppDelegate.getClass().getName(), App.class.getName());
+        Preconditions.checkState(
+            mAppDelegate is App,
+            "%s must be implements %s",
+            if (mAppDelegate == null) App::class.java.name else mAppDelegate!!.javaClass.name
+        )
         return (mAppDelegate as App).getAppComponent()
     }
 }

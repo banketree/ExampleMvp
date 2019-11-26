@@ -1,14 +1,18 @@
 package com.example.baselib.base;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.View;
+import android.view.InflateException;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import com.example.baselib.base.delegate.IActivity;
 import com.example.baselib.integration.lifecycle.ActivityLifecycleable;
 import com.example.baselib.mvp.IPresenter;
+import com.trello.rxlifecycle2.android.ActivityEvent;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.Subject;
 
 import javax.inject.Inject;
 
@@ -20,13 +24,13 @@ import javax.inject.Inject;
  */
 public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements IActivity, ActivityLifecycleable {
     protected final String TAG = this.getClass().getSimpleName();
-//    private final BehaviorSubject<ActivityEvent> mLifecycleSubject = BehaviorSubject.create();
-//    private Cache<String, Object> mCache;
-//    private Unbinder mUnbinder;
+    private final BehaviorSubject<ActivityEvent> lifecycleSubject = BehaviorSubject.create();
+    //    private Cache<String, Object> mCache;
+    private Unbinder unbinder;
 
     @Inject
     @Nullable
-    protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
+    protected P presenter;//如果当前页面逻辑简单, Presenter 可以为 null
 
 //    @NonNull
 //    @Override
@@ -37,45 +41,37 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
 //        return mCache;
 //    }
 
-//    @NonNull
-//    @Override
-//    public final Subject<ActivityEvent> provideLifecycleSubject() {
-//        return mLifecycleSubject;
-//    }
-
-    //    @Override
-    public View onCreateView(String name, Context context, AttributeSet attrs) {
-//        View view = convertAutoView(name, context, attrs);
-//        return view == null ? super.onCreateView(name, context, attrs) : view;
-        return null;
+    @NonNull
+    @Override
+    public final Subject<ActivityEvent> provideLifecycleSubject() {
+        return lifecycleSubject;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        try {
-//            int layoutResID = initView(savedInstanceState);
-//            //如果initView返回0,框架则不会调用setContentView(),当然也不会 Bind ButterKnife
-//            if (layoutResID != 0) {
-//                setContentView(layoutResID);
-//                //绑定到butterknife
-//                mUnbinder = ButterKnife.bind(this);
-//            }
-//        } catch (Exception e) {
-//            if (e instanceof InflateException) throw e;
-//            e.printStackTrace();
-//        }
-//        initData(savedInstanceState);
+        try {
+            int layoutResID = initView(savedInstanceState);
+            //如果initView返回0,框架则不会调用setContentView(),当然也不会 Bind ButterKnife
+            if (layoutResID != 0) {
+                setContentView(layoutResID);
+                unbinder = ButterKnife.bind(this);//绑定到butterknife
+            }
+        } catch (Exception e) {
+            if (e instanceof InflateException) throw e;
+            e.printStackTrace();
+        }
+        initData(savedInstanceState);
     }
 
     @Override
     protected void onDestroy() {
-//        super.onDestroy();
-//        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY)
-//            mUnbinder.unbind();
-//        this.mUnbinder = null;
-//        if (mPresenter != null)
-//            mPresenter.onDestroy();//释放资源
-//        this.mPresenter = null;
+        super.onDestroy();
+        if (unbinder != null && unbinder != Unbinder.EMPTY)
+            unbinder.unbind();
+        this.unbinder = null;
+        if (presenter != null)
+            presenter.onDestroy();//释放资源
+        this.presenter = null;
     }
 }

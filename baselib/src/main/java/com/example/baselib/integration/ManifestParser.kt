@@ -1,8 +1,7 @@
-package com.example.baselib.utils
+package com.example.baselib.integration
 
 import android.content.Context
 import android.content.pm.PackageManager
-import com.example.baselib.di.module.ConfigModule
 
 import java.util.ArrayList
 
