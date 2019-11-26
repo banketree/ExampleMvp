@@ -11,6 +11,12 @@ import android.os.Bundle
  * ================================================
  */
 interface ActivityDelegate {
+    companion object {
+        val LAYOUT_LINEARLAYOUT = "LinearLayout"
+        val LAYOUT_FRAMELAYOUT = "FrameLayout"
+        val LAYOUT_RELATIVELAYOUT = "RelativeLayout"
+        val ACTIVITY_DELEGATE = "ACTIVITY_DELEGATE"
+    }
 
     fun onCreate(savedInstanceState: Bundle?)
 
@@ -25,11 +31,4 @@ interface ActivityDelegate {
     fun onSaveInstanceState(outState: Bundle)
 
     fun onDestroy()
-
-    companion object {
-        val LAYOUT_LINEARLAYOUT = "LinearLayout"
-        val LAYOUT_FRAMELAYOUT = "FrameLayout"
-        val LAYOUT_RELATIVELAYOUT = "RelativeLayout"
-        val ACTIVITY_DELEGATE = "ACTIVITY_DELEGATE"
-    }
 }

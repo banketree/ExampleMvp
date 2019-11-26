@@ -35,7 +35,8 @@ abstract class BaseFragment<P : IPresenter> : Fragment(), IFragment, FragmentLif
     @Synchronized
     override fun provideCache(): Cache<String, Any> {
         if (cache == null) {
-            cache = MvpUtils.obtainAppComponentFromContext(activity!!).cacheFactory().build(CacheType.FRAGMENT_CACHE) as Cache<String, Any>
+            cache =
+                MvpUtils.obtainAppComponentFromContext(activity!!).cacheFactory().build(CacheType.FRAGMENT_CACHE) as Cache<String, Any>
         }
         return cache as Cache<String, Any>
     }
@@ -54,7 +55,9 @@ abstract class BaseFragment<P : IPresenter> : Fragment(), IFragment, FragmentLif
 
     override fun onDestroy() {
         super.onDestroy()
-        if (presenter != null) presenter!!.onDestroy()//释放资源
+        presenter?.let {
+            it.onDestroy()
+        }
         this.presenter = null
     }
 

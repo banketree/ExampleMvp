@@ -54,4 +54,9 @@ interface IFragment {
      * @param savedInstanceState
      */
     fun initData(savedInstanceState: Bundle?)
+
+    /*
+    * 传参
+    * */
+    fun setData(data: Any?)
 }

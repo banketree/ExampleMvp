@@ -5,6 +5,7 @@ import com.example.baselib.base.delegate.impl.AppDelegate
 import com.example.baselib.di.module.AppModule
 import com.example.baselib.di.module.GlobalConfigModule
 import com.example.baselib.di.module.HttpClientModule
+import com.example.baselib.http.imageloader.ImageLoader
 import com.example.baselib.integration.IRepositoryManager
 import com.example.baselib.integration.cache.Cache
 import com.google.gson.Gson
@@ -80,7 +81,7 @@ interface AppComponent {
      *
      * @return {@link Cache}
      */
-    fun extras(): Cache<String, Object>
+    fun extras(): Cache<String, Any>
 
     /**
      * 用于创建框架所需缓存对象的工厂

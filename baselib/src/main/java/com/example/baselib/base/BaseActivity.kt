@@ -16,6 +16,7 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 
 import javax.inject.Inject
+import android.app.Activity
 
 /**
  * ================================================
@@ -69,5 +70,28 @@ abstract class BaseActivity<P : IPresenter> : AppCompatActivity(), IActivity, Ac
         if (presenter != null)
             presenter!!.onDestroy()//释放资源
         this.presenter = null
+    }
+
+    /**
+     * 是否使用 EventBus
+     * Arms 核心库现在并不会依赖某个 EventBus, 要想使用 EventBus, 还请在项目中自行依赖对应的 EventBus
+     * 现在支持两种 EventBus, greenrobot 的 EventBus 和畅销书 《Android源码设计模式解析与实战》的作者 何红辉 所作的 AndroidEventBus
+     * 确保依赖后, 将此方法返回 true, Arms 会自动检测您依赖的 EventBus, 并自动注册
+     * 这种做法可以让使用者有自行选择三方库的权利, 并且还可以减轻 Arms 的体积
+     *
+     * @return 返回 `true` (默认为 `true`), Arms 会自动注册 EventBus
+     */
+    override fun useEventBus(): Boolean {
+        return true
+    }
+
+    /**
+     * 这个 [Activity] 是否会使用 [Fragment], 框架会根据这个属性判断是否注册 [android.support.v4.app.FragmentManager.FragmentLifecycleCallbacks]
+     * 如果返回 `false`, 那意味着这个 [Activity] 不需要绑定 [Fragment], 那你再在这个 [Activity] 中绑定继承于 [BaseFragment] 的 [Fragment] 将不起任何作用
+     *
+     * @return 返回 `true` (默认为 `true`), 则需要使用 [Fragment]
+     */
+    override fun useFragment(): Boolean {
+        return true
     }
 }

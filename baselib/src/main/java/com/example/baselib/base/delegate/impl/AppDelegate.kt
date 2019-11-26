@@ -15,6 +15,7 @@ import com.example.baselib.di.component.DaggerAppComponent
 import com.example.baselib.integration.ConfigModule
 import com.example.baselib.di.module.GlobalConfigModule
 import com.example.baselib.integration.ManifestParser
+import com.example.baselib.integration.cache.IntelligentCache
 import com.example.baselib.utils.Preconditions
 
 import java.util.ArrayList
@@ -51,12 +52,14 @@ class AppDelegate(context: Context) : App, AppLifecycles {
         //用反射, 将 AndroidManifest.xml 中带有 ConfigModule 标签的 class 转成对象集合（List<ConfigModule>）
         this.configModuleList = ManifestParser(context).parse()
 
-        //遍历之前获得的集合, 执行每一个 ConfigModule 实现类的某些方法
-        for (module in configModuleList!!) {
-            //将框架外部, 开发者实现的 Application 的生命周期回调 (AppLifecycles) 存入 mAppLifecycles 集合 (此时还未注册回调)
-            module.injectAppLifecycle(context, mAppLifecycles!!)
-            //将框架外部, 开发者实现的 Activity 的生命周期回调 (ActivityLifecycleCallbacks) 存入 mActivityLifecycles 集合 (此时还未注册回调)
-            module.injectActivityLifecycle(context, mActivityLifecycles!!)
+        configModuleList?.let {
+            //遍历之前获得的集合, 执行每一个 ConfigModule 实现类的某些方法
+            for (module in it) {
+                //将框架外部, 开发者实现的 Application 的生命周期回调 (AppLifecycles) 存入 mAppLifecycles 集合 (此时还未注册回调)
+                module.injectAppLifecycle(context, mAppLifecycles!!)
+                //将框架外部, 开发者实现的 Activity 的生命周期回调 (ActivityLifecycleCallbacks) 存入 mActivityLifecycles 集合 (此时还未注册回调)
+                module.injectActivityLifecycle(context, mActivityLifecycles!!)
+            }
         }
     }
 
@@ -74,9 +77,15 @@ class AppDelegate(context: Context) : App, AppLifecycles {
         appComponent = DaggerAppComponent
             .builder()
             .application(application)//提供application
-            //                .globalConfigModule(getGlobalConfigModule(mApplication, mModules))//全局配置
+            .globalConfigModule(getGlobalConfigModule(application, configModuleList!!))//全局配置
             .build()
         appComponent?.inject(this)
+
+        //将 ConfigModule 的实现类的集合存放到缓存 Cache, 可以随时获取
+        //使用 IntelligentCache.KEY_KEEP 作为 key 的前缀, 可以使储存的数据永久存储在内存中
+        //否则存储在 LRU 算法的存储空间中 (大于或等于缓存所能允许的最大 size, 则会根据 LRU 算法清除之前的条目)
+        //前提是 extras 使用的是 IntelligentCache (框架默认使用)
+        appComponent?.extras()?.put(IntelligentCache.getKeyOfKeep(ConfigModule::javaClass.name), configModuleList!!)
 
         this.configModuleList = null
 
@@ -148,17 +157,14 @@ class AppDelegate(context: Context) : App, AppLifecycles {
      *
      * @return GlobalConfigModule
      */
-    private fun getGlobalConfigModule(context: Context, modules: List<ConfigModule>): GlobalConfigModule? {
-        //        GlobalConfigModule.Builder builder = GlobalConfigModule
-        //                .builder();
-        //
-        //        //遍历 ConfigModule 集合, 给全局配置 GlobalConfigModule 添加参数
-        //        for (ConfigModule module : modules) {
-        //            module.applyOptions(context, builder);
-        //        }
-        //
-        //        return builder.build();
-        return null
+    private fun getGlobalConfigModule(context: Context, modules: List<ConfigModule>): GlobalConfigModule {
+        val builder = GlobalConfigModule.builder()
+        modules?.let {
+            for (module in it) {//遍历 ConfigModule 集合, 给全局配置 GlobalConfigModule 添加参数
+                module.applyOptions(context, builder)
+            }
+        }
+        return builder.build()
     }
 
     /**

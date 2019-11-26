@@ -12,6 +12,10 @@ import android.view.View
  */
 interface FragmentDelegate {
 
+    companion object {
+        val FRAGMENT_DELEGATE = "FRAGMENT_DELEGATE"
+    }
+
     /**
      * Return true if the fragment is currently added to its activity.
      */
@@ -40,8 +44,4 @@ interface FragmentDelegate {
     fun onDestroy()
 
     fun onDetach()
-
-    companion object {
-        val FRAGMENT_DELEGATE = "FRAGMENT_DELEGATE"
-    }
 }

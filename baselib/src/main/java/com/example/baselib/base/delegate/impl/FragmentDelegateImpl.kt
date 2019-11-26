@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import butterknife.ButterKnife
+import butterknife.Unbinder
 import com.example.baselib.base.delegate.FragmentDelegate
 import com.example.baselib.base.delegate.IFragment
 import com.example.baselib.integration.EventBusManager
@@ -18,6 +20,7 @@ import com.example.baselib.utils.MvpUtils
 class FragmentDelegateImpl(private val fragmentManager: FragmentManager, private val fragment: Fragment) :
     FragmentDelegate {
     val iFragment: IFragment = fragment as IFragment
+    var unbinder: Unbinder? = null
 
     override fun onAttach(context: Context) {
 
@@ -36,9 +39,9 @@ class FragmentDelegateImpl(private val fragmentManager: FragmentManager, private
     }
 
     override fun onCreateView(view: View?, savedInstanceState: Bundle?) {
-        //绑定到butterknife
-        //        if (view != null)
-        //            mUnbinder = ButterKnife.bind(mFragment, view);
+        view?.let {
+            unbinder = ButterKnife.bind(fragment, view)      //绑定到butterknife
+        }
     }
 
     override fun onActivityCreate(savedInstanceState: Bundle?) {
@@ -66,7 +69,14 @@ class FragmentDelegateImpl(private val fragmentManager: FragmentManager, private
     }
 
     override fun onDestroyView() {
-
+        unbinder?.let {
+            if (it == Unbinder.EMPTY) return@let
+            try {
+                it.unbind()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun onDestroy() {

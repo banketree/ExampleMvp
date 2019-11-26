@@ -5,6 +5,9 @@ import android.os.Bundle
 import androidx.annotation.NonNull
 import com.example.baselib.di.component.AppComponent
 import com.example.baselib.integration.cache.Cache
+import com.example.baselib.integration.ActivityLifecycle
+import com.example.baselib.base.BaseFragment
+
 
 /**
  * ================================================
@@ -44,4 +47,12 @@ interface IActivity {
      * 初始化数据
      */
     fun initData(savedInstanceState: Bundle?)
+
+    /**
+     * 这个 Activity 是否会使用 Fragment,框架会根据这个属性判断是否注册 [FragmentManager.FragmentLifecycleCallbacks]
+     * 如果返回`false`,那意味着这个 Activity 不需要绑定 Fragment,那你再在这个 Activity 中绑定继承于 [BaseFragment] 的 Fragment 将不起任何作用
+     * @see ActivityLifecycle.registerFragmentCallbacks
+     * @return
+     */
+    fun useFragment(): Boolean
 }

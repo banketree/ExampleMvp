@@ -1,5 +1,6 @@
 package com.example.baselib.base
 
+import androidx.annotation.NonNull
 import com.example.baselib.di.component.AppComponent
 
 /**
@@ -9,6 +10,7 @@ import com.example.baselib.di.component.AppComponent
  */
 interface App {
 
+    @NonNull
     fun getAppComponent(): AppComponent
 
 }
