@@ -9,8 +9,6 @@ import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.example.baselib.integration.cache.Cache;
-import com.example.baselib.integration.cache.CacheType;
 import com.example.baselib.utils.Preconditions;
 import dagger.Lazy;
 import io.rx_cache2.internal.RxCache;

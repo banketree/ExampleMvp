@@ -8,9 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.example.baselib.base.delegate.FragmentDelegate;
 import com.example.baselib.base.delegate.IFragment;
-import com.example.baselib.base.delegate.impl.FragmentDelegateImpl;
-import com.example.baselib.integration.cache.Cache;
-import com.example.baselib.integration.cache.IntelligentCache;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

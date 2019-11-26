@@ -155,7 +155,7 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
         ActivityDelegate activityDelegate = null;
         if (activity instanceof IActivity) {
             Cache<String, Object> cache = getCacheFromActivity((IActivity) activity);
-            activityDelegate = (ActivityDelegate) cache.get(IntelligentCache.getKeyOfKeep(ActivityDelegate.Companion.getACTIVITY_DELEGATE()));
+            activityDelegate = (ActivityDelegate) cache.get(IntelligentCache.Companion.getKeyOfKeep(ActivityDelegate.Companion.getACTIVITY_DELEGATE()));
         }
         return activityDelegate;
     }
