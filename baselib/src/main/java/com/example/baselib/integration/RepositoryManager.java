@@ -9,6 +9,8 @@ import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.example.baselib.integration.cache.Cache;
+import com.example.baselib.integration.cache.CacheType;
 import com.example.baselib.utils.Preconditions;
 import dagger.Lazy;
 import io.rx_cache2.internal.RxCache;
@@ -53,7 +55,7 @@ public class RepositoryManager implements IRepositoryManager {
     @Override
     public synchronized <T> T obtainRetrofitService(@NonNull Class<T> serviceClass) {
         if (mRetrofitServiceCache == null) {
-            mRetrofitServiceCache = mCacheFactory.build(CacheType.RETROFIT_SERVICE_CACHE);
+            mRetrofitServiceCache = (Cache<String, Object>) mCacheFactory.build(CacheType.Companion.getRETROFIT_SERVICE_CACHE());
         }
         Preconditions.Companion.checkNotNull(mRetrofitServiceCache,
                 "Cannot return null from a Cache.Factory#build(int) method");
@@ -86,7 +88,7 @@ public class RepositoryManager implements IRepositoryManager {
     public synchronized <T> T obtainCacheService(@NonNull Class<T> cacheClass) {
         Preconditions.Companion.checkNotNull(cacheClass, "cacheClass == null");
         if (mCacheServiceCache == null) {
-            mCacheServiceCache = mCacheFactory.build(CacheType.CACHE_SERVICE_CACHE);
+            mCacheServiceCache = (Cache<String, Object>) mCacheFactory.build(CacheType.Companion.getCACHE_SERVICE_CACHE());
         }
         Preconditions.Companion.checkNotNull(mCacheServiceCache,
                 "Cannot return null from a Cache.Factory#build(int) method");

@@ -1,18 +1,23 @@
-package com.example.baselib.integration;
+package com.example.baselib.integration
 
-import android.content.Context;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import retrofit2.Retrofit;
+import android.content.Context
+import retrofit2.Retrofit
 
 /**
  * ================================================
  * 用来管理网络请求层,以及数据缓存层,以后可能添加数据库请求层
- * 提供给 {@link @IModel} 必要的 Api 做数据处理
+ * 提供给 [@IModel] 必要的 Api 做数据处理
  * ================================================
  */
-public interface IRepositoryManager {
+interface IRepositoryManager {
+
+    /**
+     * 获取 [Context]
+     *
+     * @return [Context]
+     */
+    val context: Context
 
     /**
      * 根据传入的 Class 获取对应的 Retrofit service
@@ -20,9 +25,8 @@ public interface IRepositoryManager {
      * @param service Retrofit service class
      * @param <T>     Retrofit service 类型
      * @return Retrofit service
-     */
-    @NonNull
-    <T> T obtainRetrofitService(@NonNull Class<T> service);
+    </T> */
+    fun <T> obtainRetrofitService(service: Class<T>): T
 
 
     /**
@@ -31,26 +35,16 @@ public interface IRepositoryManager {
      * @param cache RxCache service class
      * @param <T>   RxCache service 类型
      * @return RxCache service
-     */
-    @NonNull
-    <T> T obtainCacheService(@NonNull Class<T> cache);
+    </T> */
+    fun <T> obtainCacheService(cache: Class<T>): T
 
     /**
      * 清理所有缓存
      */
-    void clearAllCache();
-
-    /**
-     * 获取 {@link Context}
-     *
-     * @return {@link Context}
-     */
-    @NonNull
-    Context getContext();
+    fun clearAllCache()
 
     interface ObtainServiceDelegate {
 
-        @Nullable
-        <T> T createRetrofitService(Retrofit retrofit, Class<T> serviceClass);
+        fun <T> createRetrofitService(retrofit: Retrofit, serviceClass: Class<T>): T?
     }
 }

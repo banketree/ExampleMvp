@@ -17,10 +17,10 @@ import io.reactivex.disposables.Disposable
  * 基类 Presenter
  */
 class BasePresenter<M : IModel, V : IView> : IPresenter, LifecycleObserver {
-    protected val TAG = this.javaClass.simpleName
+    val TAG = this.javaClass.simpleName
     var compositeDisposable: CompositeDisposable? = null
-    protected var mModel: M? = null
-    protected var mRootView: V? = null
+    var mModel: M? = null
+    var mRootView: V? = null
 
     /**
      * 如果当前页面同时需要 Model 层和 View 层,则使用此构造函数(默认)

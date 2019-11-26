@@ -1,6 +1,5 @@
 package com.example.baselib.utils
 
-
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
@@ -17,7 +16,6 @@ import com.example.baselib.base.App
 import com.example.baselib.di.component.AppComponent
 import com.thinkcore.activity.TActivityManager
 import dagger.internal.Preconditions
-
 
 /**
  * ================================================
