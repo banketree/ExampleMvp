@@ -41,7 +41,7 @@ dependencies {
 
     //ui
     implementation dependence['appcompat']
-    implementation dependence["thinkActivity"]
+    api dependence["thinkActivity"]
 //    compileOnly rootProject.ext.dependencies["autolayout"]
     api(dependence["butterknife"]) {
         exclude module: 'support-annotations'

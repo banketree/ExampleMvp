@@ -42,4 +42,5 @@ dependencies {
     implementation dependence['constraintlayout']
     implementation dependence['dagger2']
     kapt dependence['dagger2-compiler']
+    implementation project(path: ':baselib')
 }
