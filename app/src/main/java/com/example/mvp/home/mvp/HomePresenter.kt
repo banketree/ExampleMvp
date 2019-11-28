@@ -1,11 +1,10 @@
 package com.example.mvp.main.mvp
 
-import android.app.Activity
 import android.util.Log
 import com.example.mvp.presenter.WordPresenter
 import javax.inject.Inject
 
-class MainPresenter @Inject constructor() : MainContract.Presenter, MainContract.View {
+class HomePresenter @Inject constructor() : HomeContract.Presenter, HomeContract.View {
 
     @Inject
     lateinit var wordPresenter: WordPresenter
@@ -24,11 +23,5 @@ class MainPresenter @Inject constructor() : MainContract.Presenter, MainContract
 
     override fun hideLoading() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun testWord(activity: Activity){
-        wordPresenter?.testHard()
-        wordPresenter?.testSoft()
-        wordPresenter?.testComm(activity)
     }
 }

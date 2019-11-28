@@ -36,6 +36,12 @@ android {
 
 }
 
+kapt {
+    arguments {
+        arg(arouter_module_name, project.getName())
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -49,8 +55,8 @@ dependencies {
     }
 
     //kotlin
-    implementation dependence['kotlin-stdlib-jdk7']
-    implementation dependence['core-ktx']
+    api dependence['kotlin-stdlib-jdk7']
+    api dependence['core-ktx']
 
     //rx
     api dependence["rxjava2"]
@@ -107,7 +113,7 @@ dependencies {
     //tools
     compileOnly dependence["javax.annotation"]
 
-    implementation dependence['dagger2']
+    api dependence['dagger2']
     kapt dependence['dagger2-compiler']
 
     //eventbus
@@ -116,4 +122,8 @@ dependencies {
 
     //gson
     implementation dependence["gson"]
+
+    //arouter
+//    kapt dependence['arouter-compiler']
+//    api dependence['arouter']
 }

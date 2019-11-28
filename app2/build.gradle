@@ -1,4 +1,5 @@
-apply plugin: 'com.android.application'
+//apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 
@@ -13,16 +14,17 @@ android {
     compileSdkVersion androidConfig.compileSdkVersion
     buildToolsVersion androidConfig.buildToolsVersion
 
-    //规定资源命名前缀为app_
-    resourcePrefix "app_"
+    //规定资源命名前缀为home_
+    resourcePrefix "app2_"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+
     defaultConfig {
-        applicationId "com.example.mvp"
+//        applicationId "com.example.app2"
         minSdkVersion androidConfig.minSdkVersion
         targetSdkVersion androidConfig.targetSdkVersion
         versionCode androidConfig.versionCode
@@ -42,6 +44,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -57,5 +60,4 @@ dependencies {
     api dependence['arouter']
 
     api project(path: ':baselib')
-    api project(path: ':app2')
 }

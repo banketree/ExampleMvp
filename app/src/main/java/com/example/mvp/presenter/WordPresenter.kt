@@ -1,6 +1,15 @@
 package com.example.mvp.presenter
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.res.Resources
+import android.os.Bundle
+import android.util.TypedValue
 import com.example.baselib.mvp.presenter.IPresenter
+import com.example.mvp.main.HomeActivity
+import java.util.concurrent.locks.Lock
+import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
 
 class WordPresenter @Inject constructor() : IPresenter {
@@ -76,35 +85,121 @@ class WordPresenter @Inject constructor() : IPresenter {
         //where ----  用于为泛型参数增加限制
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    interface TestInterface {
+        fun test(a: Int): Int
+    }
+
+    inline fun testInterface(crossinline t: (Int) -> Int): TestInterface = object : TestInterface {
+        override fun test(a: Int): Int = t.invoke(a)
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    infix fun Int.add(x: Int): Int {
+        return this + x
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    inline fun <T> check(lock: Lock, noinline body: () -> T): T {
+        lock.lock()
+        try {
+            otherCheck(body)//OK
+            return body()
+        } finally {
+            lock.unlock()
+        }
+    }
+
+    fun <T> otherCheck(body: () -> T) {
+        println("check test $body")
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    interface Production<out T> {
+        fun produce(): T
+    }
+
+    interface Consumer<in T> {
+        fun consume(item: T)
+    }
+
+    interface ProductionConsumer<T> {
+        fun produce(): T
+        fun consume(item: T)
+    }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    inline fun <reified T : Activity> Activity.startActivity(context: Context) {
+        startActivity(Intent(context, T::class.java))
+    }
+
+    private inline fun <reified T> Bundle.getDataOrNull(): T? {
+        return getSerializable("") as? T
+    }
+
+    inline fun <reified T> Resources.dpToPx(value: Int): T {
+        val result = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            value.toFloat(), displayMetrics)
+
+        return when (T::class) {
+            Float::class -> result as T
+            Int::class -> result.toInt() as T
+            else -> throw IllegalStateException("Type not supported")
+        }
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /*
     * Kotlin 的修饰符关键字
     * */
-    fun testComm() {
+    fun testComm(activity: Activity) {
         //abstract ----  用于修饰抽象类或者抽象成员
         //annotation ----  用于修饰一个注解类
-        //companion ----  用于声明一个伴生对象
+        //companion ----  用于声明一个伴生对象 -->静态变量
         //crossinline ----  用于禁止在传给内联函数的 Lambda 表达式中执行非局部返回
+        testInterface {
+            1
+        }
         //data ----  用于声明数据类
         //enum ----  用于声明枚举
         //external ----  用于声明某个方法不由 Kotlin 实现（与 Java 的 native 相似）
+        //使用关键字external标识该方法是JNI方法，在调用这个方时JVM会自动去调用Java_包名_类名_方法名的c++函数。
+
         //final ----  用于禁止被重写
         //infix ----  声明该函数能以双目运算符的格式执行
-        //inline ----  用于声明内联函数，Lambda 表达式可在内联函数中执行局部返回
-        //inner ----  用于声明内部类，内部类可以访问外部类的实例
-        //internal ----  用于表示被修饰的声明只能在当前模板内可见
-        //lateinit ----  用于修饰一个 non-null 属性，用于指定该属性可在构造器 以外的地方完成初始化
+        println(100 add 200)
+
+        //inline ----  用于声明 内联函数，Lambda 表达式可在内联函数中执行局部返回
+        //inner ----  用于声明 内部类，内部类可以访问外部类的实例
+        //internal ----  用于表示被修饰的声明只能在 当前模板内 可见
+        //lateinit ----  用于修饰一个 non-null 非空属性，用于指定该属性可在构造器 以外的地方完成初始化
         //noinline ----  用于禁止内联函数中个别 Lambda 表达式被内联化
+        val lock = ReentrantLock()
+        check(lock) {
+            println("funfun")
+        }
+
         //open ----  用于修饰类，表示该类可派生子类； 或者用于修饰成员，表示该成员可以被重写
         //out ----  用于修饰泛型参数，表明该泛型参数支持协变
+//        父类泛型对象可以赋值给子类泛型对象，用 in；
+//        子类泛型对象可以赋值给父类泛型对象，用 out。
+
         //override ----  用于声明重写父类的成员
         //private ----  private 访问权限
         //protected ----  protected 访问权限
         //public ----  public访问权限
         //reified ----  用于修饰内联函数中的泛型形参，接下里在该函数中就可像 使用普通类型一样使用该类型参数
-        //sealed ----  用于声明一个密封类
-        //suspend ----  用于标识一个函数后 Lambda 表达式可作为暂停
-        //tailrec ----  用于修改一个函数可作为尾随递归函数使用
+        activity.startActivity<HomeActivity>(activity)
+
         //vararg ----  用于修饰形参，表明该参数是个数可变的形参
-        //
+        //sealed ----  用于声明一个密封类  类似枚举
+        //suspend ----  用于标识一个函数后 Lambda 表达式可作为暂停
+
+        //tailrec ----  用于修改一个函数可作为尾随递归函数使用
+
     }
 }
