@@ -1,6 +1,8 @@
 package com.example.mvp.main
 
+import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.facade.callback.NavigationCallback
 import com.example.baselib.ui.activity.MvpActivity
 import com.example.mvp.R
 import com.example.mvp.main.mvp.DaggerMainComponent
@@ -22,9 +24,19 @@ class MainActivity : MvpActivity<MainPresenter>(), IView {
             presenter?.testWord(this)
 
             ARouter.getInstance().build("/test1/home")
-                .withLong("key1", 666L)
-                .withString("key3", "888")
-                .navigation()
+                .navigation(this, object : NavigationCallback {
+                    override fun onLost(postcard: Postcard?) {
+                    }
+
+                    override fun onFound(postcard: Postcard?) {
+                    }
+
+                    override fun onInterrupt(postcard: Postcard?) {
+                    }
+
+                    override fun onArrival(postcard: Postcard?) {
+                    }
+                })
         }
     }
 

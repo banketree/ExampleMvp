@@ -1,35 +1,19 @@
 //apply plugin: 'com.android.application'
 apply plugin: 'com.android.library'
 
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
-apply plugin: 'kotlin-kapt'
+apply from: rootProject.file('base_build.gradle')
 
 def androidConfig = rootProject.ext.android
 def dependence = rootProject.ext.dependence
 
 android {
-    compileSdkVersion androidConfig.compileSdkVersion
-    buildToolsVersion androidConfig.buildToolsVersion
-
     //规定资源命名前缀为home_
     resourcePrefix "app2_"
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-
     defaultConfig {
 //        applicationId "com.example.app2"
-        minSdkVersion androidConfig.minSdkVersion
-        targetSdkVersion androidConfig.targetSdkVersion
         versionCode androidConfig.versionCode
         versionName androidConfig.versionName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -37,14 +21,6 @@ android {
             }
         }
     }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
 }
 
 dependencies {

@@ -9,9 +9,9 @@ import javax.inject.Singleton
 @Module
 class AppMoudle(private val context: MvpApplication){
 
-    @Singleton
-    @Provides
-    fun provideContext(): Context {
-        return this.context
-    }
+//    @Singleton
+//    @Provides
+//    fun provideContext(): Context {
+//        return this.context
+//    }
 }

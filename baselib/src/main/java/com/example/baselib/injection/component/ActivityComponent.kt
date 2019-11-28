@@ -11,7 +11,7 @@ import dagger.Component
         modules = [ActivityMoudle::class])
 interface ActivityComponent {
 
-    fun context(): Context
-
-    fun activity(): Activity
+//    fun context(): Context
+//
+//    fun activity(): Activity
 }

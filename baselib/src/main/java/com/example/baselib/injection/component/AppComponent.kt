@@ -9,6 +9,6 @@ import javax.inject.Singleton
 @Component(modules = [AppMoudle::class])
 interface AppComponent{
 
-    fun context():Context
+//    fun context():Context
 
 }

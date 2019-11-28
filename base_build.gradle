@@ -1,0 +1,68 @@
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+def androidConfig = rootProject.ext.android
+def dependence = rootProject.ext.dependence
+
+android {
+    compileSdkVersion androidConfig.compileSdkVersion
+    buildToolsVersion androidConfig.buildToolsVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        multiDexEnabled true
+        minSdkVersion androidConfig.minSdkVersion
+        targetSdkVersion androidConfig.targetSdkVersion
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters 'armeabi', 'x86'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.android.support:multidex:1.0.3'
+}
+
+repositories {
+    mavenCentral()
+}
+
+//监听gradle配置阶段执行完成，可以获取到project下的所有task
+//执行module的 clean :解决Failed to delete \build\.......\classes.jar
+this.project.afterEvaluate { project ->
+    def buildTask1 = project.tasks.getByName('assembleDebug')
+    def buildTask2 = project.tasks.getByName('assembleRelease')
+    def taskClean = project.tasks.findByPath("clean")
+    if (buildTask1 != null) {
+        buildTask1.doFirst {
+            taskClean.onlyIf {
+                true
+            }
+        }
+    }
+    if (buildTask2 != null) {
+        buildTask2.doFirst {
+            taskClean.onlyIf {
+                true
+            }
+        }
+    }
+}

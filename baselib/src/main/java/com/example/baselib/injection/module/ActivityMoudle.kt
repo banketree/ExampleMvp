@@ -8,9 +8,9 @@ import dagger.Provides
 @Module
 class ActivityMoudle(private val activity: Activity) {
 
-    @ActivityScope
-    @Provides
-    fun provideActivity(): Activity {
-        return this.activity
-    }
+//    @ActivityScope
+//    @Provides
+//    fun provideActivity(): Activity {
+//        return this.activity
+//    }
 }
