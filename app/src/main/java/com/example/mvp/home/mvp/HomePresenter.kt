@@ -1,20 +1,21 @@
 package com.example.mvp.main.mvp
 
 import android.util.Log
+import com.example.baselib.mvp.presenter.IPresenter
+import com.example.baselib.mvp.view.IView
+import com.example.mvp.main.HomeActivity
 import com.example.mvp.presenter.WordPresenter
 import javax.inject.Inject
 
-class HomePresenter @Inject constructor() : HomeContract.Presenter, HomeContract.View {
+class HomePresenter @Inject constructor() : IPresenter, IView {
 
     @Inject
     lateinit var wordPresenter: WordPresenter
 
-    override fun getList(isLoading: Boolean) {
-        Log.i("", "" + isLoading)
-    }
+    lateinit var homeActivity: HomeActivity
 
-    override fun showList(data: Any) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun init(homeActivity: HomeActivity) {
+        this.homeActivity = homeActivity
     }
 
     override fun showLoading() {

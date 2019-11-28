@@ -6,7 +6,7 @@ import com.example.mvp.main.HomeActivity
 import dagger.Component
 
 @PerComponentScope
-@Component(modules = [HomeModule::class], dependencies = [ActivityComponent::class])
+@Component(dependencies = [ActivityComponent::class])
 interface HomeComponent {
     fun inject(activity: HomeActivity)
 }
