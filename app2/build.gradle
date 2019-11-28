@@ -1,5 +1,4 @@
-//apply plugin: 'com.android.application'
-apply plugin: 'com.android.library'
+apply plugin: 'com.mvp.comswitch'
 
 apply from: rootProject.file('base_build.gradle')
 
@@ -9,9 +8,10 @@ def dependence = rootProject.ext.dependence
 android {
     //规定资源命名前缀为home_
     resourcePrefix "app2_"
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 
     defaultConfig {
-//        applicationId "com.example.app2"
+        applicationId "com.example.app2"
         versionCode androidConfig.versionCode
         versionName androidConfig.versionName
 
@@ -35,5 +35,6 @@ dependencies {
     kapt dependence['arouter-compiler']
     api dependence['arouter']
 
+    api project(path: ':Provider')
     api project(path: ':baselib')
 }

@@ -1,1 +1,1 @@
-include ':app', ':baselib', ':app2', ':plugSwitch'
+include ':app', ':baselib', ':app2', ':pluginswitch', ':Provider'

@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.mvp.comswitch'
 
 apply from: rootProject.file('base_build.gradle')
 
@@ -35,6 +35,6 @@ dependencies {
     kapt dependence['arouter-compiler']
     api dependence['arouter']
 
+    api project(path: ':Provider')
     api project(path: ':baselib')
-    api project(path: ':app2')
 }

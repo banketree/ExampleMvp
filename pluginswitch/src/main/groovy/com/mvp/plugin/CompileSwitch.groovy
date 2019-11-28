@@ -6,7 +6,7 @@ import org.gradle.api.Task
 
 /**
  * 自定义插件实现功能如下：
- *      1.自动区分Application和Library
+ * 1.自动区分Application和Library
  */
 class CompileSwitch implements Plugin<Project> {
 
@@ -33,11 +33,11 @@ class CompileSwitch implements Plugin<Project> {
         //对于isRunAlone==true的情况需要根据实际情况修改其值，
         // 但如果是false，则不用修改，该module作为一个lib，运行module:assembleRelease则发布aar到中央仓库
         boolean isRunAlone = Boolean.parseBoolean((project.properties.get("isRunAlone")))
-        String mainmodulename = project.rootProject.property("mainmodulename")
+        String main_module_name = project.rootProject.property("main_module_name")
         if (isRunAlone && assembleTask.isAssemble) {
             //对于要编译的组件和主项目，isRunAlone修改为true，其他组件都强制修改为false
             //这就意味着组件不能引用主项目，这在层级结构里面也是这么规定的
-            if (module == compilemodule || module == mainmodulename) {
+            if (module == compilemodule || module == main_module_name) {
                 isRunAlone = true
             } else {
                 isRunAlone = false
@@ -48,9 +48,9 @@ class CompileSwitch implements Plugin<Project> {
         //根据配置添加各种组件依赖，并且自动化生成组件加载代码
         if (isRunAlone) {
             project.apply plugin: 'com.android.application'
-            boolean isMainModule = module == mainmodulename
+            boolean isMainModule = module == main_module_name
             //不是app(空壳)，运行的是业务模块，是允许独立运行的
-            if (module != mainmodulename) {
+            if (module != main_module_name) {
                 project.android.sourceSets {
                     main {
                         //设置独立运行所需资源的加载位置，需提前配置好
@@ -101,7 +101,7 @@ class CompileSwitch implements Plugin<Project> {
      */
     private void fetchMainmodulename(Project project, AssembleTask assembleTask) {
         //根项目的gradle.properties中必须配置mainmodulename属性指定主modle
-        if (!project.rootProject.hasProperty("mainmodulename")) {
+        if (!project.rootProject.hasProperty("main_module_name")) {
             throw new RuntimeException("根项目的gradle.properties中必须配置mainmodulename属性指定主modle")
         }
         if (assembleTask.modules.size() > 0 && assembleTask.modules.get(0) != null
@@ -109,7 +109,7 @@ class CompileSwitch implements Plugin<Project> {
                 && assembleTask.modules.get(0) != "all") {
             compilemodule = assembleTask.modules.get(0)
         } else {
-            compilemodule = project.rootProject.property("mainmodulename")
+            compilemodule = project.rootProject.property("main_module_name")
         }
         if (compilemodule == null || compilemodule.trim().length() <= 0) {
             compilemodule = "app"

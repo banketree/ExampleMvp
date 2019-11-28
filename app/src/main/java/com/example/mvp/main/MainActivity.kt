@@ -10,6 +10,8 @@ import com.example.mvp.main.mvp.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import com.alibaba.android.arouter.launcher.ARouter
 import com.example.baselib.mvp.view.IView
+import com.mvp.provider.router.component.Router
+import com.mvp.provider.router.service.App2Service
 
 
 @Route(path = "/test1/main")
@@ -23,20 +25,24 @@ class MainActivity : MvpActivity<MainPresenter>(), IView {
         test_word_tv.setOnClickListener {
             presenter?.testWord(this)
 
-            ARouter.getInstance().build("/test1/home")
-                .navigation(this, object : NavigationCallback {
-                    override fun onLost(postcard: Postcard?) {
-                    }
-
-                    override fun onFound(postcard: Postcard?) {
-                    }
-
-                    override fun onInterrupt(postcard: Postcard?) {
-                    }
-
-                    override fun onArrival(postcard: Postcard?) {
-                    }
-                })
+            val router = Router.instance
+            val app2Service = router.getService(App2Service::class.simpleName)
+            app2Service?.let {
+            }
+//            ARouter.getInstance().build("/test1/home")
+//                .navigation(this, object : NavigationCallback {
+//                    override fun onLost(postcard: Postcard?) {
+//                    }
+//
+//                    override fun onFound(postcard: Postcard?) {
+//                    }
+//
+//                    override fun onInterrupt(postcard: Postcard?) {
+//                    }
+//
+//                    override fun onArrival(postcard: Postcard?) {
+//                    }
+//                })
         }
     }
 

@@ -1,0 +1,6 @@
+apply plugin: 'com.android.library'
+apply from:rootProject.file('base_build.gradle')
+
+dependencies {
+    api project(':baselib')
+}
