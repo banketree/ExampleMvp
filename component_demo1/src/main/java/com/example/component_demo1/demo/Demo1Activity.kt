@@ -7,6 +7,7 @@ import com.example.route.AppRoute
 import kotlinx.android.synthetic.main.demo1_activity_main.*
 
 
+@Suppress("DEPRECATION")
 @Route(path = AppRoute.TWO_DEMO1_MAIN)
 class Demo1Activity : MvpActivity<Demo1Presenter>() {
 
@@ -14,7 +15,7 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
 
     override fun initView() {
         test_tv.setOnClickListener {
-            AppRoute.gotoTwoDemo1Main()
+            AppRoute.gotoTwoDemo2Main()
         }
     }
 
@@ -23,7 +24,7 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
 
     override fun injectComponent() {
         val demoComponent =
-            DaggerDemo1Component.builder().activityComponent(activityComponent).build()
+            DaggerDemo1Component.builder().demo1Moudle(Demo1Moudle(this)).build()//.activityComponent(activityComponent).build()
         demoComponent?.inject(this)
     }
 

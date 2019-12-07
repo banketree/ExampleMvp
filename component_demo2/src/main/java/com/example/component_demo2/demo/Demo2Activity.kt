@@ -14,7 +14,7 @@ class Demo2Activity : MvpActivity<Demo2Presenter>() {
 
     override fun initView() {
         test_tv.setOnClickListener {
-            AppRoute.gotoTwoDemo1Main()
+            AppRoute.gotoTwoDemo3Main()
         }
     }
 

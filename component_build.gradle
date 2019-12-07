@@ -12,9 +12,9 @@ android {
         main {
             jniLibs.srcDirs = ['libs']
             if (isBuildModule.toBoolean()) {
-                manifest.srcFile 'src/main/AndroidManifest/module/AndroidManifest.xml'
-            } else {
                 manifest.srcFile 'src/main/AndroidManifest/app/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest/module/AndroidManifest.xml'
             }
         }
     }
