@@ -19,6 +19,15 @@ class AppDelegate(context: Context) : AppLifeCycles {
     private var activityLifeCycles: MutableList<Application.ActivityLifecycleCallbacks> = arrayListOf()
     private var fragmentLifeCycles: MutableList<FragmentManager.FragmentLifecycleCallbacks> = arrayListOf()
 
+    init {
+        moduleList = ManifestParser(context).parse()
+        moduleList?.forEach {
+            it.injectAppLifecycle(context, appLifeCycles)
+            it.injectActivityLifecycle(context, activityLifeCycles)
+            it.injectFragmentLifecycle(context, fragmentLifeCycles)
+        }
+    }
+
     override fun attachBaseContext(base: Context) {
         appLifeCycles.forEach {
             it.attachBaseContext(base)
@@ -78,14 +87,5 @@ class AppDelegate(context: Context) : AppLifeCycles {
         override fun onActivityStopped(activity: Activity?) {
         }
 
-    }
-
-    init {
-        moduleList = ManifestParser(context).parse()
-        moduleList?.forEach {
-            it.injectAppLifecycle(context, appLifeCycles)
-            it.injectActivityLifecycle(context, activityLifeCycles)
-            it.injectFragmentLifecycle(context, fragmentLifeCycles)
-        }
     }
 }

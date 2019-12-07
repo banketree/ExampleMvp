@@ -27,15 +27,6 @@ open class MvpApplication : Application() {
         super.attachBaseContext(base)
         MultiDex.install(this)
         initInjection()
-//        //ARouter
-//        if (BuildConfig.DEBUG) {
-//            // 打印日志
-//            ARouter.openLog()
-//            //开启调试模式
-//            ARouter.openDebug()
-//        }
-//        ARouter.init(this)
-
         if (appDelegate == null) {
             appDelegate = AppDelegate(base)
         }

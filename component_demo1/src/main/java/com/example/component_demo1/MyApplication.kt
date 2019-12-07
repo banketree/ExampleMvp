@@ -1,4 +1,4 @@
-package com.example.mvp
+package com.example.component_demo1
 
 import com.example.base_fun.MvpApplication
 
