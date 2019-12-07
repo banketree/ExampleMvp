@@ -1,0 +1,9 @@
+apply from: "../module_build.gradle"
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+
+
+    api project(':base_fun')
+}

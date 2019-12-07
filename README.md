@@ -1,2 +1,0 @@
-# ExampleMvp
-Kotlin Mvp Example

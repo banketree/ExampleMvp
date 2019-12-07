@@ -8,61 +8,97 @@ def dependence = rootProject.ext.dependence
 android {
     compileSdkVersion androidConfig.compileSdkVersion
     buildToolsVersion androidConfig.buildToolsVersion
+    useLibrary 'org.apache.http.legacy'
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    //这个是ARouter需要配置的kapt
+    kapt {
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
     }
 
     defaultConfig {
         multiDexEnabled true
         minSdkVersion androidConfig.minSdkVersion
         targetSdkVersion androidConfig.targetSdkVersion
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        versionCode rootProject.ext.android["versionCode"] //TODO
+//        versionName rootProject.ext.android["versionName"]
 
-        ndk {
-            abiFilters 'armeabi', 'x86'
+        ndk { //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters 'armeabi'//, 'x86'
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+    }
+
+    signingConfigs { //
+        File file = new File('C:\\Users\\Administrator\\Desktop\\Mvp\\mvp.jks')
+        debug {
+            keyAlias 'key'
+            keyPassword '123456'
+            storeFile file
+            storePassword '123456'
+        }
+        release {
+            keyAlias 'key'
+            keyPassword '123456'
+            storeFile file
+            storePassword '123456'
         }
     }
 
     buildTypes {
-        release {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
+
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    //不进行代码静态检测
+    lintOptions {
+        abortOnError false
+    }
+
+    //支持java8
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    //生成libs目录
+//    sourceSets { //TODO
+//        main.jniLibs.srcDirs = ['libs']
+//    }
+
+    //支持@Parcelize来实现Parcelable序列化
+    androidExtensions {
+        experimental = true
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.android.support:multidex:1.0.3'
-}
 
-repositories {
-    mavenCentral()
-}
+    implementation dependence['multidex']
 
-//监听gradle配置阶段执行完成，可以获取到project下的所有task
-//执行module的 clean :解决Failed to delete \build\.......\classes.jar
-this.project.afterEvaluate { project ->
-    def buildTask1 = project.tasks.getByName('assembleDebug')
-    def buildTask2 = project.tasks.getByName('assembleRelease')
-    def taskClean = project.tasks.findByPath("clean")
-    if (buildTask1 != null) {
-        buildTask1.doFirst {
-            taskClean.onlyIf {
-                true
-            }
-        }
-    }
-    if (buildTask2 != null) {
-        buildTask2.doFirst {
-            taskClean.onlyIf {
-                true
-            }
-        }
-    }
+    //arouter
+    kapt dependence['arouter-compiler']
+    api dependence['arouter']
 }

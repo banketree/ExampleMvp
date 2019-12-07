@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.example.component_demo1">
+    <application>
+        <meta-data
+                android:name="com.example.component_demo1.GlobalConfiguration"
+                android:value="ConfigModule"/>
+
+        <activity android:name=".Demo1Activity"
+                  android:label="demo1"
+                  android:screenOrientation="portrait"/>
+    </application>
+</manifest>

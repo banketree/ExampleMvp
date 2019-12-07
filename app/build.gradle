@@ -1,40 +1,40 @@
-apply plugin: 'com.mvp.comswitch'
-
-apply from: rootProject.file('base_build.gradle')
-
-def androidConfig = rootProject.ext.android
-def dependence = rootProject.ext.dependence
+apply from: "../app_build.gradle"
 
 android {
-    //规定资源命名前缀为app_
-    resourcePrefix "app_"
-
     defaultConfig {
         applicationId "com.example.mvp"
-        versionCode androidConfig.versionCode
-        versionName androidConfig.versionName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [moduleName: project.getName()]
-            }
+    flavorDimensions "verison"
+    productFlavors {
+        //打包assembleVersionDevDebug
+        dev {
+            dimension "verison"
+        }
+        //gradlew clean assembleVersionTestDebug
+        uat {
+            dimension "verison"
+        }
+        // gradlew clean assembleVersionOnlineRelease
+        prod {
+            dimension "verison"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation dependence['kotlin-stdlib-jdk7']
-    implementation dependence['appcompat']
-    implementation dependence['core-ktx']
-    implementation dependence['constraintlayout']
-    implementation dependence['dagger2']
-    kapt dependence['dagger2-compiler']
-    //arouter
-    kapt dependence['arouter-compiler']
-    api dependence['arouter']
+    api project(':route')
 
-    api project(path: ':Provider')
-    api project(path: ':baselib')
+    if (!isBuildModule.toBoolean()) {
+        implementation project(':component_demo1')
+        implementation project(':component_demo2')
+        implementation project(':component_demo3')
+    }
 }
