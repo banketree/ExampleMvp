@@ -1,7 +1,7 @@
 package com.example.base_fun.injection.module
 
 import android.app.Activity
-import com.example.base_fun.injection.scope.ActivityScope
+import com.example.base_lib.injection.scope.ActivityScope
 import dagger.Module
 import dagger.Provides
 

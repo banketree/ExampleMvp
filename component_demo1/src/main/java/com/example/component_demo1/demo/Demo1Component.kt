@@ -1,6 +1,6 @@
 package com.example.component_demo1.demo
 
-import com.example.base_fun.injection.scope.PerComponentScope
+import com.example.base_lib.injection.scope.PerComponentScope
 import dagger.Component
 
 @PerComponentScope

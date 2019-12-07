@@ -1,4 +1,4 @@
-package com.example.base_fun.injection.scope
+package com.example.base_lib.injection.scope
 
 import javax.inject.Scope
 

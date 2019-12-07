@@ -7,6 +7,7 @@ import com.example.base_fun.injection.component.DaggerActivityComponent
 import com.example.base_fun.injection.module.ActivityMoudle
 import com.example.base_fun.mvp.IPresenter
 import com.example.base_fun.mvp.IView
+import com.example.base_lib.ui.BaseFragment
 import javax.inject.Inject
 
 abstract class MvpFragment<T : IPresenter> : BaseFragment(), IView {

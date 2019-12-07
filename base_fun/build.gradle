@@ -8,9 +8,6 @@ dependencies {
 
     api project(':base_lib')
 
-    //dagger
-    api dependence["dagger2"]
-    api dependence["dagger2-android"]
-    api dependence["dagger2-android-support"]
-    kapt dependence["dagger2-compiler"]
+    //tools
+    api dependence["timber"]
 }

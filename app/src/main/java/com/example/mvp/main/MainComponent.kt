@@ -1,7 +1,7 @@
 package com.example.mvp.main
 
 import com.example.base_fun.injection.component.ActivityComponent
-import com.example.base_fun.injection.scope.PerComponentScope
+import com.example.base_lib.injection.scope.PerComponentScope
 import dagger.Component
 
 @PerComponentScope

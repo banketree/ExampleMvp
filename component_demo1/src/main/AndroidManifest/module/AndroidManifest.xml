@@ -2,7 +2,7 @@
           package="com.example.component_demo1">
     <application>
         <meta-data
-                android:name="com.example.component_demo1.GlobalConfiguration"
+                android:name="com.example.component_demo1.config.Configuration"
                 android:value="ConfigModule"/>
 
         <activity android:name=".demo.Demo1Activity"

@@ -1,4 +1,4 @@
-package com.example.base_fun.ui
+package com.example.base_lib.ui
 
 
 import android.os.Bundle

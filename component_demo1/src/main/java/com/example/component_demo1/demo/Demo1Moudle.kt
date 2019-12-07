@@ -2,7 +2,7 @@ package com.example.component_demo1.demo
 
 import android.app.Activity
 import android.view.View
-import com.example.base_fun.injection.scope.ActivityScope
+import com.example.base_lib.injection.scope.ActivityScope
 import dagger.Module
 import dagger.Provides
 

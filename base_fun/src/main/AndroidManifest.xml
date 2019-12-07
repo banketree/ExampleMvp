@@ -74,7 +74,7 @@
 
         <!--项目Application运行的初始化文件-->
         <meta-data
-                android:name="com.example.common.core.GlobalConfiguration"
+                android:name="com.example.base_fun.config.GlobalConfiguration"
                 android:value="ConfigModule"/>
     </application>
 </manifest>
