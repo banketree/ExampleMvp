@@ -5,7 +5,7 @@
                 android:name="com.example.component_demo1.GlobalConfiguration"
                 android:value="ConfigModule"/>
 
-        <activity android:name=".Demo1Activity"
+        <activity android:name=".demo.Demo1Activity"
                   android:label="demo1"
                   android:screenOrientation="portrait"/>
     </application>

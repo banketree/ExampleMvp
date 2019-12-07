@@ -16,7 +16,7 @@
                 android:name="design_height_in_dp"
                 android:value="640"/>
 
-        <activity android:name=".Demo1Activity">
+        <activity android:name=".demo.Demo1Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

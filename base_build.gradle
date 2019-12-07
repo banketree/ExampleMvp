@@ -98,6 +98,17 @@ dependencies {
 
     implementation dependence['multidex']
 
+
+    implementation dependence['kotlin-stdlib-jdk7']
+    implementation dependence['appcompat']
+    implementation dependence['core-ktx']
+
+    //dagger
+    api dependence["dagger2"]
+    api dependence["dagger2-android"]
+    api dependence["dagger2-android-support"]
+    kapt dependence["dagger2-compiler"]
+
     //arouter
     kapt dependence['arouter-compiler']
     api dependence['arouter']
