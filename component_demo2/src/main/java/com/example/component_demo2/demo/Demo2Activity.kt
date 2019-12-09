@@ -18,6 +18,10 @@ class Demo2Activity : MvpActivity<Demo2Presenter>() {
 
     override fun initView() {
         test_tv.setOnClickListener {
+            provideCache().put("test", "22222")
+            val test = provideCache().get("test")
+            Timber.i("" + test)
+
             AppRoute.gotoTwoDemo3Main()
         }
     }

@@ -1,7 +1,7 @@
 package com.example.base_fun.injection.component
 
 import android.app.Activity
-import android.content.Context
+import android.app.Application
 import com.example.base_fun.injection.module.ActivityMoudle
 import com.example.base_lib.injection.scope.ActivityScope
 import dagger.Component
@@ -13,7 +13,7 @@ import dagger.Component
 )
 interface ActivityComponent {
 
-    fun context(): Context
+    fun application(): Application
 
     fun activity(): Activity
 }

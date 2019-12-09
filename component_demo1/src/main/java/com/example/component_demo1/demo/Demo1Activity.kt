@@ -19,7 +19,10 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
 
     override fun initView() {
         test_tv.setOnClickListener {
+            provideCache().put("test", "555555555555555555555")
             AppRoute.gotoTwoDemo2Main()
+            val test = provideCache().get("test")
+            Timber.i("" + test)
         }
     }
 
@@ -28,7 +31,8 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
 
     override fun injectComponent() {
         val demoComponent =
-            DaggerDemo1Component.builder().demo1Moudle(Demo1Moudle(this)).build()//.activityComponent(activityComponent).build()
+            DaggerDemo1Component.builder().demo1Moudle(Demo1Moudle(this))
+                .build()//.activityComponent(activityComponent).build()
         demoComponent?.inject(this)
     }
 

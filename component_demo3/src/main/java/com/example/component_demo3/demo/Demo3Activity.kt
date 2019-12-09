@@ -20,6 +20,10 @@ class Demo3Activity : MvpActivity<Demo3Presenter>() {
     override fun initView() {
         test_tv.setOnClickListener {
             //            presenter?.showLoading()
+            provideCache().put("test", "3333")
+            val test = provideCache().get("test")
+            Timber.i("" + test)
+
             AppRoute.gotoOneAppMain()
 
             EventBusManager.instance?.post(Message())

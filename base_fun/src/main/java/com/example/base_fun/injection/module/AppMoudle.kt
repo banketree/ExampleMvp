@@ -1,17 +1,25 @@
 package com.example.base_fun.injection.module
 
 import android.app.Application
-import android.content.Context
+import com.example.base_fun.cache.Cache
+import com.example.base_fun.cache.CacheType
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class AppMoudle(private val context: Application){
+class AppMoudle(private val application: Application) {
+    private val cacheFactory: Cache.Factory? = null
 
     @Singleton
     @Provides
-    fun provideContext(): Context {
-        return this.context
+    fun provideApplication(): Application {
+        return this.application
+    }
+
+    @Singleton
+    @Provides
+    fun provideExtras(cacheFactory: Cache.Factory): Cache<String, Any> {
+        return cacheFactory.build(CacheType.EXTRAS) as Cache<String, Any>
     }
 }
