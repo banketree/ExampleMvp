@@ -45,7 +45,7 @@ open class MvpApplication : Application() {
             .build() as DaggerAppComponent
     }
 
-    fun extras(): Cache<String, Any> {
+    fun provideCache(): Cache<String, Any> {
         return appComponent.extras()
     }
 }
