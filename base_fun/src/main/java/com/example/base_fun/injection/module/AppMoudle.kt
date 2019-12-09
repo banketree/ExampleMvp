@@ -9,7 +9,6 @@ import javax.inject.Singleton
 
 @Module
 class AppMoudle(private val application: Application) {
-    private val cacheFactory: Cache.Factory? = null
 
     @Singleton
     @Provides

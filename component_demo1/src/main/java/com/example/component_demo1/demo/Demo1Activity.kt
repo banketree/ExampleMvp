@@ -20,13 +20,16 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
 
     override fun initView() {
         test_tv.setOnClickListener {
-            (application as MvpApplication).provideCache().put("test","444444444444444444444")
+            (application as MvpApplication).provideCache().put("test", "444444444444444444444")
             provideCache().put("test", "555555555555555555555")
             AppRoute.gotoTwoDemo2Main()
             var test = provideCache().get("test")
             Timber.i("" + test)
-            test =  (application as MvpApplication).provideCache().get("test")
-            Timber.i("" + test)
+
+            (application as MvpApplication).provideExecutorService().execute(Runnable {
+                test = (application as MvpApplication).provideCache().get("test")
+                Timber.i("" + test)
+            })
         }
     }
 

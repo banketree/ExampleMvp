@@ -6,6 +6,7 @@ import com.example.base_fun.cache.Cache
 import com.example.base_fun.injection.module.AppMoudle
 import com.example.base_fun.injection.module.GlobalConfigModule
 import dagger.Component
+import java.util.concurrent.ExecutorService
 import javax.inject.Singleton
 
 @Singleton
@@ -23,4 +24,10 @@ interface AppComponent {
      * 用于创建框架所需缓存对象的工厂
      */
     fun cacheFactory(): Cache.Factory
+
+    /**
+     * 返回一个全局公用的线程池,适用于大多数异步需求。
+     * 避免多个线程池创建带来的资源消耗。
+     */
+    fun executorService(): ExecutorService
 }
