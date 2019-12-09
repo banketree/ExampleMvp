@@ -3,6 +3,7 @@ package com.example.base_lib.ui
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import com.example.base_lib.utils.EventBusManager
 import com.thinkcore.activity.TAppActivity
 
 @Suppress("DEPRECATION")
@@ -24,9 +25,21 @@ abstract class BaseActivity : TAppActivity() {
                 else -> throw Exception("layout error")
             }
 
+            if (useEventBus()) {
+                EventBusManager.instance?.register(this@BaseActivity)
+            }
+
             initPlug()
             initView()
             initData()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (useEventBus()) {
+            EventBusManager.instance?.unregister(this@BaseActivity)
         }
     }
 
@@ -41,4 +54,10 @@ abstract class BaseActivity : TAppActivity() {
 
     /** 初始化数据*/
     abstract fun initData()
+
+    /**
+     * 是否使用 EventBus
+     * 默认不使用
+     */
+    fun useEventBus(): Boolean = true
 }

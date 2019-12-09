@@ -7,4 +7,6 @@ dependencies {
     //ui
     api dependence['appcompat']
     api dependence["thinkActivity"]
+
+    api dependence["eventbus"]
 }

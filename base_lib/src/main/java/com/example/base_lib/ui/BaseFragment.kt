@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.base_lib.utils.EventBusManager
 
 abstract class BaseFragment : Fragment() {
 
@@ -33,8 +34,18 @@ abstract class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (useEventBus()) {
+            EventBusManager.instance?.register(this)
+        }
         initView()
         initData()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (useEventBus()) {
+            EventBusManager.instance?.unregister(this)
+        }
     }
 
     /** 设置布局id 或 View*/
@@ -48,4 +59,10 @@ abstract class BaseFragment : Fragment() {
 
     /** 初始化数据*/
     abstract fun initData()
+
+    /**
+     * 是否使用 EventBus
+     * 默认不使用
+     */
+    fun useEventBus(): Boolean = true
 }

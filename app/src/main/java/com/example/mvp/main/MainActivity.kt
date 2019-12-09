@@ -1,10 +1,14 @@
 package com.example.mvp.main
 
+import android.os.Message
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.base_fun.ui.MvpActivity
 import com.example.mvp.R
 import com.example.route.AppRoute
 import kotlinx.android.synthetic.main.activity_main.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+import timber.log.Timber
 
 
 @Route(path = AppRoute.ONE_APP_MAIN)
@@ -31,5 +35,10 @@ class MainActivity : MvpActivity<MainPresenter>() {
     }
 
     override fun hideLoading() {
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onGetMessage(message: Message) {
+        Timber.i("" + message)
     }
 }
