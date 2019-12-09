@@ -4,6 +4,7 @@ package com.example.base_fun
 import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
+import com.example.base_fun.cache.Cache
 import com.example.base_fun.injection.component.DaggerAppComponent
 import com.example.base_fun.injection.module.AppMoudle
 import com.example.base_lib.injection.core.AppDelegate
@@ -42,5 +43,9 @@ open class MvpApplication : Application() {
         appComponent = DaggerAppComponent.builder()
             .appMoudle(AppMoudle(this))
             .build() as DaggerAppComponent
+    }
+
+    fun extras(): Cache<String, Any> {
+        return appComponent.extras()
     }
 }

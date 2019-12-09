@@ -2,6 +2,7 @@ package com.example.component_demo1.demo
 
 import android.os.Message
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.example.base_fun.MvpApplication
 import com.example.base_fun.ui.MvpActivity
 import com.example.component_demo1.R
 import com.example.route.AppRoute
@@ -19,9 +20,12 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
 
     override fun initView() {
         test_tv.setOnClickListener {
+            (application as MvpApplication).extras().put("test","444444444444444444444")
             provideCache().put("test", "555555555555555555555")
             AppRoute.gotoTwoDemo2Main()
-            val test = provideCache().get("test")
+            var test = provideCache().get("test")
+            Timber.i("" + test)
+            test =  (application as MvpApplication).extras().get("test")
             Timber.i("" + test)
         }
     }
