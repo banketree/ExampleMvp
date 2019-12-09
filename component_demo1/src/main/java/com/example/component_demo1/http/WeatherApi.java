@@ -18,7 +18,7 @@ import retrofit2.http.QueryMap;
  * description:
  * 天气预报
  */
-public class WeatherApi extends UcbService {
+public class WeatherApi extends ApiService {
     private final String key = "4e34d358d9aa062b2c46afd627084f85";
     private final String BASE_URL = "https://restapi.amap.com";
 
