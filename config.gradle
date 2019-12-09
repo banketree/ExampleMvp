@@ -80,6 +80,8 @@ ext {
             "retrofit-converter-gson"           : "com.squareup.retrofit2:converter-gson:2.6.0",
             "retrofit-adapter-rxjava"           : "com.squareup.retrofit2:adapter-rxjava:2.6.0",
             "retrofit-adapter-rxjava2"          : "com.squareup.retrofit2:adapter-rxjava2:2.6.0",
+            "converter-scalars"                 : "com.squareup.retrofit2:converter-scalars:2.6.0",
+            "converter-simplexml"               : "com.squareup.retrofit2:converter-simplexml:2.6.0",
             "okhttp3"                           : "com.squareup.okhttp3:okhttp:3.12.3",
             "okhttp4"                           : "com.squareup.okhttp3:okhttp:4.0.0",
             "okhttp-urlconnection"              : "com.squareup.okhttp:okhttp-urlconnection:2.0.0",

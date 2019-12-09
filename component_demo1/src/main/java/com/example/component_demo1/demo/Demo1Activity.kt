@@ -5,6 +5,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.base_fun.MvpApplication
 import com.example.base_fun.ui.MvpActivity
 import com.example.component_demo1.R
+import com.example.component_demo1.http.WeatherApi
 import com.example.route.AppRoute
 import kotlinx.android.synthetic.main.demo1_activity_main.*
 import org.greenrobot.eventbus.Subscribe
@@ -30,6 +31,8 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
                 test = (application as MvpApplication).provideCache().get("test")
                 Timber.i("" + test)
             })
+
+            WeatherApi().getWeather(null)
         }
     }
 
