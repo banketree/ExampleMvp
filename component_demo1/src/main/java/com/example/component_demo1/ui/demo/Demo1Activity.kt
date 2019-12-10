@@ -1,5 +1,6 @@
 package com.example.component_demo1.ui.demo
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Message
@@ -10,6 +11,7 @@ import com.example.component_demo1.R
 import com.example.component_demo1.http.WeatherApi
 import com.example.component_demo1.ui.home.HomeActivity
 import com.example.route.AppRoute
+import com.tbruyelle.rxpermissions2.RxPermissions
 import com.thinkcore.activity.TActivityUtils
 import kotlinx.android.synthetic.main.demo1_activity_main.*
 import org.greenrobot.eventbus.Subscribe
@@ -27,7 +29,6 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
         test_tv.setOnClickListener {
             (application as MvpApplication).provideCache().put("test", "444444444444444444444")
             provideCache().put("test", "555555555555555555555")
-            AppRoute.gotoTwoDemo2Main()
             var test = provideCache().get("test")
             Timber.i("" + test)
 
@@ -35,6 +36,17 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
                 test = (application as MvpApplication).provideCache().get("test")
                 Timber.i("" + test)
             })
+
+            RxPermissions(this).request(
+//                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE//,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+                .subscribe { granted ->
+                    Timber.i("申请结果:$granted")
+                    AppRoute.gotoTwoDemo2Main()
+                }
         }
 
         home_tv.setOnClickListener {

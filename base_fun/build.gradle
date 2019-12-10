@@ -33,7 +33,17 @@ dependencies {
 
     api dependence["okhttp3"]
     api dependence["rxjava2"]
-//    api dependence["rxandroid2"]
+    api dependence["rxandroid2"]
 
+    //网络请求 变更域名
     api dependence["retrofit-url-manager"]
+
+    //权限请求
+    api dependence["retrofit-url-manager"]
+
+    //系统权限
+    api(dependence["rxpermissions2"]) {
+        exclude module: 'rxjava'
+        exclude module: 'support-annotations'
+    }
 }
