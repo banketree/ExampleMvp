@@ -5,7 +5,7 @@ import retrofit2.Response
 
 abstract class LibHttpCallback : retrofit2.Callback<Any> {
     //请求类型
-    protected var type = TypeString
+    var type = TypeString
     //同步还是异步
     var isAsyn = true
     //服务名称  具体业务
@@ -13,7 +13,6 @@ abstract class LibHttpCallback : retrofit2.Callback<Any> {
         private set
     //记录每个请求的call
     var call: Call<*>? = null
-        protected set
 
     constructor() {
         isAsyn = true
