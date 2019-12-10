@@ -1,12 +1,16 @@
-package com.example.component_demo1.demo
+package com.example.component_demo1.ui.demo
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Message
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.base_fun.MvpApplication
 import com.example.base_fun.ui.MvpActivity
 import com.example.component_demo1.R
 import com.example.component_demo1.http.WeatherApi
+import com.example.component_demo1.ui.home.HomeActivity
 import com.example.route.AppRoute
+import com.thinkcore.activity.TActivityUtils
 import kotlinx.android.synthetic.main.demo1_activity_main.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -31,8 +35,17 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
                 test = (application as MvpApplication).provideCache().get("test")
                 Timber.i("" + test)
             })
+        }
 
-            WeatherApi().getWeather(null)
+        home_tv.setOnClickListener {
+            TActivityUtils.jumpToActivityForResult(
+                this@Demo1Activity,
+                HomeActivity::class.java,
+                object : TActivityUtils.IActivityResult {
+                    override fun onActivityResult(resultCode: Int, intent: Intent?) {
+                        if (resultCode != Activity.RESULT_OK) return
+                    }
+                })
         }
     }
 
@@ -44,12 +57,6 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
             DaggerDemo1Component.builder().demo1Moudle(Demo1Moudle(this))
                 .build()//.activityComponent(activityComponent).build()
         demoComponent?.inject(this)
-    }
-
-    override fun showLoading() {
-    }
-
-    override fun hideLoading() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

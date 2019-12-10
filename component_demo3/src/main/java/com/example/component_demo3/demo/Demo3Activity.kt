@@ -46,14 +46,6 @@ class Demo3Activity : MvpActivity<Demo3Presenter>() {
         demoComponent?.inject(this)
     }
 
-    override fun showLoading() {
-        Log.i("", "")
-    }
-
-    override fun hideLoading() {
-        Log.i("", "")
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onGetMessage(message: Message) {
         Timber.i("" + message)

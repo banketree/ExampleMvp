@@ -1,4 +1,4 @@
-package com.example.component_demo1.demo
+package com.example.component_demo1.ui.demo
 
 import com.example.base_fun.mvp.IPresenter
 import com.example.base_fun.mvp.IView

@@ -49,28 +49,8 @@ class WeatherApi : ApiService() {
     //获取天气预报
 //步骤1：通过ip 获取城市信息
 //步骤2：通过城市编码 获取天气信息
-    fun getWeather(callback: HttpCallback<*>?) {
-        getCityCodeByIp(object : HttpCallback<String>() {
-
-            override fun onSucess(s: String) {
-                super.onSucess(s)
-            }
-
-            override fun onFaile(ex: Exception) {
-                super.onFaile(ex)
-                callback?.onFaile(ex)
-            }
-
-            override fun onCancel() {
-                super.onCancel()
-                callback?.onCancel()
-            }
-
-            @Throws(JSONException::class)
-            override fun getBean(response: retrofit2.Response<*>): String? {
-                return super.getBean(response)
-            }
-        })
+    fun getWeather(callback: HttpCallback<*>) {
+        getCityCodeByIp(callback)
     }
 
     //    设置专属

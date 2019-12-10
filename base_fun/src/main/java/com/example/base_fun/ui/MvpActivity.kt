@@ -13,7 +13,7 @@ import com.example.base_lib.ui.BaseActivity
 import javax.inject.Inject
 
 
-abstract class MvpActivity<T : IPresenter> : BaseActivity(), IView {
+abstract class MvpActivity<T : IPresenter> : BaseActivity() {
 
     @Inject
     lateinit var presenter: T

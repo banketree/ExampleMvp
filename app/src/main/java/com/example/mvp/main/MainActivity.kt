@@ -31,12 +31,6 @@ class MainActivity : MvpActivity<MainPresenter>() {
         mainComponent?.inject(this)
     }
 
-    override fun showLoading() {
-    }
-
-    override fun hideLoading() {
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onGetMessage(message: Message) {
         Timber.i("" + message)
