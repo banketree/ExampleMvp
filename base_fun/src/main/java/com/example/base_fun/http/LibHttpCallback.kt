@@ -4,22 +4,23 @@ import retrofit2.Call
 import retrofit2.Response
 
 abstract class LibHttpCallback : retrofit2.Callback<Any> {
+    //请求类型
     protected var type = TypeString
+    //同步还是异步
     var isAsyn = true
-    private var isLoadingDialogCancel = false
+    //服务名称  具体业务
     var serviceName: String? = null
         private set
+    //记录每个请求的call
     var call: Call<*>? = null
         protected set
 
     constructor() {
         isAsyn = true
-        isLoadingDialogCancel = false
     }
 
     constructor(serviceName: String) {
         isAsyn = true
-        isLoadingDialogCancel = false
         this.serviceName = serviceName
     }
 

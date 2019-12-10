@@ -6,8 +6,10 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.base_fun.ui.MvpActivity
 import com.example.base_lib.utils.EventBusManager
 import com.example.component_demo3.R
+import com.example.component_demo3.http.WeatherApi
 import com.example.route.AppRoute
 import kotlinx.android.synthetic.main.demo3_activity_main.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import timber.log.Timber
@@ -28,6 +30,10 @@ class Demo3Activity : MvpActivity<Demo3Presenter>() {
 
             EventBusManager.instance?.post(Message())
             EventBusManager.instance?.postSticky(Message())
+
+            // 可在 App 运行时,随时切换 BaseUrl (指定了 Domain-Name header 的接口)
+            RetrofitUrlManager.getInstance().putDomain("douban", "https://api.douban.com")
+            WeatherApi().getWeather(null)
         }
     }
 

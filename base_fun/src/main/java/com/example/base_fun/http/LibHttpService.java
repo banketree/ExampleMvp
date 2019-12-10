@@ -1,6 +1,7 @@
 package com.example.base_fun.http;
 
 import androidx.annotation.NonNull;
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -39,10 +40,6 @@ public class LibHttpService {
         return "";
     }
 
-    protected String getStatusUrl() {
-        return "";
-    }
-
     protected Class<? extends Object> getService() {
         return Object.class;
     }
@@ -64,8 +61,11 @@ public class LibHttpService {
             } catch (GeneralSecurityException e) {
                 throw new RuntimeException(e);
             }
-            httpClient = new OkHttpClient()
-                    .newBuilder()
+
+            OkHttpClient.Builder builder = new OkHttpClient()
+                    .newBuilder();
+            initUrlManager(builder);
+            httpClient = builder
                     .retryOnConnectionFailure(false)
                     .sslSocketFactory(sslSocketFactory, trustManager)
                     .hostnameVerifier(new UnSafeHostnameVerifier())
@@ -101,6 +101,12 @@ public class LibHttpService {
                     .build();
         }
         return httpClient;
+    }
+
+    protected void initUrlManager(OkHttpClient.Builder builder) {
+        if (builder == null) return;
+        // 构建 OkHttpClient 时,将 OkHttpClient.Builder() 传入 with() 方法,进行初始化配置
+        RetrofitUrlManager.getInstance().with(builder);
     }
 
     protected okhttp3.Response okhttpInterceptor(Interceptor.Chain chain) throws IOException {
