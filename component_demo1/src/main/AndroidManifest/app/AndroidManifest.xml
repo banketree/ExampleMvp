@@ -27,5 +27,9 @@
         <activity android:name="com.example.component_demo1.ui.home.HomeActivity"
                   android:label="获取天气"
                   android:screenOrientation="portrait"/>
+
+        <activity android:name="com.example.component_demo1.ui.dialog.DialogActivity"
+                  android:label="测试对话框"
+                  android:screenOrientation="portrait"/>
     </application>
 </manifest>
