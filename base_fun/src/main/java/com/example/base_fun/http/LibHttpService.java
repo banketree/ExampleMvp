@@ -12,7 +12,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 import javax.net.ssl.*;
 import java.io.IOException;
@@ -145,14 +144,14 @@ public class LibHttpService {
     }
 
     //xml
-    private synchronized Object xmlService() {
-        return new Retrofit.Builder()
-                .baseUrl(getUrl())
-                .addConverterFactory(SimpleXmlConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(getOkHttpClient())
-                .build().create(getService());
-    }
+//    private synchronized Object xmlService() {
+//        return new Retrofit.Builder()
+//                .baseUrl(getUrl())
+//                .addConverterFactory(SimpleXmlConverterFactory.create())
+//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                .client(getOkHttpClient())
+//                .build().create(getService());
+//    }
 
     /*
      * 异步
@@ -289,70 +288,70 @@ public class LibHttpService {
         }
     }
 
-    /*
-     *异步
-     * hashMap 请求参数
-     * callback 回调方法
-     * */
-    protected void asynNetXml(@NonNull HashMap<String, String> hashMap, @NonNull String serverName) throws Exception {
-        asynNetXml(hashMap, new LibHttpCallback(serverName) {
-        });
-    }
+//    /*
+//     *异步
+//     * hashMap 请求参数
+//     * callback 回调方法
+//     * */
+//    protected void asynNetXml(@NonNull HashMap<String, String> hashMap, @NonNull String serverName) throws Exception {
+//        asynNetXml(hashMap, new LibHttpCallback(serverName) {
+//        });
+//    }
+//
+//    protected void asynNetXml(@NonNull HashMap<String, String> hashMap, @NonNull LibHttpCallback callback) throws Exception {
+//        try {
+//            callback.setType(LibHttpCallback.Companion.getTypeXml());
+//            Method method = getService().getDeclaredMethod(callback.getServiceName(), HashMap.class);
+//            Call call = (Call) method.invoke(xmlService(), hashMap);
+//            callMap.put(callback.getServiceName(), new WeakReference<Call>(call));
+//            callback.setCall(call);
+//            call.enqueue(callback);
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//            throw new Exception("net_inner_method");
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//            throw new Exception("net_inner_method");
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//            throw new Exception("net_inner_method");
+//        }
+//    }
 
-    protected void asynNetXml(@NonNull HashMap<String, String> hashMap, @NonNull LibHttpCallback callback) throws Exception {
-        try {
-            callback.setType(LibHttpCallback.Companion.getTypeXml());
-            Method method = getService().getDeclaredMethod(callback.getServiceName(), HashMap.class);
-            Call call = (Call) method.invoke(xmlService(), hashMap);
-            callMap.put(callback.getServiceName(), new WeakReference<Call>(call));
-            callback.setCall(call);
-            call.enqueue(callback);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        }
-    }
-
-    /*
-     *同步
-     * hashMap 请求参数
-     * callback 回调方法
-     * */
-    protected void synNetXml(@NonNull HashMap<String, String> hashMap, @NonNull String serverName) throws Exception {
-        synNetXml(hashMap, new LibHttpCallback(serverName) {
-        });
-    }
-
-    protected void synNetXml(@NonNull HashMap<String, String> hashMap, @NonNull LibHttpCallback callback) throws Exception {
-        try {
-            callback.setType(LibHttpCallback.Companion.getTypeXml());
-            Method method = getService().getDeclaredMethod(callback.getServiceName(), HashMap.class);
-            Call call = (Call) method.invoke(xmlService(), hashMap);
-            callMap.put(callback.getServiceName(), new WeakReference<Call>(call));
-            callback.setCall(call);
-            Response response = call.execute();
-            if (response.isSuccessful()) {
-                callback.onResponse(call, response);
-            } else {
-                callback.onFailure(call, new Exception(response.message()));
-            }
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        }
-    }
+//    /*
+//     *同步
+//     * hashMap 请求参数
+//     * callback 回调方法
+//     * */
+//    protected void synNetXml(@NonNull HashMap<String, String> hashMap, @NonNull String serverName) throws Exception {
+//        synNetXml(hashMap, new LibHttpCallback(serverName) {
+//        });
+//    }
+//
+//    protected void synNetXml(@NonNull HashMap<String, String> hashMap, @NonNull LibHttpCallback callback) throws Exception {
+//        try {
+//            callback.setType(LibHttpCallback.Companion.getTypeXml());
+//            Method method = getService().getDeclaredMethod(callback.getServiceName(), HashMap.class);
+//            Call call = (Call) method.invoke(xmlService(), hashMap);
+//            callMap.put(callback.getServiceName(), new WeakReference<Call>(call));
+//            callback.setCall(call);
+//            Response response = call.execute();
+//            if (response.isSuccessful()) {
+//                callback.onResponse(call, response);
+//            } else {
+//                callback.onFailure(call, new Exception(response.message()));
+//            }
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//            throw new Exception("net_inner_method");
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//            throw new Exception("net_inner_method");
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//            throw new Exception("net_inner_method");
+//        }
+//    }
 
     public Call getCall(String serverName) {
         if (callMap == null || callMap.isEmpty() || !callMap.containsKey(serverName))

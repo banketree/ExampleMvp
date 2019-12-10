@@ -29,14 +29,6 @@ abstract class ApiService : LibHttpService() {
         doNet(LibHttpCallback.TypeGson, svceName, hashMap, callback)
     }
 
-    fun doNetByXml(svceName: String, hashMap: HashMap<String, String>) {
-        doNet(LibHttpCallback.TypeXml, svceName, hashMap)
-    }
-
-    fun doNetByXml(svceName: String, hashMap: HashMap<String, String>, callback: HttpCallback<*>) {
-        doNet(LibHttpCallback.TypeXml, svceName, hashMap, callback)
-    }
-
     fun doNet(svceName: String, hashMap: HashMap<String, String>) {
         doNet(LibHttpCallback.TypeString, svceName, hashMap)
     }
@@ -68,11 +60,6 @@ abstract class ApiService : LibHttpService() {
                     asynNetGson(hashMap, callback)
                 else
                     synNetGson(hashMap, callback)
-            } else if (doType == LibHttpCallback.TypeXml) {
-                if (callback.isAsyn)
-                    asynNetXml(hashMap, callback)
-                else
-                    synNetXml(hashMap, callback)
             }
         } catch (e: Exception) {
             callback.onFaile(e)

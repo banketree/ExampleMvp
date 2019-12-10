@@ -9,7 +9,7 @@
                   android:label="demo1"
                   android:screenOrientation="portrait"/>
 
-        <activity android:name="com.example.component_demo1.ui.home.DialogActivity"
+        <activity android:name="com.example.component_demo1.ui.home.HomeActivity"
                   android:label="获取天气"
                   android:screenOrientation="portrait"/>
 

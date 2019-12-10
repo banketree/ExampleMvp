@@ -34,6 +34,5 @@ abstract class LibHttpCallback : retrofit2.Callback<Any> {
     companion object {
         val TypeString = 0
         val TypeGson = 1
-        val TypeXml = 2
     }
 }

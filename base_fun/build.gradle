@@ -29,7 +29,7 @@ dependencies {
         exclude module: 'okio'
     }
     implementation dependence["converter-scalars"]
-    implementation dependence["converter-simplexml"]
+//    implementation dependence["converter-simplexml"]
 
     api dependence["okhttp3"]
     api dependence["rxjava2"]
@@ -39,9 +39,6 @@ dependencies {
     api dependence["retrofit-url-manager"]
 
     //权限请求
-    api dependence["retrofit-url-manager"]
-
-    //系统权限
     api(dependence["rxpermissions2"]) {
         exclude module: 'rxjava'
         exclude module: 'support-annotations'
