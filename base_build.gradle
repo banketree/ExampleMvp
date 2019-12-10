@@ -54,19 +54,19 @@ android {
     buildTypes {
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources false
             zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro', '../proguard-rules-core.pro', '../proguard-rules-androidx.pro', '../proguard-rules-third.pro'
             signingConfig signingConfigs.debug
         }
 
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources false
             zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro', '../proguard-rules-core.pro', '../proguard-rules-androidx.pro', '../proguard-rules-third.pro'
             signingConfig signingConfigs.release
         }
     }
