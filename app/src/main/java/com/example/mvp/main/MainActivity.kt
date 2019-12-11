@@ -10,10 +10,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import timber.log.Timber
+import javax.inject.Inject
 
 
 @Route(path = AppRoute.ONE_APP_MAIN)
 class MainActivity : MvpActivity<MainPresenter>() {
+
+    @Inject
+    lateinit var kotlinPresenter: KotlinPresenter
 
     override fun getLayoutAny() = com.example.mvp.R.layout.activity_main
 
@@ -30,6 +34,10 @@ class MainActivity : MvpActivity<MainPresenter>() {
                     Timber.i("申请结果:$granted")
                     AppRoute.gotoTwoDemo1Main()
                 }
+        }
+
+        test_kotlin_tv.setOnClickListener {
+            kotlinPresenter?.testCoroutine()
         }
     }
 
