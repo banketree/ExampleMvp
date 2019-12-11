@@ -124,7 +124,7 @@ public class LibHttpService {
     }
 
     //gson
-    private synchronized Object gsonService() {
+    protected synchronized Object gsonService() {
         return new Retrofit.Builder()
                 .baseUrl(getUrl())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -134,7 +134,7 @@ public class LibHttpService {
     }
 
     //String
-    private synchronized Object stringService() {
+    protected synchronized Object stringService() {
         return new Retrofit.Builder()
                 .baseUrl(getUrl())
                 .addConverterFactory(ScalarsConverterFactory.create())

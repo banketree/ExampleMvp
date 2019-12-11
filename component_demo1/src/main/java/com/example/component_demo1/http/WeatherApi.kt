@@ -50,7 +50,12 @@ class WeatherApi : ApiService() {
 //步骤1：通过ip 获取城市信息
 //步骤2：通过城市编码 获取天气信息
     fun getWeather(callback: HttpCallback<*>) {
-        getCityCodeByIp(callback)
+//        getCityCodeByIp(callback)
+        val hashMap = HashMap<String, String>()
+        hashMap["output"] = "json"
+        hashMap["key"] = key
+        val call: Call<String> = (stringService() as WeatherServiceApi).getCityCodeByIp(hashMap)
+        call.enqueue(callback as retrofit2.Callback<String>)
     }
 
     //    设置专属
