@@ -39,23 +39,11 @@ class WeatherApi : ApiService() {
     }
 
     //通过ip 获取城市编码
-    private fun getCityCodeByIp(callback: HttpCallback<*>) {
+    fun getCityCodeByIp(callback: HttpCallback<*>) {
         val hashMap = HashMap<String, String>()
         hashMap["output"] = "json"
         hashMap["key"] = key
-        doNet("getCityCodeByIp", hashMap, callback)
-    }
-
-    //获取天气预报
-//步骤1：通过ip 获取城市信息
-//步骤2：通过城市编码 获取天气信息
-    fun getWeather(callback: HttpCallback<*>) {
-//        getCityCodeByIp(callback)
-        val hashMap = HashMap<String, String>()
-        hashMap["output"] = "json"
-        hashMap["key"] = key
-        val call: Call<String> = (stringService() as WeatherServiceApi).getCityCodeByIp(hashMap)
-        call.enqueue(callback as retrofit2.Callback<String>)
+        asynNet((stringService() as WeatherServiceApi).getCityCodeByIp(hashMap), "getCityCodeByIp", callback)
     }
 
     //    设置专属

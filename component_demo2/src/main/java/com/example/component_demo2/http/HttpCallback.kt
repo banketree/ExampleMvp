@@ -88,7 +88,7 @@ abstract class HttpCallback<T> : LibHttpCallback {
     }
 
     fun setServiceName(serviceName: String): HttpCallback<T> {
-        super.setServiceNameString(serviceName)
+        super.serviceName = serviceName
         return this
     }
 

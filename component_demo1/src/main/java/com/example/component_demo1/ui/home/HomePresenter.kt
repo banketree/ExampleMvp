@@ -15,7 +15,7 @@ class HomePresenter @Inject constructor() : IPresenter {
     }
 
     fun getWeather() {
-        WeatherApi().getWeather(object : HttpCallback<Any>() {
+        WeatherApi().getCityCodeByIp(object : HttpCallback<Any>() {
             override fun getBean(response: Response<*>): Any? {
                 homeActivity?.initData(response.body().toString())
                 return super.getBean(response)

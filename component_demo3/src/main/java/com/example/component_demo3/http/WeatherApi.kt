@@ -1,6 +1,7 @@
 package com.example.component_demo3.http
 
 
+import com.example.base_fun.http.LibHttpService
 import java.io.IOException
 import java.util.HashMap
 
@@ -18,7 +19,7 @@ import retrofit2.http.QueryMap
  * description:
  * 天气预报
  */
-class WeatherApi : ApiService() {
+class WeatherApi : LibHttpService() {
     private val key = "4e34d358d9aa062b2c46afd627084f85"
     private val BASE_URL = "https://restapi.amap.com"
 
@@ -44,7 +45,8 @@ class WeatherApi : ApiService() {
         val hashMap = HashMap<String, String>()
         hashMap["output"] = "json"
         hashMap["key"] = key
-        doNet("getCityCodeByIp", hashMap, callback)
+
+        asynNet((stringService() as WeatherServiceApi).getCityCodeByIp(hashMap), "getCityCodeByIp", callback)
     }
 
     //获取天气预报

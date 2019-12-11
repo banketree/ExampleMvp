@@ -16,8 +16,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import javax.net.ssl.*;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.security.GeneralSecurityException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -155,203 +153,68 @@ public class LibHttpService {
 
     /*
      * 异步
-     * hashMap 请求参数(ParamUtil.getParam(svceName, dvcCode, data, encryptKey))
+     * Call 请求参数
      * callback 回调方法
      * */
-    protected void asynNetGson(@NonNull HashMap<String, String> hashMap, @NonNull String serverName) throws Exception {
-        asynNetGson(hashMap, new LibHttpCallback(serverName) {
+    protected void asynNet(@NonNull Call call, @NonNull String serviceName) throws Exception {
+        asynNet(call, new LibHttpCallback(serviceName) {
         });
     }
 
-    protected void asynNetGson(@NonNull HashMap<String, String> hashMap, @NonNull LibHttpCallback callback) throws Exception {
-        try {
-            callback.setType(LibHttpCallback.Companion.getTypeGson());
-            Method method = getService().getDeclaredMethod(callback.getServiceName(), HashMap.class);
-            Call call = (Call) method.invoke(gsonService(), hashMap);
-            callMap.put(callback.getServiceName(), new WeakReference<Call>(call));
-            callback.setCall(call);
-            call.enqueue(callback);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        }
+    protected void asynNet(@NonNull Call call, @NonNull String serviceName, @NonNull LibHttpCallback callback) throws Exception {
+        callback.setServiceName(serviceName);
+        asynNet(call, callback);
+    }
+
+    protected void asynNet(@NonNull Call call, @NonNull LibHttpCallback callback) throws Exception {
+        callback.setAsyn(true);
+        doNet(call, callback);
     }
 
     /*
      * 同步
-     * hashMap 请求参数(ParamUtil.getParam(svceName, dvcCode, data, encryptKey))
+     * Call 请求参数
      * String 服务名
      * */
-    protected void synNetGson(@NonNull HashMap<String, String> hashMap, @NonNull String serverName) throws Exception {
-        synNetGson(hashMap, new LibHttpCallback(serverName) {
+    protected void syncNet(@NonNull Call call, @NonNull String serviceName) throws Exception {
+        syncNet(call, new LibHttpCallback(serviceName) {
         });
     }
 
+    protected void syncNet(@NonNull Call call, @NonNull String serviceName, @NonNull LibHttpCallback callback) throws Exception {
+        callback.setServiceName(serviceName);
+        syncNet(call, callback);
+    }
+
+    protected void syncNet(@NonNull Call call, @NonNull LibHttpCallback callback) throws Exception {
+        callback.setAsyn(false);
+        doNet(call, callback);
+    }
+
     /*
-     * 同步
-     * hashMap 请求参数(ParamUtil.getParam(svceName, dvcCode, data, encryptKey))
+     * 网络请求
+     * Call 请求参数
      * callback 回调方法
      * */
-    protected void synNetGson(@NonNull HashMap<String, String> hashMap, @NonNull LibHttpCallback callback) throws Exception {
+    protected void doNet(@NonNull Call call, @NonNull LibHttpCallback callback) throws Exception {
         try {
-            callback.setType(LibHttpCallback.Companion.getTypeGson());
-            Method method = getService().getDeclaredMethod(callback.getServiceName(), HashMap.class);
-            Call call = (Call) method.invoke(gsonService(), hashMap);
             callMap.put(callback.getServiceName(), new WeakReference<Call>(call));
             callback.setCall(call);
-            Response response = call.execute();
-            if (response.isSuccessful()) {
-                callback.onResponse(call, response);
+            if (callback.isAsyn()) {
+                call.enqueue(callback);
             } else {
-                callback.onFailure(call, new Exception(response.message()));
+                Response response = call.execute();
+                if (response.isSuccessful()) {
+                    callback.onResponse(call, response);
+                } else {
+                    callback.onFailure(call, new Exception(response.message()));
+                }
             }
-        } catch (NoSuchMethodException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("net_inner_method");
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
+            throw new Exception("net_inner_method:" + e.getMessage());
         }
     }
-
-    /*
-     *异步
-     * hashMap 请求参数
-     * callback 回调方法
-     * */
-    protected void asynNetString(@NonNull HashMap<String, String> hashMap, @NonNull String serverName) throws Exception {
-        asynNetString(hashMap, new LibHttpCallback(serverName) {
-        });
-    }
-
-    protected void asynNetString(@NonNull HashMap<String, String> hashMap, @NonNull LibHttpCallback callback) throws Exception {
-        try {
-            callback.setType(LibHttpCallback.Companion.getTypeString());
-            Method method = getService().getDeclaredMethod(callback.getServiceName(), HashMap.class);
-            Call call = (Call) method.invoke(stringService(), hashMap);
-            callMap.put(callback.getServiceName(), new WeakReference<Call>(call));
-            callback.setCall(call);
-            call.enqueue(callback);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        }
-    }
-
-    /*
-     * 同步
-     * hashMap 请求参数
-     * callback 回调方法
-     * */
-    protected void synNetString(@NonNull HashMap<String, String> hashMap, @NonNull String serverName) throws Exception {
-        synNetString(hashMap, new LibHttpCallback(serverName) {
-        });
-    }
-
-    protected void synNetString(@NonNull HashMap<String, String> hashMap, @NonNull LibHttpCallback callback) throws Exception {
-        try {
-            callback.setType(LibHttpCallback.Companion.getTypeString());
-            Method method = getService().getDeclaredMethod(callback.getServiceName(), HashMap.class);
-            Call call = (Call) method.invoke(stringService(), hashMap);
-            callMap.put(callback.getServiceName(), new WeakReference<Call>(call));
-            callback.setCall(call);
-            Response response = call.execute();
-            if (response.isSuccessful()) {
-                callback.onResponse(call, response);
-            } else {
-                callback.onFailure(call, new Exception(response.message()));
-            }
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new Exception("net_inner_method");
-        }
-    }
-
-//    /*
-//     *异步
-//     * hashMap 请求参数
-//     * callback 回调方法
-//     * */
-//    protected void asynNetXml(@NonNull HashMap<String, String> hashMap, @NonNull String serverName) throws Exception {
-//        asynNetXml(hashMap, new LibHttpCallback(serverName) {
-//        });
-//    }
-//
-//    protected void asynNetXml(@NonNull HashMap<String, String> hashMap, @NonNull LibHttpCallback callback) throws Exception {
-//        try {
-//            callback.setType(LibHttpCallback.Companion.getTypeXml());
-//            Method method = getService().getDeclaredMethod(callback.getServiceName(), HashMap.class);
-//            Call call = (Call) method.invoke(xmlService(), hashMap);
-//            callMap.put(callback.getServiceName(), new WeakReference<Call>(call));
-//            callback.setCall(call);
-//            call.enqueue(callback);
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//            throw new Exception("net_inner_method");
-//        } catch (InvocationTargetException e) {
-//            e.printStackTrace();
-//            throw new Exception("net_inner_method");
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//            throw new Exception("net_inner_method");
-//        }
-//    }
-
-//    /*
-//     *同步
-//     * hashMap 请求参数
-//     * callback 回调方法
-//     * */
-//    protected void synNetXml(@NonNull HashMap<String, String> hashMap, @NonNull String serverName) throws Exception {
-//        synNetXml(hashMap, new LibHttpCallback(serverName) {
-//        });
-//    }
-//
-//    protected void synNetXml(@NonNull HashMap<String, String> hashMap, @NonNull LibHttpCallback callback) throws Exception {
-//        try {
-//            callback.setType(LibHttpCallback.Companion.getTypeXml());
-//            Method method = getService().getDeclaredMethod(callback.getServiceName(), HashMap.class);
-//            Call call = (Call) method.invoke(xmlService(), hashMap);
-//            callMap.put(callback.getServiceName(), new WeakReference<Call>(call));
-//            callback.setCall(call);
-//            Response response = call.execute();
-//            if (response.isSuccessful()) {
-//                callback.onResponse(call, response);
-//            } else {
-//                callback.onFailure(call, new Exception(response.message()));
-//            }
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//            throw new Exception("net_inner_method");
-//        } catch (InvocationTargetException e) {
-//            e.printStackTrace();
-//            throw new Exception("net_inner_method");
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//            throw new Exception("net_inner_method");
-//        }
-//    }
 
     public Call getCall(String serverName) {
         if (callMap == null || callMap.isEmpty() || !callMap.containsKey(serverName))
