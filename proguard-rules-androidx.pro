@@ -26,3 +26,8 @@
 -dontwarn com.google.android.material.**
 -dontnote com.google.android.material.**
 -dontwarn androidx.**
+
+#协程
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}
