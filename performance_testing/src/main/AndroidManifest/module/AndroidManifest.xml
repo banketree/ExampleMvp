@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.example.performance_testing">
+    <application>
+        <meta-data
+                android:name="com.example.performance_testing.config.Configuration"
+                android:value="ConfigModule"/>
+
+        <activity android:name=".MainActivity"
+                  android:label="性能检测"
+                  android:screenOrientation="portrait"/>
+    </application>
+</manifest>

@@ -1,1 +1,1 @@
-include ':app', ':component_demo1', ':component_demo2', ':component_demo3', ':route', ':base_lib', ':base_fun'
+include ':app', ':component_demo1', ':component_demo2', ':component_demo3', ':route', ':base_lib', ':base_fun', ':performance_testing'

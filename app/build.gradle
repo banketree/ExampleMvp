@@ -36,6 +36,7 @@ dependencies {
         implementation project(':component_demo1')
         implementation project(':component_demo2')
         implementation project(':component_demo3')
+        implementation project(':performance_testing')
     }
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
