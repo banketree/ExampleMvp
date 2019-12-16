@@ -4,6 +4,7 @@ import android.Manifest
 import android.os.Message
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.base_fun.ui.MvpActivity
+import com.example.mvp.jetpack.MyLifeObserver
 import com.example.route.AppRoute
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,6 +23,10 @@ class MainActivity : MvpActivity<MainPresenter>() {
     override fun getLayoutAny() = com.example.mvp.R.layout.activity_main
 
     override fun initView() {
+        lifecycle.addObserver(MyLifeObserver())
+        presenter?.let {
+            lifecycle.addObserver(presenter)
+        }
         test_tv.setOnClickListener {
 
             RxPermissions(this).request(

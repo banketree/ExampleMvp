@@ -112,4 +112,8 @@ dependencies {
     //arouter
     kapt dependence['arouter-compiler']
     api dependence['arouter']
+
+    //lifecycle
+    api dependence["lifecycle-extensions"]
+    kapt dependence["lifecycle-compiler"]
 }
