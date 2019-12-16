@@ -116,4 +116,7 @@ dependencies {
     //lifecycle
     api dependence["lifecycle-extensions"]
     kapt dependence["lifecycle-compiler"]
+    //lifecycle livedata
+    implementation dependence["lifecycle-viewmodel"]
+    implementation dependence["lifecycle-livedata"]
 }

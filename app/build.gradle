@@ -43,6 +43,4 @@ dependencies {
     }
 
     implementation dependence["kotlinx-coroutines-core"]
-    implementation dependence["lifecycle-viewmodel"]
-    implementation dependence["lifecycle-livedata"]
 }
