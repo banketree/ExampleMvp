@@ -1,4 +1,4 @@
-package com.example.mvp.jetpack
+package com.example.mvp.jetpack.lifecycle
 
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent

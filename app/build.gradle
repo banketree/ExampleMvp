@@ -1,5 +1,8 @@
 apply from: "../app_build.gradle"
 
+def androidConfig = rootProject.ext.android
+def dependence = rootProject.ext.dependence
+
 android {
     defaultConfig {
         applicationId "com.example.mvp"
@@ -39,5 +42,7 @@ dependencies {
         implementation project(':performance_testing')
     }
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
+    implementation dependence["kotlinx-coroutines-core"]
+    implementation dependence["lifecycle-viewmodel"]
+    implementation dependence["lifecycle-livedata"]
 }
