@@ -24,7 +24,7 @@
 -ignorewarnings                   # 忽略警告
 -dontoptimize                    # 优化不优化输入的类文件
 -dontskipnonpubliclibraryclassmembers # 指定不去忽略非公共库的类成员
--printmapping priguardMapping.txt
+-printmapping proguardMapping.txt
 
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  # 指定混淆是采用的算法，后面的参数是一个过滤器.这个过滤器是谷歌推荐的算法，一般不做更改
 
