@@ -2,7 +2,6 @@ package com.example.mvp.main
 
 import android.Manifest
 import android.os.Message
-import androidx.annotation.Nullable
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.base_fun.ui.MvpActivity
 import com.example.mvp.jetpack.lifecycle.MyLifeObserver
@@ -19,14 +18,20 @@ import com.example.mvp.jetpack.livedata.TestViewModel
 import androidx.lifecycle.ViewModelProviders
 import android.net.NetworkInfo
 import com.example.mvp.jetpack.livedata.NetworkLiveData
+import me.jessyan.autosize.internal.CustomAdapt
 
 
 @Route(path = AppRoute.ONE_APP_MAIN)
-class MainActivity : MvpActivity<MainPresenter>() {
+class MainActivity : MvpActivity<MainPresenter>(), CustomAdapt {
     private lateinit var testViewModel: TestViewModel
 
     @Inject
     lateinit var kotlinPresenter: KotlinPresenter
+
+    override val isBaseOnWidth: Boolean  //是否按照宽度进行等比例适配
+        get() = false
+    override val sizeInDp: Float  //设计图上的设计尺寸, 单位 dp
+        get() = 667f
 
     override fun getLayoutAny() = com.example.mvp.R.layout.activity_main
 

@@ -160,8 +160,8 @@ class AutoSize private constructor() {
                 targetScaledDensity = targetDensity * scale
                 targetDensityDpi = (targetDensity * 160).toInt()
 
-                targetScreenWidthDp = AutoSizeConfig.instance!!.getScreenWidth() / targetDensity as Int
-                targetScreenHeightDp = AutoSizeConfig.instance!!.screenHeight / targetDensity as Int
+                targetScreenWidthDp = AutoSizeConfig.instance!!.getScreenWidth() / targetDensity.toInt()
+                targetScreenHeightDp = AutoSizeConfig.instance!!.screenHeight / targetDensity.toInt()
 
                 if (isBaseOnWidth) {
                     targetXdpi = AutoSizeConfig.instance!!.getScreenWidth() * 1.0f / subunitsDesignSize

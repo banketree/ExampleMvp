@@ -33,7 +33,10 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     api project(':route')
+    api project(':autosize')
 
     if (!isBuildModule.toBoolean()) {
         implementation project(':component_demo1')
