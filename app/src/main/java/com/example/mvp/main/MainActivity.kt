@@ -19,6 +19,9 @@ import androidx.lifecycle.ViewModelProviders
 import android.net.NetworkInfo
 import com.example.mvp.jetpack.livedata.NetworkLiveData
 import me.jessyan.autosize.internal.CustomAdapt
+import javax.xml.datatype.DatatypeConstants.SECONDS
+import com.jakewharton.rxbinding2.view.RxView
+import java.util.concurrent.TimeUnit
 
 
 @Route(path = AppRoute.ONE_APP_MAIN)
@@ -40,19 +43,23 @@ class MainActivity : MvpActivity<MainPresenter>(), CustomAdapt {
         presenter?.let {
             lifecycle.addObserver(presenter)
         }
-        test_tv.setOnClickListener {
-            testViewModel.nameEvent.value = "测试测试"
-            RxPermissions(this).request(
+
+        addDisposable(RxView.clicks(test_tv)
+            .throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                Timber.i("clicks:点击了按钮：两秒内防抖")
+                testViewModel.nameEvent.value = "测试测试"
+                RxPermissions(this).request(
 //                Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE//,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE//,
 //                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-                .subscribe { granted ->
-                    Timber.i("申请结果:$granted")
-                    AppRoute.gotoTwoDemo1Main()
-                }
-        }
+                )
+                    .subscribe { granted ->
+                        Timber.i("申请结果:$granted")
+                        AppRoute.gotoTwoDemo1Main()
+                    }
+            })
 
         test_kotlin_tv.setOnClickListener {
             kotlinPresenter?.testCoroutine()

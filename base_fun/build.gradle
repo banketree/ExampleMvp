@@ -43,4 +43,6 @@ dependencies {
         exclude module: 'rxjava'
         exclude module: 'support-annotations'
     }
+    
+    api dependence["rxbinding2"]
 }
