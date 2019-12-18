@@ -21,6 +21,7 @@ import com.example.mvp.jetpack.livedata.NetworkLiveData
 import me.jessyan.autosize.internal.CustomAdapt
 import javax.xml.datatype.DatatypeConstants.SECONDS
 import com.jakewharton.rxbinding2.view.RxView
+import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 
 
@@ -44,7 +45,7 @@ class MainActivity : MvpActivity<MainPresenter>(), CustomAdapt {
             lifecycle.addObserver(presenter)
         }
 
-        addDisposable(RxView.clicks(test_tv)
+        presenter?.addDisposable(RxView.clicks(test_tv)
             .throttleFirst(2, TimeUnit.SECONDS)
             .subscribe {
                 Timber.i("clicks:点击了按钮：两秒内防抖")
@@ -79,6 +80,9 @@ class MainActivity : MvpActivity<MainPresenter>(), CustomAdapt {
                 }
             })
 
+        //定时触发
+        presenter?.addDisposable(Observable.timer(3, TimeUnit.SECONDS)
+            .subscribe { })
     }
 
     override fun initData() {

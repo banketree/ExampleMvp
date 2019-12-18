@@ -1,5 +1,6 @@
 package com.example.mvp.main
 
+import com.example.base_fun.mvp.BasePresenter
 import com.example.base_fun.mvp.IPresenter
 import com.example.base_fun.mvp.IView
 import kotlinx.coroutines.*
@@ -7,11 +8,19 @@ import om.example.base_lib.kandroid.i
 import timber.log.Timber
 import javax.inject.Inject
 
-class KotlinPresenter @Inject constructor() : IPresenter, IView {
+class KotlinPresenter @Inject constructor() : BasePresenter(), IView {
     override fun showLoading() {
     }
 
     override fun hideLoading() {
+    }
+
+    override fun init() {
+        super.init()
+    }
+
+    override fun release() {
+        super.release()
     }
 
     fun testCoroutine() {
