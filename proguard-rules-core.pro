@@ -100,17 +100,3 @@
     void *(**On*Event);
     void *(**On*Listener);
 }
-
-###### dagger 2.0 stuff
--keep class dagger.** { *; }
--keep interface dagger.** { *; }
--keepnames class com.ourcompany.**
-
--keep class **$$ModuleAdapter { *; }
--keepnames class **$$InjectAdapter { *; }
-
--keepclassmembers class * {
-    @javax.inject.Inject <fields>;
-    @javax.inject.Inject <init>(...);
-}
--adaptclassstrings

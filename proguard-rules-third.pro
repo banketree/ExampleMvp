@@ -248,3 +248,17 @@
 
 # If single-type injection is used, that is, no interface is defined to implement IProvider, the following rules need to be added to protect the implementation
 # -keep class * implements com.alibaba.android.arouter.facade.template.IProvider
+
+###### dagger 2.0 stuff
+-keep class dagger.** { *; }
+-keep interface dagger.** { *; }
+-keepnames class com.ourcompany.**
+
+-keep class **$$ModuleAdapter { *; }
+-keepnames class **$$InjectAdapter { *; }
+
+-keepclassmembers class * {
+    @javax.inject.Inject <fields>;
+    @javax.inject.Inject <init>(...);
+}
+-adaptclassstrings
