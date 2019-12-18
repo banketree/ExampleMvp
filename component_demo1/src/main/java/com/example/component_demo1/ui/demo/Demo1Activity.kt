@@ -8,7 +8,6 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.base_fun.MvpApplication
 import com.example.base_fun.ui.MvpActivity
 import com.example.component_demo1.R
-import com.example.component_demo1.mvvmdemo.demo.ScrollingActivity
 import com.example.component_demo1.ui.dialog.DialogActivity
 import com.example.component_demo1.ui.home.HomeActivity
 import com.example.route.AppRoute
@@ -46,8 +45,7 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
             )
                 .subscribe { granted ->
                     Timber.i("申请结果:$granted")
-//                    AppRoute.gotoTwoDemo2Main()
-                    TActivityUtils.jumpToActivity(this@Demo1Activity, ScrollingActivity::class.java)
+                    AppRoute.gotoTwoDemo2Main()
                 }
         }
 
