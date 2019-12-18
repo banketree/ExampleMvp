@@ -31,9 +31,8 @@ class ExternalAdaptManager {
     @Synchronized
     fun addCancelAdaptOfActivity(targetClass: Class<*>): ExternalAdaptManager {
         Preconditions.checkNotNull(targetClass, "targetClass == null")
-        if (!isRun) {
-            isRun = true
-        }
+        if (!isRun) isRun = true
+
         if (cancelAdaptList == null) {
             cancelAdaptList = ArrayList()
         }
@@ -51,9 +50,8 @@ class ExternalAdaptManager {
     @Synchronized
     fun addExternalAdaptInfoOfActivity(targetClass: Class<*>, info: ExternalAdaptInfo): ExternalAdaptManager {
         Preconditions.checkNotNull(targetClass, "targetClass == null")
-        if (!isRun) {
-            isRun = true
-        }
+        if (!isRun) isRun = true
+
         if (externalAdaptInfos == null) {
             externalAdaptInfos = HashMap(16)
         }

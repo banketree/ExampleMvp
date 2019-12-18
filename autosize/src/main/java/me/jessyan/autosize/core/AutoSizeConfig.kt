@@ -26,87 +26,29 @@ import java.lang.reflect.Field
  */
 class AutoSizeConfig private constructor() {
     lateinit var application: Application
-    /**
-     * 用来管理外部三方库 [Activity] 的适配
-     */
-    /**
-     * [ExternalAdaptManager] 用来管理外部三方库 [Activity] 的适配
-     *
-     * @return [.mExternalAdaptManager]
-     */
+    //用来管理外部三方库 [Activity] 的适配
     val externalAdaptManager = ExternalAdaptManager()
-    /**
-     * 用来管理 AndroidAutoSize 支持的所有单位, AndroidAutoSize 支持五种单位 (dp、sp、pt、in、mm)
-     */
-    /**
-     * [UnitsManager] 用来管理 AndroidAutoSize 支持的所有单位, AndroidAutoSize 支持五种单位 (dp、sp、pt、in、mm)
-     *
-     * @return [.mUnitsManager]
-     */
+    //用来管理 AndroidAutoSize 支持的所有单位, AndroidAutoSize 支持五种单位 (dp、sp、pt、in、mm)
     val unitsManager = UnitsManager()
-    /**
-     * 最初的 [DisplayMetrics.density]
-     */
-    /**
-     * 获取 [.mInitDensity]
-     *
-     * @return [.mInitDensity]
-     */
+    //最初的 [DisplayMetrics.density]
     var initDensity = -1f
         private set
-    /**
-     * 最初的 [DisplayMetrics.densityDpi]
-     */
-    /**
-     * 获取 [.mInitDensityDpi]
-     *
-     * @return [.mInitDensityDpi]
-     */
+    //最初的 [DisplayMetrics.densityDpi]
     var initDensityDpi: Int = 0
         private set
-    /**
-     * 最初的 [DisplayMetrics.scaledDensity]
-     */
-    /**
-     * 获取 [.mInitScaledDensity]
-     *
-     * @return [.mInitScaledDensity]
-     */
+    //最初的 [DisplayMetrics.scaledDensity]
     var initScaledDensity: Float = 0.toFloat()
         private set
-    /**
-     * 最初的 [DisplayMetrics.xdpi]
-     */
-    /**
-     * 获取 [.mInitXdpi]
-     *
-     * @return [.mInitXdpi]
-     */
+    //最初的 [DisplayMetrics.xdpi]
     var initXdpi: Float = 0.toFloat()
         private set
-    /**
-     * 最初的 [Configuration.screenWidthDp]
-     */
-    /**
-     * 获取 [.mInitScreenWidthDp]
-     *
-     * @return [.mInitScreenWidthDp]
-     */
+    //最初的 [Configuration.screenWidthDp]
     var initScreenWidthDp: Int = 0
         private set
-    /**
-     * 最初的 [Configuration.screenHeightDp]
-     */
-    /**
-     * 获取 [.mInitScreenHeightDp]
-     *
-     * @return [.mInitScreenHeightDp]
-     */
+    //最初的 [Configuration.screenHeightDp]
     var initScreenHeightDp: Int = 0
         private set
-    /**
-     * 设计图上的总宽度, 单位 dp
-     */
+    //设计图上的总宽度, 单位 dp
     var designWidthInDp: Int = 0
     /**
      * 设计图上的总高度, 单位 dp

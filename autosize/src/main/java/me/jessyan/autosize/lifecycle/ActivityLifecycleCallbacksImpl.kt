@@ -21,9 +21,11 @@ class ActivityLifecycleCallbacksImpl(
         FragmentLifecycleCallbacksImpl(autoAdaptStrategy)
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        if (AutoSizeConfig.instance!!.isCustomFragment()) {
-            if (activity is FragmentActivity) {
-                activity.supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, true)
+        AutoSizeConfig.instance?.apply {
+            if (isCustomFragment()) {
+                if (activity is FragmentActivity) {
+                    activity.supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, true)
+                }
             }
         }
 

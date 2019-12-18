@@ -38,7 +38,7 @@ class UnitsManager {
     /**
      * 是否支持副单位, 以什么为副单位? 默认不支持
      */
-    private var mSupportSubunits = Subunits.NONE
+    private var supportSubunits = Subunits.NONE
     /**
      * 是否支持 ScreenSizeDp 修改, 默认不支持
      */
@@ -148,7 +148,7 @@ class UnitsManager {
      * @return [Subunits]
      */
     fun getSupportSubunits(): Subunits {
-        return mSupportSubunits
+        return supportSubunits
     }
 
     /**
@@ -178,7 +178,7 @@ class UnitsManager {
      * @param supportSubunits [Subunits]
      */
     fun setSupportSubunits(supportSubunits: Subunits): UnitsManager {
-        mSupportSubunits = Preconditions.checkNotNull(
+        this.supportSubunits = Preconditions.checkNotNull(
             supportSubunits,
             "The supportSubunits can not be null, use Subunits.NONE instead"
         )
