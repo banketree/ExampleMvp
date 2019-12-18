@@ -97,6 +97,14 @@
 -dontwarn com.tbruyelle.rxpermissions.**
 #--------------------------
 
+#--rxbinding2
+-keep class com.jakewharton.rxbinding2.view.ViewScrollChangeEventObservable { *; }
+-keep class com.jakewharton.rxbinding2.view.RxViewKt { *; }
+-keep class com.jakewharton.rxbinding2.view.ViewScrollChangeEventObservable$* { *; }
+-keep class com.jakewharton.rxbinding2.view.ViewScrollChangeEventObservable$Listener { *; }
+-keepattributes Exceptions,InnerClasses
+
+
 #----------- gson ----------------
 -keepattributes Signature
 -keepattributes *Annotation*
