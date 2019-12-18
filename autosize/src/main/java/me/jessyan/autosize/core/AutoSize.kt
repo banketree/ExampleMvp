@@ -35,16 +35,18 @@ object AutoSize {
      * @param activity [Activity]
      */
     fun autoConvertDensityOfGlobal(activity: Activity) {
-        if (AutoSizeConfig.instance!!.isBaseOnWidth()) {
-            autoConvertDensityBaseOnWidth(
-                activity,
-                AutoSizeConfig.instance!!.designWidthInDp as Float
-            )
-        } else {
-            autoConvertDensityBaseOnHeight(
-                activity,
-                AutoSizeConfig.instance!!.designHeightInDp as Float
-            )
+        AutoSizeConfig.instance?.apply {
+            if (isBaseOnWidth()) {
+                autoConvertDensityBaseOnWidth(
+                    activity,
+                    designWidthInDp.toFloat()
+                )
+            } else {
+                autoConvertDensityBaseOnHeight(
+                    activity,
+                    designHeightInDp.toFloat()
+                )
+            }
         }
     }
 
@@ -61,9 +63,9 @@ object AutoSize {
         //如果 CustomAdapt#getSizeInDp() 返回 0, 则使用在 AndroidManifest 上填写的设计图尺寸
         if (sizeInDp <= 0) {
             sizeInDp = if (customAdapt.isBaseOnWidth) {
-                AutoSizeConfig.instance!!.designWidthInDp as Float
+                AutoSizeConfig.instance!!.designWidthInDp.toFloat()
             } else {
-                AutoSizeConfig.instance!!.designHeightInDp as Float
+                AutoSizeConfig.instance!!.designHeightInDp.toFloat()
             }
         }
         autoConvertDensity(
@@ -85,10 +87,10 @@ object AutoSize {
 
         //如果 ExternalAdaptInfo#getSizeInDp() 返回 0, 则使用在 AndroidManifest 上填写的设计图尺寸
         if (sizeInDp <= 0) {
-            if (externalAdaptInfo.isBaseOnWidth) {
-                sizeInDp = AutoSizeConfig.instance!!.designWidthInDp as Float
+            sizeInDp = if (externalAdaptInfo.isBaseOnWidth) {
+                AutoSizeConfig.instance!!.designWidthInDp.toFloat()
             } else {
-                sizeInDp = AutoSizeConfig.instance!!.designHeightInDp as Float
+                AutoSizeConfig.instance!!.designHeightInDp.toFloat()
             }
         }
         autoConvertDensity(
@@ -239,23 +241,25 @@ object AutoSize {
      * @param activity [Activity]
      */
     fun cancelAdapt(activity: Activity) {
-        var initXdpi = AutoSizeConfig.instance!!.initXdpi
-        when (AutoSizeConfig.instance!!.unitsManager.getSupportSubunits()) {
-            Subunits.PT -> initXdpi /= 72f
-            Subunits.MM -> initXdpi /= 25.4f
+        AutoSizeConfig.instance?.apply {
+            var initXdpi = initXdpi
+            when (unitsManager.getSupportSubunits()) {
+                Subunits.PT -> initXdpi /= 72f
+                Subunits.MM -> initXdpi /= 25.4f
+            }
+            setDensity(
+                activity,
+                initDensity,
+                initDensityDpi,
+                initScaledDensity,
+                initXdpi
+            )
+            setScreenSizeDp(
+                activity,
+                initScreenWidthDp,
+                initScreenHeightDp
+            )
         }
-        setDensity(
-            activity,
-            AutoSizeConfig.instance!!.initDensity,
-            AutoSizeConfig.instance!!.initDensityDpi,
-            AutoSizeConfig.instance!!.initScaledDensity,
-            initXdpi
-        )
-        setScreenSizeDp(
-            activity,
-            AutoSizeConfig.instance!!.initScreenWidthDp,
-            AutoSizeConfig.instance!!.initScreenHeightDp
-        )
     }
 
     /**
@@ -345,19 +349,21 @@ object AutoSize {
         scaledDensity: Float,
         xdpi: Float
     ) {
-        if (AutoSizeConfig.instance!!.unitsManager.isSupportDP()) {
-            displayMetrics.density = density
-            displayMetrics.densityDpi = densityDpi
-        }
-        if (AutoSizeConfig.instance!!.unitsManager.isSupportSP()) {
-            displayMetrics.scaledDensity = scaledDensity
-        }
-        when (AutoSizeConfig.instance!!.unitsManager.getSupportSubunits()) {
-            Subunits.NONE -> {
+        AutoSizeConfig.instance?.apply {
+            if (unitsManager.isSupportDP()) {
+                displayMetrics.density = density
+                displayMetrics.densityDpi = densityDpi
             }
-            Subunits.PT -> displayMetrics.xdpi = xdpi * 72f
-            Subunits.IN -> displayMetrics.xdpi = xdpi
-            Subunits.MM -> displayMetrics.xdpi = xdpi * 25.4f
+            if (unitsManager.isSupportSP()) {
+                displayMetrics.scaledDensity = scaledDensity
+            }
+            when (unitsManager.getSupportSubunits()) {
+                Subunits.NONE -> {
+                }
+                Subunits.PT -> displayMetrics.xdpi = xdpi * 72f
+                Subunits.IN -> displayMetrics.xdpi = xdpi
+                Subunits.MM -> displayMetrics.xdpi = xdpi * 25.4f
+            }
         }
     }
 
@@ -369,20 +375,22 @@ object AutoSize {
      * @param screenHeightDp [Configuration.screenHeightDp]
      */
     private fun setScreenSizeDp(activity: Activity, screenWidthDp: Int, screenHeightDp: Int) {
-        if (AutoSizeConfig.instance!!.unitsManager.isSupportDP() && AutoSizeConfig.instance!!.unitsManager.isSupportScreenSizeDP()) {
-            val activityConfiguration = activity.resources.configuration
-            setScreenSizeDp(
-                activityConfiguration,
-                screenWidthDp,
-                screenHeightDp
-            )
+        AutoSizeConfig.instance?.apply {
+            if (unitsManager.isSupportDP() && unitsManager.isSupportScreenSizeDP()) {
+                val activityConfiguration = activity.resources.configuration
+                setScreenSizeDp(
+                    activityConfiguration,
+                    screenWidthDp,
+                    screenHeightDp
+                )
 
-            val appConfiguration = AutoSizeConfig.instance!!.application.resources.configuration
-            setScreenSizeDp(
-                appConfiguration,
-                screenWidthDp,
-                screenHeightDp
-            )
+                val appConfiguration = application.resources.configuration
+                setScreenSizeDp(
+                    appConfiguration,
+                    screenWidthDp,
+                    screenHeightDp
+                )
+            }
         }
     }
 

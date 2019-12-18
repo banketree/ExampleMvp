@@ -477,7 +477,7 @@ class AutoSizeConfig private constructor() {
                     context
                         .packageName, PackageManager.GET_META_DATA
                 )
-                if (applicationInfo != null && applicationInfo.metaData != null) {
+                if (applicationInfo?.metaData != null) {
                     if (applicationInfo.metaData.containsKey(KEY_DESIGN_WIDTH_IN_DP)) {
                         designWidthInDp = applicationInfo.metaData.get(KEY_DESIGN_WIDTH_IN_DP) as Int
                     }
@@ -516,8 +516,7 @@ class AutoSizeConfig private constructor() {
                 if (sInstance == null) {
                     synchronized(AutoSizeConfig::class.java) {
                         if (sInstance == null) {
-                            sInstance =
-                                AutoSizeConfig()
+                            sInstance = AutoSizeConfig()
                         }
                     }
                 }
