@@ -23,4 +23,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':route')
+
+    //协程
+    implementation dependence["kotlinx-coroutines-core"]
+    implementation dependence["kotlinx-coroutines-android"]
+    implementation dependence["lifecycle-viewmodel-ktx"]
 }
