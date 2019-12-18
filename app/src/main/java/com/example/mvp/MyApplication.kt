@@ -2,9 +2,8 @@ package com.example.mvp
 
 import android.app.Activity
 import com.example.base_fun.MvpApplication
-import me.jessyan.autosize.AutoSize
-import me.jessyan.autosize.AutoSizeConfig
-import me.jessyan.autosize.external.ExternalAdaptInfo
+import me.jessyan.autosize.core.AutoSize
+import me.jessyan.autosize.core.AutoSizeConfig
 import me.jessyan.autosize.onAdaptListener
 import timber.log.Timber
 import java.util.*

@@ -1,4 +1,4 @@
-package me.jessyan.autosize.external
+package me.jessyan.autosize.bean
 
 
 import android.os.Parcel

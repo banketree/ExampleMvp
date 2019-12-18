@@ -1,4 +1,4 @@
-package me.jessyan.autosize.external
+package me.jessyan.autosize.core
 
 
 import android.app.Activity
@@ -6,7 +6,7 @@ import android.app.Activity
 import java.util.ArrayList
 import java.util.HashMap
 
-import me.jessyan.autosize.AutoSizeConfig
+import me.jessyan.autosize.bean.ExternalAdaptInfo
 import me.jessyan.autosize.utils.Preconditions
 
 /**
@@ -15,9 +15,9 @@ import me.jessyan.autosize.utils.Preconditions
  * 但通过远程依赖的三方库并不能修改源码, 所以也不能让三方库的 [Activity] 实现接口, 实现接口的方式就显得无能为力
  */
 class ExternalAdaptManager {
-    private var mCancelAdaptList: MutableList<String>? = null
-    private var mExternalAdaptInfos: MutableMap<String, ExternalAdaptInfo>? = null
-    private var isRun: Boolean = false
+    private var cancelAdaptList: MutableList<String>? = null
+    private var externalAdaptInfos: MutableMap<String, ExternalAdaptInfo>? = null
+    var isRun: Boolean = false  //此管理器是否已经启动
 
     /**
      * 将不需要适配的第三方库 [Activity] 添加进来 (但不局限于三方库), 即可让该 [Activity] 的适配效果失效
@@ -34,10 +34,10 @@ class ExternalAdaptManager {
         if (!isRun) {
             isRun = true
         }
-        if (mCancelAdaptList == null) {
-            mCancelAdaptList = ArrayList()
+        if (cancelAdaptList == null) {
+            cancelAdaptList = ArrayList()
         }
-        targetClass.canonicalName?.let { mCancelAdaptList!!.add(it) }
+        targetClass.canonicalName?.let { cancelAdaptList!!.add(it) }
         return this
     }
 
@@ -54,10 +54,10 @@ class ExternalAdaptManager {
         if (!isRun) {
             isRun = true
         }
-        if (mExternalAdaptInfos == null) {
-            mExternalAdaptInfos = HashMap(16)
+        if (externalAdaptInfos == null) {
+            externalAdaptInfos = HashMap(16)
         }
-        mExternalAdaptInfos!![targetClass.canonicalName!!] = info
+        externalAdaptInfos!![targetClass.canonicalName!!] = info
         return this
     }
 
@@ -70,9 +70,11 @@ class ExternalAdaptManager {
     @Synchronized
     fun isCancelAdapt(targetClass: Class<*>): Boolean {
         Preconditions.checkNotNull(targetClass, "targetClass == null")
-        return if (mCancelAdaptList == null) {
+        return if (cancelAdaptList == null) {
             false
-        } else mCancelAdaptList!!.contains(targetClass.canonicalName)
+        } else {
+            cancelAdaptList!!.contains(targetClass.canonicalName)
+        }
     }
 
     /**
@@ -84,18 +86,11 @@ class ExternalAdaptManager {
     @Synchronized
     fun getExternalAdaptInfoOfActivity(targetClass: Class<*>): ExternalAdaptInfo? {
         Preconditions.checkNotNull(targetClass, "targetClass == null")
-        return if (mExternalAdaptInfos == null) {
+        return if (externalAdaptInfos == null) {
             null
-        } else mExternalAdaptInfos!![targetClass.canonicalName]
-    }
-
-    /**
-     * 此管理器是否已经启动
-     *
-     * @return `true` 为已经启动, `false` 为没有启动
-     */
-    fun isRun(): Boolean {
-        return isRun
+        } else {
+            externalAdaptInfos!![targetClass.canonicalName]
+        }
     }
 
     /**

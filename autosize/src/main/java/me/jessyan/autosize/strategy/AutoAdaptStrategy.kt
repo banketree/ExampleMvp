@@ -1,4 +1,4 @@
-package me.jessyan.autosize
+package me.jessyan.autosize.strategy
 
 import android.app.Activity
 import android.app.Application

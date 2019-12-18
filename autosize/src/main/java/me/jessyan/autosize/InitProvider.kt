@@ -7,6 +7,7 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
+import me.jessyan.autosize.core.AutoSizeConfig
 import me.jessyan.autosize.utils.AutoSizeUtils
 
 /**
@@ -16,7 +17,7 @@ class InitProvider : ContentProvider() {
     override fun onCreate(): Boolean {
         var application: Context? = context!!.applicationContext
         if (application == null) {
-            application = AutoSizeUtils.Companion.applicationByReflect
+            application = AutoSizeUtils.applicationByReflect
         }
         AutoSizeConfig.instance?.let {
             it.setLog(true)

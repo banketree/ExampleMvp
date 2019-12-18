@@ -1,8 +1,9 @@
-package me.jessyan.autosize
+package me.jessyan.autosize.strategy
 
 import android.app.Activity
-import android.app.Application
-import me.jessyan.autosize.external.ExternalAdaptInfo
+import me.jessyan.autosize.core.AutoSize
+import me.jessyan.autosize.core.AutoSizeConfig
+import me.jessyan.autosize.bean.ExternalAdaptInfo
 import me.jessyan.autosize.internal.CancelAdapt
 import me.jessyan.autosize.internal.CustomAdapt
 import me.jessyan.autosize.utils.LogUtils
@@ -17,7 +18,7 @@ class DefaultAutoAdaptStrategy : AutoAdaptStrategy {
     override fun applyAdapt(target: Any, activity: Activity) {
 
         //检查是否开启了外部三方库的适配模式, 只要不主动调用 ExternalAdaptManager 的方法, 下面的代码就不会执行
-        if (AutoSizeConfig.instance!!.externalAdaptManager.isRun()) {
+        if (AutoSizeConfig.instance!!.externalAdaptManager.isRun) {
             if (AutoSizeConfig.instance!!.externalAdaptManager.isCancelAdapt(target.javaClass)) {
                 LogUtils.w(String.format(Locale.ENGLISH, "%s canceled the adaptation!", target.javaClass.name))
                 AutoSize.cancelAdapt(activity)

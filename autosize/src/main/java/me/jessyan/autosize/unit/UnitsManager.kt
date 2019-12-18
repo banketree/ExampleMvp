@@ -18,7 +18,7 @@ class UnitsManager {
      * 但在 AndroidManifest 中却只能填写一套设计图尺寸, 并且已经填写了主单位的设计图尺寸
      * 所以当项目中同时存在副单位和主单位, 并且副单位的设计图尺寸与主单位的设计图尺寸不同时, 就需要在 [UnitsManager] 中保存副单位的设计图尺寸
      */
-    private var mDesignWidth: Float = 0.toFloat()
+    private var designWidth: Float = 0.toFloat()
     /**
      * 设计图上的总高度, 建议单位为 px, 当使用者想将旧项目从主单位过渡到副单位, 或从副单位过渡到主单位时使用
      * 因为在使用主单位时, 建议在 AndroidManifest 中填写设计图的 dp 尺寸, 比如 360 * 640
@@ -26,7 +26,7 @@ class UnitsManager {
      * 但在 AndroidManifest 中却只能填写一套设计图尺寸, 并且已经填写了主单位的设计图尺寸
      * 所以当项目中同时存在副单位和主单位, 并且副单位的设计图尺寸与主单位的设计图尺寸不同时, 就需要在 [UnitsManager] 中保存副单位的设计图尺寸
      */
-    private var mDesignHeight: Float = 0.toFloat()
+    private var designHeight: Float = 0.toFloat()
     /**
      * 是否支持 dp 单位, 默认支持
      */
@@ -50,9 +50,9 @@ class UnitsManager {
      * @param designWidth  设计图上的总宽度, 建议单位为 px
      * @param designHeight 设计图上的总高度, 建议单位为 px
      * @return [UnitsManager]
-     * @see .mDesignWidth 详情请查看这个字段的注释
+     * @see .designWidth 详情请查看这个字段的注释
      *
-     * @see .mDesignHeight 详情请查看这个字段的注释
+     * @see .designHeight 详情请查看这个字段的注释
      */
     fun setDesignSize(designWidth: Float, designHeight: Float): UnitsManager {
         setDesignWidth(designWidth)
@@ -61,12 +61,12 @@ class UnitsManager {
     }
 
     /**
-     * 返回 [.mDesignWidth]
+     * 返回 [.designWidth]
      *
-     * @return [.mDesignWidth]
+     * @return [.designWidth]
      */
     fun getDesignWidth(): Float {
-        return mDesignWidth
+        return designWidth
     }
 
     /**
@@ -74,21 +74,21 @@ class UnitsManager {
      *
      * @param designWidth 设计图上的总宽度, 建议单位为 px
      * @return [UnitsManager]
-     * @see .mDesignWidth 详情请查看这个字段的注释
+     * @see .designWidth 详情请查看这个字段的注释
      */
     fun setDesignWidth(designWidth: Float): UnitsManager {
         Preconditions.checkArgument(designWidth > 0, "designWidth must be > 0")
-        mDesignWidth = designWidth
+        this.designWidth = designWidth
         return this
     }
 
     /**
-     * 返回 [.mDesignHeight]
+     * 返回 [.designHeight]
      *
-     * @return [.mDesignHeight]
+     * @return [.designHeight]
      */
     fun getDesignHeight(): Float {
-        return mDesignHeight
+        return designHeight
     }
 
     /**
@@ -96,11 +96,11 @@ class UnitsManager {
      *
      * @param designHeight 设计图上的总高度, 建议单位为 px
      * @return [UnitsManager]
-     * @see .mDesignHeight 详情请查看这个字段的注释
+     * @see .designHeight 详情请查看这个字段的注释
      */
     fun setDesignHeight(designHeight: Float): UnitsManager {
         Preconditions.checkArgument(designHeight > 0, "designHeight must be > 0")
-        mDesignHeight = designHeight
+        this.designHeight = designHeight
         return this
     }
 
