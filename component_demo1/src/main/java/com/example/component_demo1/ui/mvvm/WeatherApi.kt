@@ -3,13 +3,10 @@ package com.example.component_demo1.ui.mvvm
 
 import com.example.base_fun.http.RespBase
 import com.example.base_fun.http.RetrofitFactory
+import retrofit2.Response
 import java.io.IOException
 import java.util.HashMap
 
-import okhttp3.Interceptor
-import okhttp3.Response
-import org.json.JSONException
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
 import timber.log.Timber
@@ -39,12 +36,11 @@ class WeatherApi : RetrofitFactory() {
 //        asynNet((stringService() as WeatherServiceApi).getCityCodeByIp(hashMap), "getCityCodeByIp", callback)
     }
 
-    suspend fun getCityCodeByIpByGson(): RespWeather {
+    suspend fun getCityCodeByIpByGson(): Response<RespWeather> {
         val hashMap = HashMap<String, String>()
         hashMap["output"] = "json"
         hashMap["key"] = key
         val data = gsonService(WeatherServiceApi::class.java).getCityCodeByIp2(hashMap)
-        data.isSuccess = true
         Timber.i("$data")
         return data
 //        asynNet((stringService() as WeatherServiceApi).getCityCodeByIp(hashMap), "getCityCodeByIp", callback)
@@ -59,6 +55,6 @@ class WeatherApi : RetrofitFactory() {
         suspend fun getCityCodeByIp(@QueryMap map: HashMap<String, String>): String
 
         @GET("/v3/ip")
-        suspend fun getCityCodeByIp2(@QueryMap map: HashMap<String, String>): RespWeather
+        suspend fun getCityCodeByIp2(@QueryMap map: HashMap<String, String>): Response<RespWeather>
     }
 }

@@ -19,7 +19,7 @@ class MvvmActivity : AppCompatActivity() {
 
         btn.setOnClickListener {
             /*请求数据*/
-            weatherViewModel.getData()
+            weatherViewModel.getData2()
         }
 
         /*数据发生变化时更新ui*/

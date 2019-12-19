@@ -5,6 +5,8 @@ import com.example.base_fun.http.HttpCallback
 import com.example.base_fun.http.HttpViewModel
 import com.example.base_fun.http.RespBase
 import com.example.base_fun.http.convertHttpRes
+import retrofit2.Response
+import timber.log.Timber
 
 class WeatherViewModel : HttpViewModel() {
 
@@ -24,18 +26,40 @@ class WeatherViewModel : HttpViewModel() {
         launchOnIO(
             tryBlock = {
                 val response = repository!!.getCityCodeByIpByGson()
-                response.run {
-                    // 进行响应处理
-                    handlingHttpResponse<RespBase>(
-                        convertHttpRes(),
-                        successBlock = {
-                            loginState.postValue(LOGIN_STATE_SUCCESS)
-                        },
-                        failureBlock = { ex ->
-                            loginState.postValue(LOGIN_STATE_FAILURE)
-                            handlingApiExceptions(ex)
-                        }
-                    )
+//                response.run {
+//                    // 进行响应处理
+//                    handlingHttpResponse<RespBase>(
+//                        convertHttpRes(),
+//                        successBlock = {
+//                            loginState.postValue(LOGIN_STATE_SUCCESS)
+//                        },
+//                        failureBlock = { ex ->
+//                            loginState.postValue(LOGIN_STATE_FAILURE)
+//                            handlingApiExceptions(ex)
+//                        }
+//                    )
+//                }
+            },
+            catchBlock = { e ->
+                // 请求异常处理
+                handlingExceptions(e)
+            }, finallyBlock = {
+                repository = null
+            }
+        )
+    }
+
+    fun getData2() {
+        if (repository != null) return
+        repository = WeatherApi()
+
+        launchOnIO(
+            tryBlock = {
+                val result = getResult<RespWeather>({ repository!!.getCityCodeByIpByGson() })
+                if (result.status == Result.Status.SUCCESS) {
+                    loginState.postValue(LOGIN_STATE_SUCCESS)
+                } else {
+                    loginState.postValue(LOGIN_STATE_FAILURE)
                 }
             },
             catchBlock = { e ->
@@ -45,5 +69,24 @@ class WeatherViewModel : HttpViewModel() {
                 repository = null
             }
         )
+    }
+
+
+    protected suspend fun <T> getResult(call: suspend () -> Response<T>): Result<T> {
+        try {
+            val response = call()
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) return Result.success(body)
+            }
+            return error(" ${response.code()} ${response.message()}")
+        } catch (e: Exception) {
+            return error(e.message ?: e.toString())
+        }
+    }
+
+    private fun <T> error(message: String): Result<T> {
+        Timber.e(message)
+        return Result.error("Network call has failed for a following reason: $message")
     }
 }
