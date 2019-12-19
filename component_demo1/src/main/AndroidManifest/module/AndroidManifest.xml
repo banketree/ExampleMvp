@@ -16,5 +16,9 @@
         <activity android:name="com.example.component_demo1.ui.dialog.DialogActivity"
                   android:label="测试对话框"
                   android:screenOrientation="portrait"/>
+
+        <activity android:name="com.example.component_demo1.ui.mvvm.MvvmActivity"
+                  android:label="测试协程网络请求"
+                  android:screenOrientation="portrait"/>
     </application>
 </manifest>
