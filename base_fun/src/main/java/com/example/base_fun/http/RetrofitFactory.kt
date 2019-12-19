@@ -1,6 +1,4 @@
-package com.example.component_demo1.ui.mvvm
-
-import com.google.gson.Gson
+package com.example.base_fun.http
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -12,28 +10,35 @@ import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.*
 
+abstract class RetrofitFactory {
 
-class RetrofitFactory private constructor() {
+    private var okHttpClient: OkHttpClient? = null //请求端
 
-    private val retrofit: Retrofit
+    abstract fun getUrl(): String //请求域名
 
+    //gson
+    @Synchronized
+    protected fun <T> gsonService(service: Class<T>): T {
+        return Retrofit.Builder()
+            .baseUrl(getUrl())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(getOkHttpClient())
+            .build().create(service)
+    }
 
-    init {
-        retrofit = Retrofit.Builder()
-            .baseUrl("https://restapi.amap.com")
-            .client(initOkhttpClient())
-//            .addConverterFactory(GsonConverterFactory.create())
+    //String
+    @Synchronized
+    protected fun <T> stringService(service: Class<T>): T {
+        return Retrofit.Builder()
+            .baseUrl(getUrl())
             .addConverterFactory(ScalarsConverterFactory.create())
-            .build()
+            .client(getOkHttpClient())
+            .build().create(service)
     }
 
-    companion object {
-        val instance: RetrofitFactory by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-            RetrofitFactory()
-        }
-    }
-
-    private fun initOkhttpClient(): OkHttpClient {
+    ///////////////////////////////////////okhttp3//////////////////////////////////////////////////////
+    private fun getOkHttpClient(): OkHttpClient {
+        if (okHttpClient != null) return okHttpClient!!
 
         val trustManager: X509TrustManager
         val sslSocketFactory: SSLSocketFactory
@@ -42,29 +47,19 @@ class RetrofitFactory private constructor() {
             val sslContext = SSLContext.getInstance("TLS")
             sslContext.init(null, arrayOf<TrustManager>(trustManager), null)
             sslSocketFactory = sslContext.socketFactory
-
         } catch (e: GeneralSecurityException) {
             throw RuntimeException(e)
         }
 
-
-        val okHttpClient = OkHttpClient.Builder()
+        okHttpClient = OkHttpClient.Builder()
             .sslSocketFactory(sslSocketFactory, trustManager)
             .hostnameVerifier(UnSafeHostnameVerifier())
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
             .build()
 
 
-        return okHttpClient
-    }
-
-    /*
-    * 具体服务实例化
-    * */
-    fun <T> getService(service: Class<T>): T {
-
-        return retrofit.create(service)
+        return okHttpClient!!
     }
 
     class UnSafeTrustManager : X509TrustManager {
@@ -87,6 +82,3 @@ class RetrofitFactory private constructor() {
         }
     }
 }
-
-
-

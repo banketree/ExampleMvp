@@ -47,4 +47,9 @@ dependencies {
     api dependence["rxbinding2"]
 
     api dependence["gson"]
+
+    //协程
+    api dependence["kotlinx-coroutines-core"]
+    api dependence["kotlinx-coroutines-android"]
+    api dependence["lifecycle-viewmodel-ktx"]
 }
