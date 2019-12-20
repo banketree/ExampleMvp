@@ -79,7 +79,7 @@ abstract class HttpCallback<T> {
 
     private var loadingDialog: LoadingDialog? = null
     private fun showLoadingDialog() {
-        hideLoadingDialog()
+        if (isShowLoadingDialog()) return
         componentActivity?.let {
             loadingDialog = LoadingDialog(it)
             loadingDialog?.show()
@@ -87,6 +87,7 @@ abstract class HttpCallback<T> {
     }
 
     private fun hideLoadingDialog() {
+        Timber.i("hideLoadingDialog")
         loadingDialog?.hide()
         loadingDialog = null
     }
