@@ -1,23 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <TextView
-            android:id="@+id/test_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="app"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-            android:id="@+id/test_kotlin_tv"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_height="wrap_content"
-            android:text="test_kotlin"/>
+        <TextView
+                android:id="@+id/test_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="app"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/public_1_dp"
+              android:background="@color/colorAccent"/>
+
+        <TextView
+                android:id="@+id/test_kotlin_repeat_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="测试协程repeat"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/public_1_dp"
+              android:background="@color/colorAccent"/>
+
+        <TextView
+                android:id="@+id/test_kotlin_launch_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="测试协程launch"/>
 
 
-</LinearLayout>
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/public_1_dp"
+              android:background="@color/colorAccent"/>
+
+        <TextView
+                android:id="@+id/test_kotlin_suspend_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="测试协程suspend"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/public_1_dp"
+              android:background="@color/colorAccent"/>
+
+        <TextView
+                android:id="@+id/test_kotlin_async_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="测试协程async"/>
+    </LinearLayout>
+</ScrollView>

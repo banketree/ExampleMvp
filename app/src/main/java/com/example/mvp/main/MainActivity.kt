@@ -62,9 +62,22 @@ class MainActivity : MvpActivity<MainPresenter>(), CustomAdapt {
                     }
             })
 
-        test_kotlin_tv.setOnClickListener {
-            kotlinPresenter?.testCoroutine()
-        }
+        presenter?.addDisposable(RxView.clicks(test_kotlin_repeat_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testRepeat()
+            })
+        presenter?.addDisposable(RxView.clicks(test_kotlin_launch_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testLaunch()
+            })
+        presenter?.addDisposable(RxView.clicks(test_kotlin_suspend_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testSuspend()
+            })
+        presenter?.addDisposable(RxView.clicks(test_kotlin_async_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testAsync()
+            })
 
         testViewModel = ViewModelProviders.of(this, TestViewModel.Factory("大大")).get(TestViewModel::class.java)
         val nameEvent = testViewModel.nameEvent

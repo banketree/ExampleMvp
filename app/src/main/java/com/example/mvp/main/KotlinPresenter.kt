@@ -23,45 +23,80 @@ class KotlinPresenter @Inject constructor() : BasePresenter(), IView {
         super.release()
     }
 
-    fun testCoroutine() {
-        Timber.i("主线程 id${Thread.currentThread().id}")
-        Thread(Runnable {
-            try {
-                testRepeat()
-                testLaunch()
-                testSuspend()
-                testAsync()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }).start()
-    }
-
-    private fun testRepeat() = runBlocking {
-        repeat(2) {
+    //runBlocking -->可以保证块内逻辑顺序、阻塞执行
+    //默认的CommonPool线程数有限，如果底层方法使用runBlocking{...}执行阻塞逻辑、并且顶层方法大量启动并行任务调用这个方法，
+    //此时，这些并行的阻塞任务、底层协程均被调度到CommonPool，协程本质上还是需要在线程下才能执行的，可此时线程资源已经全部被阻塞任务占用，
+    //阻塞任务又在等待其内的协程返回结果，自此形成了死锁。
+    fun testRepeat() = runBlocking {
+        repeat(5) {
             Timber.i("协程$it  ++++ id${Thread.currentThread().id}")
             delay(1000)
         }
+
+        Thread(Runnable {
+            runBlocking {
+                repeat(5) {
+                    Timber.i("协程$it  ++++ id${Thread.currentThread().id}")
+                    delay(1000)
+                }
+            }
+        }).start()
+
+        //测试runBlock死锁
+//        launch {
+//            var nextTime = System.currentTimeMillis()
+//            while (true) {
+//                val currentTime = System.currentTimeMillis()
+//                if (currentTime > nextTime) {
+//                    println("当前时间${System.currentTimeMillis()}")
+//                    nextTime += 1000
+//                }
+//            }
+//        }
+//        delay(2000)
+//        println("这里的代码无法得到执行")
+//        println("这里的代码无法得到执行")
+        //因为runBlocking中调用launch()会在当前线程中执行协程，
+        //也就是说在runBlocking中不管开启多少个子协程它们都是使用runBlocking所使用的那一条线程来完成任务的，
+        //所以就会出现上述的线程被霸占的情况。
+        //如果在主线程中  则无响应
     }
 
-    private fun testLaunch() {
+    fun testLaunch() {
+        Timber.i("testLaunch 协程  ++++ id${Thread.currentThread().id}")
+
         val job = GlobalScope.launch {
+            //GlobalScope.launch  开启了线程
             delay(5000)
-            Timber.i("协程结束")
+            Timber.i("testLaunch launch协程 1  ++++ id${Thread.currentThread().id}")
         }
 
+        Timber.i("testLaunch run")
         Timber.i("${job.isActive} ${job.isCancelled} ${job.isCompleted}")
-        job.cancel()
+//        job.cancel()
 //        job.join()
+
+        Thread(Runnable {
+            Timber.i("testLaunch Thread 线程  ++++ id${Thread.currentThread().id}")
+            runBlocking {
+                Timber.i("testLaunch runBlocking协程  ++++ id${Thread.currentThread().id}")
+
+                GlobalScope.launch {
+                    //GlobalScope.launch  开启了线程（不管是不是在子线程中 都开启新线程）
+                    Timber.i("testLaunch launch协程 2  ++++ id${Thread.currentThread().id}")
+                }
+            }
+        }).start()
+
+        //runBlocking 跟启动线程挂钩
+        //launch 永远开启新线程
     }
 
-    private fun testSuspend() {
+    fun testSuspend() {
+        Timber.i("testSuspend 线程  ++++ id${Thread.currentThread().id}")
         GlobalScope.launch {
             val token = getToken()
-            Timber.i(token)
-        }
-
-        repeat(8) {
+            Timber.i("testSuspend launch 线程  ++++ id${Thread.currentThread().id}")
         }
     }
 
@@ -70,13 +105,17 @@ class KotlinPresenter @Inject constructor() : BasePresenter(), IView {
         return "token"
     }
 
-    private fun testAsync() {
+    fun testAsync() {
+        Timber.i("testAsync 线程  ++++ id${Thread.currentThread().id}")
         GlobalScope.launch {
-            val token = GlobalScope.async { getToken() }
+            Timber.i("testAsync launch线程  ++++ id${Thread.currentThread().id}")
+            val token = GlobalScope.async {
+                Timber.i("testAsync async线程  ++++ id${Thread.currentThread().id}")
+                getToken()
+            }
             Timber.i("${token.await()}")
         }
 
-        repeat(8) {
-        }
+        //launch、async 都是新开启一个线程
     }
 }

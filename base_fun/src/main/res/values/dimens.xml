@@ -1,0 +1,39 @@
+<resources>
+    <!-- ***********原来应用和现在应用的字体对比****************-->
+    <dimen name="ft_size_def">12sp</dimen>
+    <dimen name="ft_size_10">10sp</dimen>
+    <dimen name="ft_size_11">11sp</dimen>
+    <dimen name="ft_size_12">12sp</dimen>
+    <dimen name="ft_size_13">13sp</dimen>
+    <dimen name="ft_size_14">14sp</dimen>
+    <dimen name="ft_size_15">15sp</dimen>
+    <dimen name="ft_size_16">16sp</dimen>
+    <dimen name="ft_size_18">18sp</dimen>
+    <dimen name="ft_size_20">20sp</dimen>
+    <dimen name="ft_size_23">23sp</dimen>
+    <dimen name="ft_size_25">25sp</dimen>
+    <dimen name="ft_size_28">28sp</dimen>
+    <dimen name="ft_size_30">30sp</dimen>
+    <dimen name="ft_size_33">33sp</dimen>
+    <dimen name="ft_size_35">35sp</dimen>
+
+    <dimen name="public_1_dp">1dp</dimen>
+    <dimen name="public_10_dp">10dp</dimen>
+    <dimen name="public_35_dp">35dp</dimen>
+    <dimen name="public_32_dp">32dp</dimen>
+    <dimen name="public_25_dp">25dp</dimen>
+    <dimen name="public_350_dp">350dp</dimen>
+    <dimen name="public_210_dp">210dp</dimen>
+    <dimen name="public_17_dp">17dp</dimen>
+    <dimen name="public_150_dp">150dp</dimen>
+    <dimen name="public_310_dp">310dp</dimen>
+    <dimen name="public_140_dp">140dp</dimen>
+    <dimen name="public_130_dp">130dp</dimen>
+    <dimen name="public_135_dp">135dp</dimen>
+    <dimen name="public_152_dp">152dp</dimen>
+    <dimen name="public_230_dp">250dp</dimen>
+    <dimen name="public_250_dp">250dp</dimen>
+    <dimen name="public_300_dp">300dp</dimen>
+    <dimen name="public_380_dp">380dp</dimen>
+
+</resources>
