@@ -1,14 +1,9 @@
 package com.example.component_demo1.ui.dialog
 
-import android.content.DialogInterface
 import com.example.base_fun.mvp.BasePresenter
-import com.example.base_fun.mvp.IPresenter
 import com.example.component_demo1.R
-import com.example.component_demo1.http.HttpCallback
-import com.example.component_demo1.http.WeatherApi
 import om.example.base_lib.kandroid.alert
 import om.example.base_lib.kandroid.toast
-import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 

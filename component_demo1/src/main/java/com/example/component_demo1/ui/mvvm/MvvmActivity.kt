@@ -19,12 +19,19 @@ class MvvmActivity : AppCompatActivity() {
 
         btn.setOnClickListener {
             /*请求数据*/
-            weatherViewModel.getData2()
+            weatherViewModel.getData(this)
+//            weatherViewModel.getData2(this)
         }
 
         /*数据发生变化时更新ui*/
         weatherViewModel.loginState.observe(this, Observer {
-            tv.text = it?.toString()
+            //            tv.text = it?.toString()
+        })
+        weatherViewModel.dataState.observe(this, Observer {
+            it?.apply {
+                tv.text = toString()
+            }
+
         })
     }
 }

@@ -5,7 +5,6 @@ import android.os.Message
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.base_fun.ui.MvpActivity
 import com.example.component_demo2.R
-import com.example.component_demo2.http.WeatherApi
 import com.example.route.AppRoute
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.demo2_activity_main.*
@@ -28,7 +27,7 @@ class Demo2Activity : MvpActivity<Demo2Presenter>() {
 
             // 全局 BaseUrl 的优先级低于 Domain-Name header 中单独配置的,其他未配置的接口将受全局 BaseUrl 的影响
             RetrofitUrlManager.getInstance().setGlobalDomain("https://www.youku.com")
-            WeatherApi().getWeather(null)
+//            WeatherApi().getWeather(null)
 
             RxPermissions(this).request(
 //                Manifest.permission.CAMERA,

@@ -1,12 +1,12 @@
 package com.example.component_demo1.ui.mvvm
 
+import androidx.activity.ComponentActivity
 import androidx.lifecycle.MutableLiveData
 import com.example.base_fun.http.HttpCallback
 import com.example.base_fun.http.HttpViewModel
-import com.example.base_fun.http.RespBase
-import com.example.base_fun.http.convertHttpRes
+import com.example.component_demo1.http.WeatherApi
+import com.google.gson.Gson
 import retrofit2.Response
-import timber.log.Timber
 
 class WeatherViewModel : HttpViewModel() {
 
@@ -17,76 +17,63 @@ class WeatherViewModel : HttpViewModel() {
 
     // 登录状态
     val loginState: MutableLiveData<Int> = MutableLiveData()
+    val dataState: MutableLiveData<String> = MutableLiveData()
 
     private var repository: WeatherApi? = null
-    fun getData() {
+    fun getData(componentActivity: ComponentActivity) {
         if (repository != null) return
         repository = WeatherApi()
+        val httpCallback = object : HttpCallback<RespWeather>(componentActivity) { //传参componentActivity 控制是否显示对话框
+            override fun onSucess(data: RespWeather) {
+                super.onSucess(data)
+                loginState.postValue(LOGIN_STATE_SUCCESS)
+                dataState.postValue(data.toString())
+            }
 
-        launchOnIO(
-            tryBlock = {
-                val response = repository!!.getCityCodeByIpByGson()
-//                response.run {
-//                    // 进行响应处理
-//                    handlingHttpResponse<RespBase>(
-//                        convertHttpRes(),
-//                        successBlock = {
-//                            loginState.postValue(LOGIN_STATE_SUCCESS)
-//                        },
-//                        failureBlock = { ex ->
-//                            loginState.postValue(LOGIN_STATE_FAILURE)
-//                            handlingApiExceptions(ex)
-//                        }
-//                    )
-//                }
-            },
-            catchBlock = { e ->
-                // 请求异常处理
-                handlingExceptions(e)
-            }, finallyBlock = {
+            override fun onFaile(ex: Exception) {
+                super.onFaile(ex)
+                loginState.postValue(LOGIN_STATE_FAILURE)
+            }
+
+            override fun onFinish() {
+                super.onFinish()
+                loginState.postValue(3)
                 repository = null
             }
-        )
-    }
 
-    fun getData2() {
-        if (repository != null) return
-        repository = WeatherApi()
-
-        launchOnIO(
-            tryBlock = {
-                val result = getResult<RespWeather>({ repository!!.getCityCodeByIpByGson() })
-                if (result.status == Result.Status.SUCCESS) {
-                    loginState.postValue(LOGIN_STATE_SUCCESS)
-                } else {
-                    loginState.postValue(LOGIN_STATE_FAILURE)
-                }
-            },
-            catchBlock = { e ->
-                // 请求异常处理
-                handlingExceptions(e)
-            }, finallyBlock = {
-                repository = null
+            override fun getBean(response: Response<*>): RespWeather? {
+                val result = response.body() as String
+                return Gson().fromJson(result, RespWeather::class.java)
             }
-        )
-    }
-
-
-    protected suspend fun <T> getResult(call: suspend () -> Response<T>): Result<T> {
-        try {
-            val response = call()
-            if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) return Result.success(body)
-            }
-            return error(" ${response.code()} ${response.message()}")
-        } catch (e: Exception) {
-            return error(e.message ?: e.toString())
+        }
+        launchOnIO {
+            httpCallback.execute { repository!!.getCityCodeByIpByString() }
         }
     }
 
-    private fun <T> error(message: String): Result<T> {
-        Timber.e(message)
-        return Result.error("Network call has failed for a following reason: $message")
+    fun getData2(componentActivity: ComponentActivity) {
+        if (repository != null) return
+        repository = WeatherApi()
+        val httpCallback = object : HttpCallback<RespWeather>(componentActivity) { //传参componentActivity 控制是否显示对话框
+            override fun onSucess(data: RespWeather) {
+                super.onSucess(data)
+                loginState.postValue(LOGIN_STATE_SUCCESS)
+                dataState.postValue(data.toString())
+            }
+
+            override fun onFaile(ex: Exception) {
+                super.onFaile(ex)
+                loginState.postValue(LOGIN_STATE_FAILURE)
+            }
+
+            override fun onFinish() {
+                super.onFinish()
+                loginState.postValue(3)
+                repository = null
+            }
+        }
+        launchOnIO {
+            httpCallback.execute { repository!!.getCityCodeByIpByGson() }
+        }
     }
 }

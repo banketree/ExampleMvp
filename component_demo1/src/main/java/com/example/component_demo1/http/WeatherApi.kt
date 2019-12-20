@@ -1,14 +1,12 @@
 package com.example.component_demo1.http
 
-
-import java.io.IOException
+import com.example.base_fun.http.RetrofitFactory
+import com.example.component_demo1.ui.mvvm.RespWeather
+import retrofit2.Response
 import java.util.HashMap
 
-import okhttp3.Interceptor
-import okhttp3.Response
-import org.json.JSONException
-import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.QueryMap
 
 /**
@@ -17,33 +15,25 @@ import retrofit2.http.QueryMap
  * description:
  * 天气预报
  */
-class WeatherApi : ApiService() {
+class WeatherApi : RetrofitFactory() {
     private val key = "4e34d358d9aa062b2c46afd627084f85"
     private val BASE_URL = "https://restapi.amap.com"
 
-    override fun getUrl() = BASE_URL
-
-    override fun getService(): Class<out Any> = WeatherServiceApi::class.java
-
-    //添加头信息()
-    @Throws(IOException::class)
-    override fun okhttpInterceptor(chain: Interceptor.Chain): Response {
-        val builder = chain.request()
-            .newBuilder()
-            .removeHeader("Content-Type")
-            .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
-            .addHeader("charset", "UTF-8") //登录前 必传
-
-        val request = builder.build()
-        return chain.proceed(request)
-    }
+    override fun getUrl(): String = BASE_URL
 
     //通过ip 获取城市编码
-    fun getCityCodeByIp(callback: HttpCallback<*>) {
+    suspend fun getCityCodeByIpByString(): Response<String> {
         val hashMap = HashMap<String, String>()
         hashMap["output"] = "json"
         hashMap["key"] = key
-        asynNet((stringService() as WeatherServiceApi).getCityCodeByIp(hashMap), "getCityCodeByIp", callback)
+        return stringService(WeatherServiceApi::class.java).getCityCodeByIp(hashMap)
+    }
+
+    suspend fun getCityCodeByIpByGson(): Response<RespWeather> {
+        val hashMap = HashMap<String, String>()
+        hashMap["output"] = "json"
+        hashMap["key"] = key
+        return gsonService(WeatherServiceApi::class.java).getCityCodeByIp2(hashMap)
     }
 
     //    设置专属
@@ -51,7 +41,11 @@ class WeatherApi : ApiService() {
         /**
          * 通过ip 查城市信息
          */
+        @Headers("domain-test3: https://www.baidu.com")  // 加上 Domain-Name header
         @GET("/v3/ip")
-        fun getCityCodeByIp(@QueryMap map: HashMap<String, String>): Call<String>
+        suspend fun getCityCodeByIp(@QueryMap map: HashMap<String, String>): Response<String>
+
+        @GET("/v3/ip")
+        suspend fun getCityCodeByIp2(@QueryMap map: HashMap<String, String>): Response<RespWeather>
     }
 }
