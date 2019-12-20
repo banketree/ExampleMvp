@@ -16,6 +16,7 @@ import javax.net.ssl.*
 * */
 abstract class RetrofitFactory {
     companion object {
+        const val TIME_OUT_SECOND = 30L  //超时时间 30秒
         private var okHttpClient: OkHttpClient? = null //请求端
         private var gsonRetrofit: Retrofit? = null
         private var stringRetrofit: Retrofit? = null
@@ -23,9 +24,15 @@ abstract class RetrofitFactory {
 
     abstract fun getUrl(): String //请求域名
 
+    fun resetHttpClient() {
+        okHttpClient = null
+        gsonRetrofit = null
+        stringRetrofit = null
+    }
+
     //gson
-    @Synchronized
     protected fun <T> gsonService(service: Class<T>): T {
+        getOkHttpClient()//确保已经实例化
         if (gsonRetrofit == null) {
             synchronized(RetrofitFactory::class.java) {
                 if (gsonRetrofit == null) {
@@ -42,8 +49,8 @@ abstract class RetrofitFactory {
     }
 
     //String
-    @Synchronized
     protected fun <T> stringService(service: Class<T>): T {
+        getOkHttpClient()//确保已经实例化
         if (stringRetrofit == null) {
             synchronized(RetrofitFactory::class.java) {
                 stringRetrofit = Retrofit.Builder()
@@ -57,10 +64,12 @@ abstract class RetrofitFactory {
     }
 
     ///////////////////////////////////////okhttp3//////////////////////////////////////////////////////
-    protected fun handleOkHttpClient(builder: OkHttpClient.Builder) {
+    protected open fun handleOkHttpClient(builder: OkHttpClient.Builder) {
         builder.apply {
-            connectTimeout(30, TimeUnit.SECONDS)
-            readTimeout(30, TimeUnit.SECONDS)
+            connectTimeout(TIME_OUT_SECOND, TimeUnit.SECONDS)
+            readTimeout(TIME_OUT_SECOND, TimeUnit.SECONDS)
+            writeTimeout(TIME_OUT_SECOND, TimeUnit.SECONDS)
+//            addInterceptor(NetInterceptor())
             // 构建 OkHttpClient 时,将 OkHttpClient.Builder() 传入 with() 方法,进行初始化配置
             RetrofitUrlManager.getInstance().with(this)
         }

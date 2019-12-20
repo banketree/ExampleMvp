@@ -1,7 +1,6 @@
 package com.example.component_demo1.ui.home
 
 import com.example.base_fun.mvp.BasePresenter
-import retrofit2.Response
 import javax.inject.Inject
 
 class HomePresenter @Inject constructor() : BasePresenter() {
@@ -13,11 +12,5 @@ class HomePresenter @Inject constructor() : BasePresenter() {
     }
 
     fun getWeather() {
-        WeatherApi().getCityCodeByIp(object : HttpCallback<Any>() {
-            override fun getBean(response: Response<*>): Any? {
-                homeActivity?.initData(response.body().toString())
-                return super.getBean(response)
-            }
-        })
     }
 }
