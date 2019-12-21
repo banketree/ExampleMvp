@@ -298,10 +298,10 @@ class KotlinPresenter @Inject constructor() : BasePresenter(), IView {
     }
 
     fun testDispatchers() {
-        //    Dispatchers.Default
-        //    Dispatchers.IO -
-        //    Dispatchers.Main - 主线程
-        //    Dispatchers.Unconfined - 没指定，就是在当前线程
+        //    Dispatchers.Default  共享后台线程池里的线程
+        //    Dispatchers.IO - 共享后台线程池里的线程
+        //    Dispatchers.Main - 主线程 Android主线程
+        //    Dispatchers.Unconfined - 没指定，就是在当前线程  不限制，使用父Coroutine的现场
         Timber.i("testDispatchers 线程  ++++ id${Thread.currentThread().id}")
         GlobalScope.launch(Dispatchers.Main) {
             Timber.i("testDispatchers 协程Main  ++++ id${Thread.currentThread().id}")
@@ -417,10 +417,11 @@ class KotlinPresenter @Inject constructor() : BasePresenter(), IView {
 //    CoroutineContext --》Job, ContinuationInterceptor, CoroutineName 和CoroutineId
 //    AbstractCoroutine --》CoroutineScope， Job， Continuation， JobSupport。
 
-
-    //传值
-
     //relay、yield 区别
+    //relay 和 yield 方法是协程内部的操作，可以挂起协程，区别是
+    // relay 是挂起协程并经过执行时间恢复协程，当线程空闲时就会运行协程；
+    // yield 是挂起协程，让协程放弃本次 cpu 执行机会让给别的协程，当线程空闲时再次运行协程。
+
 
     //Kotlin声明点变型与Java中的使用点变型进行对比
     //2、如何使用Kotlin中的使用点变型
