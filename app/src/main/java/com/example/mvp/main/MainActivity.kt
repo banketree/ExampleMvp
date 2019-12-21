@@ -111,6 +111,10 @@ class MainActivity : MvpActivity<MainPresenter>(), CustomAdapt {
             .subscribe {
                 kotlinPresenter?.testDispatchers()
             })
+        presenter?.addDisposable(RxView.clicks(test_kotlin_Producer_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testProducer()
+            })
 
         testViewModel = ViewModelProviders.of(this, TestViewModel.Factory("大大")).get(TestViewModel::class.java)
         val nameEvent = testViewModel.nameEvent

@@ -4,10 +4,8 @@ import com.example.base_fun.mvp.BasePresenter
 import com.example.base_fun.mvp.IPresenter
 import com.example.base_fun.mvp.IView
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.channels.broadcast
-import kotlinx.coroutines.channels.ticker
+import kotlinx.coroutines.channels.*
+import kotlinx.coroutines.selects.select
 import om.example.base_lib.kandroid.i
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -342,7 +340,79 @@ class KotlinPresenter @Inject constructor() : BasePresenter(), IView {
         Timber.i("testDispatchers 线程Over  ++++ id${Thread.currentThread().id}")
     }
 
+    //Producer
+    fun testProducer() {
+        Timber.i("testProducer 线程  ++++ id${Thread.currentThread().id}")
+        GlobalScope.launch(Dispatchers.Default) {
+            // 创建一个生产者方法
+            fun produceSquares() = produce<Int>() {
+                Timber.i("testProducer 协程  ++++ id${Thread.currentThread().id}")
+                for (x in 1..5) send(x * x)
+            }
 
+            runBlocking<Unit> {
+                // 得到生产者
+                val squares = produceSquares()
+                // 对生产者生产的每一个结果进行消费
+                squares.consumeEach {
+                    Timber.i("testProducer 协程  ++++ id${Thread.currentThread().id} produce:$it")
+                }
+            }
+        }
+    }
+
+    fun testPipeline() {
+        GlobalScope.launch {
+            // 创建一个选择Deferred的生产者
+            fun switchMapDeferreds(input: ReceiveChannel<Deferred<String>>) = produce<String>() {
+                var current = input.receive() // 从获取第一个Deferred开始
+                while (isActive) { // 循环直到被关闭或者被取消
+                    val next = select<Deferred<String>?> {
+                        // 选择下一个Deferred<String>如果已经关闭便返回null
+                        input.onReceiveOrNull { update ->
+                            update // 如果input中有新的Deferred(这个案例中是通过async返回的Deferred)发送过来便更新为当前的Deferred
+                        }
+                        // 如果在Deferred已经执行完成还没有新的Deferred过来，便会进行下面的操作
+                        current.onAwait { value ->
+                            send(value) // 发送这个Deferred携带的值给当前channel
+                            input.receiveOrNull() // 等待并且从input中接收下一个Deferred，作为返回值
+                        }
+                    }
+                    if (next == null) {
+                        println("Channel was closed")
+                        break // 结束循环
+                    } else {
+                        current = next
+                    }
+                }
+            }
+
+            // 创建一个async的方法，其返回的是一个Deferred
+            fun asyncString(str: String, time: Long) = async() {
+                delay(time)
+                str
+            }
+
+            runBlocking<Unit> {
+                val chan = Channel<Deferred<String>>() // 创建一个传递Deferred<String>的channel
+                launch(coroutineContext) {
+                    // 启动一个coroutine用于输出每次的选择结果
+                    for (s in switchMapDeferreds(chan))
+                        println(s)
+                }
+                chan.send(asyncString("BEGIN", 100))
+                delay(200) // 挂起200ms，让在switchMapDeferreds中有足够的时间让BEGIN这个Deferred完成挂起与异步操作
+                chan.send(asyncString("Slow", 500))
+                delay(100) // 挂起100ms，让在switchMapDeferreds中没有足够时间让Slow这个Defferred完成挂起与异步操作
+                chan.send(asyncString("Replace", 100)) // 在上面挂起 100ms毫秒以后，立马发送这个Replace的
+                delay(500) // 挂起500ms 让上面的async有足够时间
+                chan.send(asyncString("END", 500))
+                delay(1000) // 挂起500ms 让上面的async有足够时间
+                chan.close() // 关闭channel
+                delay(500) // 延缓500ms让switchMapDeferreds有足够的时间输出'Channel was closed'
+            }
+        }
+    }
 //
 //    CoroutineContext --》Job, ContinuationInterceptor, CoroutineName 和CoroutineId
 //    AbstractCoroutine --》CoroutineScope， Job， Continuation， JobSupport。
