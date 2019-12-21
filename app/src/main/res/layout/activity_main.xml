@@ -63,5 +63,93 @@
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="测试协程async"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/public_1_dp"
+              android:background="@color/colorAccent"/>
+
+        <TextView
+                android:id="@+id/test_kotlin_launch_LAZY_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="测试协程Launch LAZY"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/public_1_dp"
+              android:background="@color/colorAccent"/>
+
+        <TextView
+                android:id="@+id/test_kotlin_withTimeoutOrNull_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="测试协程withTimeoutOrNull"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/public_1_dp"
+              android:background="@color/colorAccent"/>
+
+        <TextView
+                android:id="@+id/test_kotlin_ticker_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="测试协程Ticker"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/public_1_dp"
+              android:background="@color/colorAccent"/>
+
+        <TextView
+                android:id="@+id/test_kotlin_Broadcast_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="测试协程Broadcast"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/public_1_dp"
+              android:background="@color/colorAccent"/>
+
+        <TextView
+                android:id="@+id/test_kotlin_Actor_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="测试协程Actor"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/public_1_dp"
+              android:background="@color/colorAccent"/>
+
+        <TextView
+                android:id="@+id/test_kotlin_CoroutineScope_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="测试协程CoroutineScope"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/public_1_dp"
+              android:background="@color/colorAccent"/>
+
+        <TextView
+                android:id="@+id/test_kotlin_SupervisorScope_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="测试协程SupervisorScope"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/public_1_dp"
+              android:background="@color/colorAccent"/>
+
+        <TextView
+                android:id="@+id/test_kotlin_Dispatchers_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="测试协程Dispatchers"/>
     </LinearLayout>
 </ScrollView>

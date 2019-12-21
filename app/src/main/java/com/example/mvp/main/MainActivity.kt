@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer
 import com.example.mvp.jetpack.livedata.TestViewModel
 import androidx.lifecycle.ViewModelProviders
 import android.net.NetworkInfo
+import com.example.mvp.R
 import com.example.mvp.jetpack.livedata.NetworkLiveData
 import me.jessyan.autosize.internal.CustomAdapt
 import javax.xml.datatype.DatatypeConstants.SECONDS
@@ -37,7 +38,7 @@ class MainActivity : MvpActivity<MainPresenter>(), CustomAdapt {
     override val sizeInDp: Float  //设计图上的设计尺寸, 单位 dp
         get() = 667f
 
-    override fun getLayoutAny() = com.example.mvp.R.layout.activity_main
+    override fun getLayoutAny() = R.layout.activity_main
 
     override fun initView() {
         lifecycle.addObserver(MyLifeObserver())
@@ -77,6 +78,38 @@ class MainActivity : MvpActivity<MainPresenter>(), CustomAdapt {
         presenter?.addDisposable(RxView.clicks(test_kotlin_async_tv).throttleFirst(2, TimeUnit.SECONDS)
             .subscribe {
                 kotlinPresenter?.testAsync()
+            })
+        presenter?.addDisposable(RxView.clicks(test_kotlin_launch_LAZY_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testLaunchLAZY()
+            })
+        presenter?.addDisposable(RxView.clicks(test_kotlin_withTimeoutOrNull_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testWithTimeoutOrNull()
+            })
+        presenter?.addDisposable(RxView.clicks(test_kotlin_ticker_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testTicker()
+            })
+        presenter?.addDisposable(RxView.clicks(test_kotlin_Broadcast_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testBroadcast()
+            })
+        presenter?.addDisposable(RxView.clicks(test_kotlin_Actor_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testActor()
+            })
+        presenter?.addDisposable(RxView.clicks(test_kotlin_CoroutineScope_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testCoroutineScope()
+            })
+        presenter?.addDisposable(RxView.clicks(test_kotlin_SupervisorScope_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testSupervisorScope()
+            })
+        presenter?.addDisposable(RxView.clicks(test_kotlin_Dispatchers_tv).throttleFirst(2, TimeUnit.SECONDS)
+            .subscribe {
+                kotlinPresenter?.testDispatchers()
             })
 
         testViewModel = ViewModelProviders.of(this, TestViewModel.Factory("大大")).get(TestViewModel::class.java)
