@@ -16,19 +16,19 @@ dependencies {
         exclude module: 'okhttp'
         exclude module: 'okio'
     }
-    api(dependence["retrofit-converter-gson"]) {
+    implementation(dependence["retrofit-converter-gson"]) {
         exclude module: 'gson'
         exclude module: 'okhttp'
         exclude module: 'okio'
         exclude module: 'retrofit'
     }
-    api(dependence["retrofit-adapter-rxjava2"]) {
+    implementation(dependence["retrofit-adapter-rxjava2"]) {
         exclude module: 'rxjava'
         exclude module: 'okhttp'
         exclude module: 'retrofit'
         exclude module: 'okio'
     }
-    api dependence["converter-scalars"]
+    implementation dependence["converter-scalars"]
 //    implementation dependence["converter-simplexml"]
 
     api dependence["okhttp3"]

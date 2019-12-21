@@ -89,7 +89,7 @@ class KotlinPresenter @Inject constructor() : BasePresenter(), IView {
         }).start()
 
         //runBlocking 跟启动线程挂钩
-        //launch 永远开启新线程
+        //launch 永远开启新线程 不阻塞主线程
     }
 
     fun testSuspend() {
@@ -110,12 +110,44 @@ class KotlinPresenter @Inject constructor() : BasePresenter(), IView {
         GlobalScope.launch {
             Timber.i("testAsync launch线程  ++++ id${Thread.currentThread().id}")
             val token = GlobalScope.async {
+                //async 创建带返回值的协程，返回的是 Deferred 类
                 Timber.i("testAsync async线程  ++++ id${Thread.currentThread().id}")
                 getToken()
             }
             Timber.i("${token.await()}")
         }
 
-        //launch、async 都是新开启一个线程
+        //launch、async 都是新开启一个线程 不过async 是有返回值的
     }
+
+    fun testLaunchLAZY() {
+        //LAZY - 懒加载模式，你需要它的时候，再调用启动，看这个例子
+        var job: Job = GlobalScope.launch(start = CoroutineStart.LAZY) {
+            Timber.d("协程开始运行，时间: " + System.currentTimeMillis())
+        }
+
+        Thread.sleep(1000L)
+        // 手动启动协程
+        job.start()
+    }
+
+//    withContext -不创建新的协程，在指定协程上运行代码块
+//    coroutineScope
+//    supervisorScope
+//    CoroutineContext --》Job, ContinuationInterceptor, CoroutineName 和CoroutineId
+//    AbstractCoroutine --》CoroutineScope， Job， Continuation， JobSupport。
+
+//    Dispatchers.Default
+//    Dispatchers.IO -
+//    Dispatchers.Main - 主线程
+//    Dispatchers.Unconfined - 没指定，就是在当前线程
+
+    //relay、yield 区别
+
+    //Kotlin声明点变型与Java中的使用点变型进行对比
+    //2、如何使用Kotlin中的使用点变型
+    //3、Kotlin泛型中的星投影
+    //4、使用泛型型变实现可用于实际开发中的Boolean扩展
+    //
+    //https://juejin.im/post/5daacd23518825104d08d386
 }
