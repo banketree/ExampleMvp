@@ -2,6 +2,7 @@ package com.example.mvp.main
 
 import kotlin.properties.Delegates
 import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 class GenericPresenter
@@ -183,19 +184,33 @@ fun <T : R, R> copyTo(source: MutableList<out T>, destination: MutableList<in T>
 //Kotlin中MyType<*>对应Java中的MyType<?>。
 
 
+inline fun <reified T> create(): T = print(T::class.java.canonicalName) as T
 
 
+//协变，逆变，点变形，星号投影
+//-->协变
+//: 存在两个类Son和Dad，且Son : Dad；存在泛型类A<T>，则类型A<Dad>和类型A<Son>之间没有任何子类型化关系。
 
+class Zoom<out T>(t: T) //则可以解决父子关系
+//协变：泛型类的继承关系来源于子类型的继承关系，但这不是没有任何限制的......
+//如果一个泛型类是协变的，那泛型参数类型的对象，只能出现在Zoom类中函数的返回值的位置上，不能出现在函数的参数里；
 
+//存在两个类Son和Dad，且Son : Dad；存在泛型类A<out T>，则类型A<Son>是类型A<Dad>的子类型，且A<out T>中不存在包含T作为参数类型（或作为参数类型的泛型参数）的函数。
 
+//-->逆变
+//存在两个类Son和Dad，且Son : Dad；存在泛型类A<in T>，则类型A<Dad>是类型A<Son>的子类型，且A<in T>中不存在包含T作为返回值类型（或作为返回值类型的泛型参数）的函数。
 
+//-->使用点协变
+//我们可以把泛型类声明为不型变的，但是在使用它的时候，加上out或者in，让它在使用的时候产生型变。
 
+//-->星号投影
+//实现省略
+fun function222(class2: KClass<*>) {
+}
+//任何类型的Class对象都可以传入function函数。
 
-
-
-
-
-
+//function(Cat::class)
+//function(Dog::class)
 
 
 
