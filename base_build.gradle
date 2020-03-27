@@ -36,7 +36,7 @@ android {
     }
 
     signingConfigs { //
-        File file = new File('F:\\Project\\ExampleMvp\\mvp.jks')
+        File file = new File('D:\\Project\\ExampleMvp2\\mvp.jks')
         debug {
             keyAlias 'key'
             keyPassword '123456'

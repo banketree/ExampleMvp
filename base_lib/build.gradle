@@ -7,6 +7,7 @@ dependencies {
     //ui
     api dependence['appcompat']
     api dependence["thinkActivity"]
+    api dependence["thinkKotlin"] //扩展
 
     api dependence["eventbus"]
 }

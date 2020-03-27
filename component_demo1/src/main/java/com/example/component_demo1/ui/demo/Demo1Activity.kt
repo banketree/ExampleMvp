@@ -13,7 +13,10 @@ import com.example.component_demo1.ui.home.HomeActivity
 import com.example.component_demo1.ui.mvvm.MvvmActivity
 import com.example.route.AppRoute
 import com.tbruyelle.rxpermissions2.RxPermissions
+import com.thinkcore.activity.IActivityResult
 import com.thinkcore.activity.TActivityUtils
+import com.thinkcore.activity.jumpToActivity
+import com.thinkcore.activity.jumpToActivityForResult
 import kotlinx.android.synthetic.main.demo1_activity_main.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -47,15 +50,13 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
                 .subscribe { granted ->
                     Timber.i("申请结果:$granted")
 //                    AppRoute.gotoTwoDemo2Main()
-                    TActivityUtils.jumpToActivity(this@Demo1Activity, MvvmActivity::class.java)
+                    jumpToActivity<MvvmActivity>()
                 }
         }
 
         home_tv.setOnClickListener {
-            TActivityUtils.jumpToActivityForResult(
-                this@Demo1Activity,
-                HomeActivity::class.java,
-                object : TActivityUtils.IActivityResult {
+            jumpToActivityForResult<HomeActivity>(
+                iActivityResult = object : IActivityResult {
                     override fun onActivityResult(resultCode: Int, intent: Intent?) {
                         if (resultCode != Activity.RESULT_OK) return
                     }
@@ -63,10 +64,8 @@ class Demo1Activity : MvpActivity<Demo1Presenter>() {
         }
 
         test_dialog_tv.setOnClickListener {
-            TActivityUtils.jumpToActivityForResult(
-                this@Demo1Activity,
-                DialogActivity::class.java,
-                object : TActivityUtils.IActivityResult {
+            jumpToActivityForResult<DialogActivity>(
+                iActivityResult = object : IActivityResult {
                     override fun onActivityResult(resultCode: Int, intent: Intent?) {
                         if (resultCode != Activity.RESULT_OK) return
                     }
