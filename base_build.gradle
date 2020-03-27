@@ -57,7 +57,7 @@ android {
             minifyEnabled false
             shrinkResources false
             zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro', '../proguard-rules-core.pro', '../proguard-rules-androidx.pro', '../proguard-rules-third.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro', '../proguard-rules-core.pro', '../proguard-rules-androidx.pro', '../proguard-rules-third.pro', '../proguard-rules-x5-web.pro'
             signingConfig signingConfigs.debug
         }
 
@@ -66,7 +66,7 @@ android {
             minifyEnabled true
             shrinkResources false
             zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro', '../proguard-rules-core.pro', '../proguard-rules-androidx.pro', '../proguard-rules-third.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro', '../proguard-rules-core.pro', '../proguard-rules-androidx.pro', '../proguard-rules-third.pro', '../proguard-rules-x5-web.pro'
             signingConfig signingConfigs.release
         }
     }
@@ -91,6 +91,11 @@ android {
     androidExtensions {
         experimental = true
     }
+
+//    aaptOptions {
+//        cruncherEnabled = false
+//        useNewCruncher = false
+//    }
 }
 
 dependencies {
@@ -119,4 +124,8 @@ dependencies {
     //lifecycle livedata
     implementation dependence["lifecycle-viewmodel"]
     implementation dependence["lifecycle-livedata"]
+
+    //room-db 可能多个组件要使用
+//    implementation dependence["room-runtime"]
+//    kapt dependence["room-compiler"]
 }

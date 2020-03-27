@@ -21,7 +21,9 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':route')
+    //通用数据+路由
+//    api project(':common')
+    api project(':base_fun')
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
     debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'

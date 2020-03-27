@@ -21,5 +21,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':route')
+    //通用数据+路由
+    api project(':common')
+    api project(':base_fun')
 }

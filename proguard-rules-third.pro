@@ -24,42 +24,27 @@
 -dontwarn com.chinaMobile.**
 -dontwarn com.iflytek.**
 
-# gilde
+# gilde start
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
   **[] $VALUES;
   public *;
 }
+-dontwarn com.squareup.picasso.**
+-dontwarn com.bumptech.glide.**
+# gilde end
 
-#-------------BaseRecyclerViewAdapterHelper--------
--keep class com.chad.library.adapter.** {
-*;
-}
--keep public class * extends com.chad.library.adapter.base.BaseQuickAdapter
--keep public class * extends com.chad.library.adapter.base.BaseViewHolder
--keepclassmembers  class **$** extends com.chad.library.adapter.base.BaseViewHolder {
-     <init>(...);
-}
-#-------------------------
-
-#----------retrofit--------------
-#-keepclassmembernames,allowobfuscation interface * {
-#    @retrofit2.http.* <methods>;
-#}
-#-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
-#
+#----------retrofit start--------------
 -keep class retrofit2.** { *; }
 -dontwarn retrofit2.**
 -keepattributes Signature
 -keepattributes Exceptions
 -dontwarn okio.**
 -dontwarn javax.annotation.**
-
-#-------------------------
+#----------retrofit end--------------
 
 #-------------- okhttp3 -------------
-
 -keepattributes Signature
 -keepattributes *Annotation*
 -keep class com.squareup.okhttp.** { *; }
@@ -74,11 +59,6 @@
 -keep public class org.codehaus.* { *; }
 -keep public class java.nio.* { *; }
 #------------------
-
-#----------- latexlibrary ---------------
--keep class org.scilab.forge.jlatexmath.** {
-*;
-}
 
 #----------- rxjava rxandroid rx系列----------------
 -dontwarn sun.misc.**
@@ -137,13 +117,6 @@
 @butterknife.* <methods>;
 }
 
-#bugly 如果你使用了support-v4包，你还需要配置以下混淆规则：
--dontwarn com.tencent.bugly.**
--keep public class com.tencent.bugly.**{*;}
-
-#weixin sdk
--keep class com.tencent.mm.opensdk.** { *; }
-
 #glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
@@ -151,10 +124,6 @@
   **[] $VALUES;
   public *;
 }
-
-# for DexGuard only
-#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
-
 
 #eventBus
 -keepclassmembers class * {
@@ -166,10 +135,6 @@
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
-
-#autolayout
--keep class com.zhy.autolayout.** { *; }
--keep interface com.zhy.autolayout.** { *; }
 
 #RxJava and RxAndroid###############
 -dontwarn org.mockito.**
@@ -227,10 +192,6 @@
 
 -dontwarn io.reactivex.internal.util.unsafe.**
 
-#annotation
--keep class android.support.annotation.** { *; }
--keep interface android.support.annotation.** { *; }
-
 #RxPermissions
 -keep class com.tbruyelle.rxpermissions2.** { *; }
 -keep interface com.tbruyelle.rxpermissions2.** { *; }
@@ -262,3 +223,36 @@
     @javax.inject.Inject <init>(...);
 }
 -adaptclassstrings
+
+#### autosize screenAdapt start
+-keep class me.jessyan.autosize.** { *; }
+-keep interface me.jessyan.autosize.** { *; }
+#### autosize screenAdapt end
+
+###videoplayer start
+-keep class com.dueeeke.videoplayer.** { *; }
+-dontwarn com.dueeeke.videoplayer.**
+
+# IjkPlayer
+-keep class tv.danmaku.ijk.** { *; }
+-dontwarn tv.danmaku.ijk.**
+
+# ExoPlayer
+-keep class com.google.android.exoplayer2.** { *; }
+-dontwarn com.google.android.exoplayer2.**
+###videoplayer end
+
+###高德地图api start
+#### 定位
+-keep class com.amap.api.location.**{*;}
+-keep class com.amap.api.fence.**{*;}
+-keep class com.loc.**{*;}
+-keep class com.autonavi.aps.amapapi.model.**{*;}
+
+#### 搜索
+-keep class com.amap.api.services.**{*;}
+###高德地图api end
+
+####svgaplayer
+-keep class com.squareup.wire.** { *; }
+-keep class com.opensource.svgaplayer.proto.** { *; }
