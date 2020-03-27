@@ -4,8 +4,4 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':base_lib')
 
-    //glide
-    api dependence["glide"]
-//    implementation dependence["glide-loader-okhttp3"]
-    kapt dependence["glide-compiler"]
 }

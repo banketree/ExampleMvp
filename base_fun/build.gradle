@@ -56,5 +56,10 @@ dependencies {
     //适配
     api dependence["autosize"]
     //ui
-    implementation dependence["material"]
+    implementation dependence["recyclerview"]
+
+    //glide
+    api dependence["glide"]
+//    implementation dependence["glide-loader-okhttp3"]
+    kapt dependence["glide-compiler"]
 }
