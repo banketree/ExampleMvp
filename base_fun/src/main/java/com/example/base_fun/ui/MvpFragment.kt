@@ -9,14 +9,11 @@ import com.example.base_fun.cache.CacheType
 import com.example.base_fun.injection.component.DaggerActivityComponent
 import com.example.base_fun.injection.module.ActivityMoudle
 import com.example.base_fun.mvp.BasePresenter
-import com.example.base_fun.mvp.IPresenter
 import com.example.base_fun.mvp.IView
-import com.example.base_lib.ui.BaseFragment
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import com.example.base_lib.ui.LibFragment
 import javax.inject.Inject
 
-abstract class MvpFragment<T : BasePresenter> : BaseFragment(), IView {
+abstract class MvpFragment<T : BasePresenter> : LibFragment(), IView {
 
     @Inject
     lateinit var presenter: T
@@ -42,6 +39,10 @@ abstract class MvpFragment<T : BasePresenter> : BaseFragment(), IView {
     override fun initPlug() {
         initActivityInjection()
         injectComponent()
+    }
+
+    override fun initView() {
+        presenter?.init()
     }
 
     /** 注册依赖关系 */

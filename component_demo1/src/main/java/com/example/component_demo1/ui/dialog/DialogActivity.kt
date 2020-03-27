@@ -5,7 +5,6 @@ import com.example.base_fun.ui.MvpActivity
 import com.example.component_demo1.R
 import kotlinx.android.synthetic.main.demo1_activity_dialog.*
 import kotlinx.android.synthetic.main.demo1_activity_home.*
-import om.example.base_lib.kandroid.alert
 
 class DialogActivity : MvpActivity<DialogPresenter>() {
 

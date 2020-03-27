@@ -2,8 +2,8 @@ package com.example.component_demo1.ui.dialog
 
 import com.example.base_fun.mvp.BasePresenter
 import com.example.component_demo1.R
-import om.example.base_lib.kandroid.alert
-import om.example.base_lib.kandroid.toast
+import com.thinkcore.kandroid.alert
+import com.thinkcore.kandroid.toast
 import timber.log.Timber
 import javax.inject.Inject
 

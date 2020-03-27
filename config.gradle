@@ -120,11 +120,10 @@ ext {
             "room-compiler"                : "androidx.room:room-compiler:2.2.4",
 
             //banketree
-            "thinkActivity"                : "com.github.banketree.ThinkCore-Kotlin:thinkActivity:v0.0.5", //UI
-            "thinkStorage"                 : "com.github.banketree.ThinkCore-Kotlin:thinkStorage:v0.0.5", // 本地存储路径
-            "thinkUtils"                   : "com.github.banketree.ThinkCore-Kotlin:thinkUtils:v0.0.5", // 辅助工具管理
-            "thinkCache"                   : "com.github.banketree.ThinkCore-Kotlin:thinkCache:v0.0.5", // 缓存机制
-            "thinkKotlin"                  : "com.github.banketree.ThinkCore-Kotlin:thinkKotlin:v0.0.5", // 扩展
+            "thinkActivity"                : "com.github.banketree.ThinkCore-Kotlin:thinkActivity:v0.0.6", //UI
+            "thinkStorage"                 : "com.github.banketree.ThinkCore-Kotlin:thinkStorage:v0.0.6", // 本地存储路径
+            "thinkUtils"                   : "com.github.banketree.ThinkCore-Kotlin:thinkUtils:v0.0.6", // 辅助工具管理
+            "thinkCache"                   : "com.github.banketree.ThinkCore-Kotlin:thinkCache:v0.0.6", // 缓存机制
             "PullRefreshLayout"            : "com.github.banketree:PullRefreshLayout-kotlin:v0.0.2", // 开源-下拉刷新，上拉加载
             "autosize"                     : "me.jessyan:autosize:1.2.1", // 布局适配
             "richtextor-kotlin"            : "com.github.banketree:richtextor-kotlin:v0.0.8-1", //富文本

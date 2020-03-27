@@ -1,23 +1,17 @@
 package com.example.base_fun.ui
 
-import android.view.View
 import androidx.annotation.NonNull
 import com.example.base_fun.MvpApplication
 import com.example.base_fun.cache.Cache
 import com.example.base_fun.cache.CacheType
-import com.example.base_fun.cache.LruCache
 import com.example.base_fun.injection.component.DaggerActivityComponent
 import com.example.base_fun.injection.module.ActivityMoudle
 import com.example.base_fun.mvp.BasePresenter
-import com.example.base_fun.mvp.IPresenter
-import com.example.base_fun.mvp.IView
-import com.example.base_lib.ui.BaseActivity
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import com.example.base_lib.ui.LibActivity
 import javax.inject.Inject
 
 
-abstract class MvpActivity<T : BasePresenter> : BaseActivity() {
+abstract class MvpActivity<T : BasePresenter> : LibActivity() {
 
     @Inject
     lateinit var presenter: T
@@ -43,6 +37,10 @@ abstract class MvpActivity<T : BasePresenter> : BaseActivity() {
     override fun initPlug() {
         initActivityInjection()
         injectComponent()
+    }
+
+    override fun initView() {
+        presenter?.init()
     }
 
     private fun initActivityInjection() {

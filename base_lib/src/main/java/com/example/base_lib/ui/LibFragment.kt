@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.base_lib.utils.EventBusManager
+import com.thinkcore.activity.TFragment
 
-abstract class BaseFragment : Fragment() {
+abstract class LibFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val layoutAny = getLayoutAny()

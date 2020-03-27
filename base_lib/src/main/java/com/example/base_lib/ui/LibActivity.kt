@@ -7,7 +7,7 @@ import com.example.base_lib.utils.EventBusManager
 import com.thinkcore.activity.TAppActivity
 
 @Suppress("DEPRECATION")
-abstract class BaseActivity : TAppActivity() {
+abstract class LibActivity : TAppActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ abstract class BaseActivity : TAppActivity() {
             }
 
             if (useEventBus()) {
-                EventBusManager.instance?.register(this@BaseActivity)
+                EventBusManager.instance?.register(this@LibActivity)
             }
 
             initPlug()
@@ -39,7 +39,7 @@ abstract class BaseActivity : TAppActivity() {
         super.onDestroy()
 
         if (useEventBus()) {
-            EventBusManager.instance?.unregister(this@BaseActivity)
+            EventBusManager.instance?.unregister(this@LibActivity)
         }
     }
 

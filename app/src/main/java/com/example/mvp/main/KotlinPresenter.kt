@@ -6,7 +6,6 @@ import com.example.base_fun.mvp.IView
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
 import kotlinx.coroutines.selects.select
-import om.example.base_lib.kandroid.i
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

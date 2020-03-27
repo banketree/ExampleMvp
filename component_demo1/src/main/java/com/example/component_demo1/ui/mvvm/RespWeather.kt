@@ -2,7 +2,7 @@ package com.example.component_demo1.ui.mvvm
 
 import com.example.base_fun.http.RespBase
 
-class RespWeather() : RespBase() {
+class RespWeather() : RespBase<Any>() {
     var status: String? = ""
     var info: String? = ""
     var infocode: String? = ""
