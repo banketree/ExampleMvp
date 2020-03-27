@@ -27,16 +27,11 @@ import java.util.concurrent.TimeUnit
 
 
 @Route(path = AppRoute.ONE_APP_MAIN)
-class MainActivity : MvpActivity<MainPresenter>(), CustomAdapt {
+class MainActivity : MvpActivity<MainPresenter>() {
     private lateinit var testViewModel: TestViewModel
 
     @Inject
     lateinit var kotlinPresenter: KotlinPresenter
-
-    override val isBaseOnWidth: Boolean  //是否按照宽度进行等比例适配
-        get() = false
-    override val sizeInDp: Float  //设计图上的设计尺寸, 单位 dp
-        get() = 667f
 
     override fun getLayoutAny() = R.layout.activity_main
 

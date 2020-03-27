@@ -35,8 +35,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    //通用数据+路由
     api project(':common')
-    api project(':autosize')
+    api project(':base_fun')
 
     if (!isBuildModule.toBoolean()) {
         implementation project(':component_demo1')
